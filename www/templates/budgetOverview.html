@@ -4,18 +4,8 @@
       <button id="budgetOverview-button11" class="button button-positive button-block">Overview</button>
       <a ui-sref="tabsController.budgetBreakdown()" id="budgetOverview-button12" class="button button-positive button-block button-outline">Breakdown</a>
     </div>
-    <ion-list id="budgetOverview-list3">
-      <ion-item class="item-icon-left assertive" id="budgetOverview-list-item13">
-        <i class="icon ion-android-alert"></i>Alert</ion-item>
-      <ion-item id="budgetOverview-list-item14">Reaching budget cap for
-        <b>flowers</b>
-      </ion-item>
-    </ion-list>
+    <a ui-sref="tabsController.addTransaction()" id="budgetOverview-button15" class="button button-balanced button-block icon-left ion-android-add">Add Transaction</a>
     <div class="list card" id="budgetOverview-card21">
-      <ion-item id="budgetOverview-list-item17">[Graph of overall budget use]</ion-item>
-      <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
-        <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
-      </div>
       <div class="item item-body" id="budgetOverview-list-item-container2">
         <div id="budgetOverview-markdown2" class="show-list-numbers-and-dots">
           <p style="margin-top:0px;color:#000000;">Left to spend:
@@ -23,22 +13,29 @@
           </p>
         </div>
       </div>
-      <div class="spacer" style="width: 300px; height: 15px;"></div>
-      <ion-item id="budgetOverview-list-item20">ad space</ion-item>
-      <div class="spacer" style="width: 300px; height: 15px;"></div>
-    </div>
-    <ion-list id="budgetOverview-list4">
       <ion-item class="positive" id="budgetOverview-list-item24">All Transactions</ion-item>
-      <ion-item id="budgetOverview-list-item25">Dress | Wardrobe
-        <span class="item-note">$500</span>
-      </ion-item>
       <ion-item id="budgetOverview-list-item26">Center pieces | Flowers
         <span class="item-note">$300</span>
       </ion-item>
       <ion-item id="budgetOverview-list-item27">Shoes | Wardrobe
         <span class="item-note">$100</span>
       </ion-item>
-    </ion-list>
-    <a ui-sref="tabsController.addTransaction()" id="budgetOverview-button15" class="button button-positive button-block">Add Transaction</a>
+      <ion-item id="budgetOverview-list-item25">Dress | Wardrobe
+        <span class="item-note">$500</span>
+      </ion-item>
+      <div class="spacer" style="height: 15px;"></div>
+      <ion-item class="item-icon-left assertive" id="budgetOverview-list-item13">
+        <i class="icon ion-android-alert"></i>Alert</ion-item>
+      <ion-item id="budgetOverview-list-item14">Reaching budget cap for
+        <b>flowers</b>
+      </ion-item>
+      <div class="spacer" style="height: 15px;"></div>
+      <div style="margin: 0px; line-height: 250px; background-color: rgb(232, 235, 239); text-align: center;">
+        <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+      </div>
+      <div class="spacer" style="width: 300px; height: 15px;"></div>
+      <ion-item id="budgetOverview-list-item20">ad space</ion-item>
+      <div class="spacer" style="width: 300px; height: 15px;"></div>
+    </div>
   </ion-content>
 </ion-view>

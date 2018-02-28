@@ -55,12 +55,12 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.newItem', {
+  .state('tabsController.newChecklistItem', {
     url: '/page6',
     views: {
       'tab2': {
-        templateUrl: 'templates/newItem.html',
-        controller: 'newItemCtrl'
+        templateUrl: 'templates/newChecklistItem.html',
+        controller: 'newChecklistItemCtrl'
       }
     }
   })
@@ -95,12 +95,12 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.addEditBudget', {
+  .state('tabsController.addBudgetCategory', {
     url: '/page10',
     views: {
       'tab4': {
-        templateUrl: 'templates/addEditBudget.html',
-        controller: 'addEditBudgetCtrl'
+        templateUrl: 'templates/addBudgetCategory.html',
+        controller: 'addBudgetCategoryCtrl'
       }
     }
   })
@@ -115,12 +115,52 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.vendorDetails', {
+  .state('tabsController.vendor1Details', {
     url: '/page12',
     views: {
       'tab1': {
-        templateUrl: 'templates/vendorDetails.html',
-        controller: 'vendorDetailsCtrl'
+        templateUrl: 'templates/vendor1Details.html',
+        controller: 'vendor1DetailsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.vendor2Details', {
+    url: '/page13',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/vendor2Details.html',
+        controller: 'vendor2DetailsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.vendor3Details', {
+    url: '/page14',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/vendor3Details.html',
+        controller: 'vendor3DetailsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.vendorADetails', {
+    url: '/page16',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/vendorADetails.html',
+        controller: 'vendorADetailsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.vendorBDetails', {
+    url: '/page17',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/vendorBDetails.html',
+        controller: 'vendorBDetailsCtrl'
       }
     }
   })
