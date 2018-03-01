@@ -15,17 +15,17 @@
         style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
     </div>
     <ion-list id="explore-list9">
-      <ion-item class="item-thumbnail-left item-icon-right" id="explore-list-item43" ui-sref="tabsController.vendorADetails()">
+      <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="explore-list-item43" ui-sref="tabsController.vendorADetails()">
         <img src="img/gidas.jpg"></img>
         <h2>Gidas Flowers</h2>
         <p>3719 Forbes Ave, Pittsburgh, PA 15213 ($$)</p>
-        <i class="icon ion-ios-heart-outline"></i>
+        <i class="icon ion-ios-heart-outline" onclick="toggleHeart(this); event.stopPropagation()"></i>
       </ion-item>
-      <ion-item class="item-thumbnail-left item-icon-right" id="explore-list-item44" ui-sref="tabsController.vendorBDetails()">
+      <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="explore-list-item44" ui-sref="tabsController.vendorBDetails()">
         <img src="img/prantls.jpg"></img>
         <h2>Prantl’s Bakery</h2>
         <p>5525 Walnut St, Pittsburgh, PA 15232 ($)</p>
-        <i class="icon ion-ios-heart-outline"></i>
+        <i class="icon ion-ios-heart-outline" onclick="toggleHeart(this); event.stopPropagation()"></i>
       </ion-item>
     </ion-list>
   </ion-content>
