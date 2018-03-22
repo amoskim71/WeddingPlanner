@@ -34,16 +34,16 @@ webpackEmptyAsyncContext.id = 149;
 
 /***/ }),
 
-/***/ 193:
+/***/ 194:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__explore_explore__ = __webpack_require__(194);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_budget__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__checklist_checklist__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__settings_settings__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__explore_explore__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_budget__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__checklist_checklist__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__settings_settings__ = __webpack_require__(199);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -77,14 +77,14 @@ var TabsPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 194:
+/***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ExplorePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(278);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -121,7 +121,7 @@ var ExplorePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 195:
+/***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -157,14 +157,14 @@ var BudgetPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 196:
+/***/ 197:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChecklistPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__checklistOverview_checklistOverview__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__checklistOverview_checklistOverview__ = __webpack_require__(198);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -195,13 +195,14 @@ var ChecklistPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 197:
+/***/ 198:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChecklistOverviewPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(189);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -213,24 +214,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var ChecklistOverviewPage = /** @class */ (function () {
-    function ChecklistOverviewPage(navCtrl) {
+    function ChecklistOverviewPage(navCtrl, storage) {
         this.navCtrl = navCtrl;
+        this.storage = storage;
     }
+    ChecklistOverviewPage.prototype.updateCheckbox = function () {
+        this.storage.set('name', 'Max');
+        this.storage.get('name').then(function (val) {
+            console.log('Your name is', val);
+        });
+    };
     ChecklistOverviewPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Marie/Documents/Github/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    <div id="checklist-button-bar2" class="button-bar">\n      <a ui-sref="tabsController.newChecklistItem()" id="checklist-button13" class="button button-balanced button-block icon-left ion-android-add">Add item</a>\n    </div>\n    <ion-item>\n      <ion-label>Order wedding dress - 1/15</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Send out RSVPs - 1/29</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Pick up flowers - 3/15</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Pick up cake - 3/15</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n\n</ion-content>\n'/*ion-inline-end:"/Users/Marie/Documents/Github/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
+            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Marie/Documents/Github/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    <div id="checklist-button-bar2" class="button-bar">\n      <a ui-sref="tabsController.newChecklistItem()" id="checklist-button13" class="button button-balanced button-block icon-left ion-android-add">Add item</a>\n    </div>\n    <ion-item>\n      <ion-label>Order wedding dress - 1/15</ion-label>\n      <ion-checkbox (click)="updateCheckbox()"></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Send out RSVPs - 1/29</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Pick up flowers - 3/15</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Pick up cake - 3/15</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n\n</ion-content>\n'/*ion-inline-end:"/Users/Marie/Documents/Github/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */]) === "function" && _b || Object])
     ], ChecklistOverviewPage);
     return ChecklistOverviewPage;
+    var _a, _b;
 }());
 
 //# sourceMappingURL=checklistOverview.js.map
 
 /***/ }),
 
-/***/ 198:
+/***/ 199:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -265,13 +275,13 @@ var SettingsPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 199:
+/***/ 200:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(222);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(223);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -279,7 +289,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 222:
+/***/ 223:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -287,15 +297,16 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(265);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_explore_explore__ = __webpack_require__(194);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_budget_budget__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_checklist_checklist__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_checklistOverview_checklistOverview__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_settings_settings__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_tabs_tabs__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_status_bar__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_splash_screen__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_storage__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_explore_explore__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_budget_budget__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_checklist_checklist__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_checklistOverview_checklistOverview__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_settings_settings__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_tabs_tabs__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(193);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -314,39 +325,41 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */],
-                __WEBPACK_IMPORTED_MODULE_4__pages_explore_explore__["a" /* ExplorePage */],
-                __WEBPACK_IMPORTED_MODULE_5__pages_budget_budget__["a" /* BudgetPage */],
-                __WEBPACK_IMPORTED_MODULE_6__pages_checklist_checklist__["a" /* ChecklistPage */],
-                __WEBPACK_IMPORTED_MODULE_7__pages_checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */],
-                __WEBPACK_IMPORTED_MODULE_8__pages_settings_settings__["a" /* SettingsPage */],
-                __WEBPACK_IMPORTED_MODULE_9__pages_tabs_tabs__["a" /* TabsPage */]
+                __WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_5__pages_explore_explore__["a" /* ExplorePage */],
+                __WEBPACK_IMPORTED_MODULE_6__pages_budget_budget__["a" /* BudgetPage */],
+                __WEBPACK_IMPORTED_MODULE_7__pages_checklist_checklist__["a" /* ChecklistPage */],
+                __WEBPACK_IMPORTED_MODULE_8__pages_checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */],
+                __WEBPACK_IMPORTED_MODULE_9__pages_settings_settings__["a" /* SettingsPage */],
+                __WEBPACK_IMPORTED_MODULE_10__pages_tabs_tabs__["a" /* TabsPage */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */], {}, {
+                __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* MyApp */], {}, {
                     links: []
-                })
+                }),
+                __WEBPACK_IMPORTED_MODULE_3__ionic_storage__["a" /* IonicStorageModule */].forRoot()
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicApp */]],
             entryComponents: [
-                __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* MyApp */],
-                __WEBPACK_IMPORTED_MODULE_4__pages_explore_explore__["a" /* ExplorePage */],
-                __WEBPACK_IMPORTED_MODULE_5__pages_budget_budget__["a" /* BudgetPage */],
-                __WEBPACK_IMPORTED_MODULE_6__pages_checklist_checklist__["a" /* ChecklistPage */],
-                __WEBPACK_IMPORTED_MODULE_7__pages_checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */],
-                __WEBPACK_IMPORTED_MODULE_8__pages_settings_settings__["a" /* SettingsPage */],
-                __WEBPACK_IMPORTED_MODULE_9__pages_tabs_tabs__["a" /* TabsPage */]
+                __WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_5__pages_explore_explore__["a" /* ExplorePage */],
+                __WEBPACK_IMPORTED_MODULE_6__pages_budget_budget__["a" /* BudgetPage */],
+                __WEBPACK_IMPORTED_MODULE_7__pages_checklist_checklist__["a" /* ChecklistPage */],
+                __WEBPACK_IMPORTED_MODULE_8__pages_checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */],
+                __WEBPACK_IMPORTED_MODULE_9__pages_settings_settings__["a" /* SettingsPage */],
+                __WEBPACK_IMPORTED_MODULE_10__pages_tabs_tabs__["a" /* TabsPage */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_10__ionic_native_status_bar__["a" /* StatusBar */],
-                __WEBPACK_IMPORTED_MODULE_11__ionic_native_splash_screen__["a" /* SplashScreen */],
+                __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__["a" /* StatusBar */],
+                __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__["a" /* SplashScreen */],
                 { provide: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicErrorHandler */] }
             ]
         })
@@ -358,16 +371,16 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 265:
+/***/ 269:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(192);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(194);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -404,5 +417,5 @@ var MyApp = /** @class */ (function () {
 
 /***/ })
 
-},[199]);
+},[200]);
 //# sourceMappingURL=main.js.map
