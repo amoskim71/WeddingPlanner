@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ChecklistOverviewPage } from '../checklistOverview/checklistOverview';
 
 @Component({
   selector: 'page-checklist',
@@ -7,8 +8,10 @@ import { NavController } from 'ionic-angular';
 })
 export class ChecklistPage {
 
-  constructor(public navCtrl: NavController) {
+  checklistOverviewPage: any;
 
+  constructor(public navCtrl: NavController) {
+  	this.checklistOverviewPage = ChecklistOverviewPage;
   }
 
 }

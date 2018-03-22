@@ -18,7 +18,7 @@
     <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="weddingDate"></ion-datetime>
   </ion-item>
   
-  <button ion-button>Submit</button>
-  <button ion-button color="light">Skip</button>
+  <button ion-button [navPush]="checklistOverviewPage">Submit</button>
+  <button ion-button [navPush]="checklistOverviewPage" color="light">Skip</button>
   </div>
 </ion-content>
