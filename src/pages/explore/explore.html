@@ -33,21 +33,28 @@
       <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"
         style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
     </div>
+
     <ion-list id="explore-list9">
-      <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="explore-list-item43" ui-sref="tabsController.vendorADetails()">
+      <ion-card>
         <img src="assets/imgs/gidas.jpg">
-        <h2>Gidas Flowers</h2>
-        <p>3719 Forbes Ave, Pittsburgh, PA 15213 ($$)</p>
-        <!-- TODO: toggleHeart thing broken now -->
-        <ion-icon name="heart-outline" (click)="toggleHeart($event);"></ion-icon>
-      </ion-item>
-      <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="explore-list-item44" ui-sref="tabsController.vendorBDetails()">
+        <ion-card-content>
+          <ion-card-title>Gidas Flowers</ion-card-title>
+          <p>3719 Forbes Ave, Pittsburgh, PA 15213 ($$)</p>
+          <!-- TODO: toggleHeart thing broken now -->
+          <ion-icon name="heart-outline" (click)="toggleHeart($event);"></ion-icon>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
         <img src="assets/imgs/prantls.jpg">
-        <h2>Prantl’s Bakery</h2>
-        <p>5525 Walnut St, Pittsburgh, PA 15232 ($)</p>
-        <ion-icon name="heart-outline" (click)="toggleHeart($event);"></ion-icon>
-      </ion-item>
+        <ion-card-content>
+          <ion-card-title>Prantl’s Bakery</ion-card-title>
+          <p>5525 Walnut St, Pittsburgh, PA 15232 ($)</p>
+          <ion-icon name="heart-outline" (click)="toggleHeart($event);"></ion-icon>
+        </ion-card-content>
+      </ion-card>
     </ion-list>
+
   </ion-list>
 
   <ion-list *ngSwitchCase="'saved'">
