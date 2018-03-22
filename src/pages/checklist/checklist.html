@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Checklist
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" class="has-header">
+  <div class="spacer" style="height: 50px;"></div>
+  <h1 id="checklistTabDefaultPage-heading1" style="color:#000000;text-align:center;padding:10px;">Start off with a suggested list</h1>
+  <div class="spacer" style="height: 20px;"></div>
+  <div style="margin-left: 5%;margin-right:5%;">
+
+  <!-- https://ionicframework.com/docs/api/components/datetime/DateTime/ -->
+  <ion-item>
+    <ion-label>Wedding Date</ion-label>
+    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="weddingDate"></ion-datetime>
+  </ion-item>
+  
+  <button ion-button [navPush]="checklistOverviewPage">Submit</button>
+  <button ion-button [navPush]="checklistOverviewPage" color="light">Skip</button>
+  </div>
+</ion-content>
