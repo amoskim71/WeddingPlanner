@@ -1,21 +1,20 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { NavController } from "ionic-angular";
 
-import * as $ from 'jquery'
+import * as $ from "jquery";
 
 @Component({
-  selector: 'page-explore',
-  templateUrl: 'explore.html'
+  selector: "page-explore",
+  templateUrl: "explore.html"
 })
 export class ExplorePage {
   vendors: string = "explore";
 
-  constructor(public navCtrl: NavController) {
-  }
+  constructor(public navCtrl: NavController) {}
 
   toggleHeart(context) {
-  	console.log($(context));
-    // $(context).toggleClass("ion-ios-heart ion-ios-heart-outline");
+    // console.log($(context));
+    $(context).toggleClass("ion-ios-heart ion-ios-heart-outline");
     return false;
   }
 }

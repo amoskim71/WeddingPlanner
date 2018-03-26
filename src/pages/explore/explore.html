@@ -21,77 +21,77 @@
 
 <ion-content padding="true" class="has-header">
 
-<div [ngSwitch]="vendors">
-  <ion-list *ngSwitchCase="'explore'">
-    <ion-list id="explore-list1">
-      <label class="item item-input" id="explore-search1">
-        <ion-icon name="search"></ion-icon>
-        <input type="search" placeholder="Search by Address or Category">
-      </label>
+  <div [ngSwitch]="vendors">
+    <ion-list *ngSwitchCase="'explore'">
+      <ion-list id="explore-list1">
+        <label class="item item-input" id="explore-search1">
+          <ion-icon name="search"></ion-icon>
+          <input type="search" placeholder="Search by Address or Category">
+        </label>
+      </ion-list>
+      <div>
+        <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"
+          style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
+
+      <ion-list id="explore-list9">
+        <ion-card>
+          <img src="assets/imgs/gidas.jpg">
+          <ion-card-content>
+            <ion-card-title>Gidas Flowers</ion-card-title>
+            <p>3719 Forbes Ave, Pittsburgh, PA 15213 ($$)</p>
+            <!-- TODO: toggleHeart thing broken now -->
+            <ion-icon name="heart-outline" (click)="toggleHeart(this);"></ion-icon>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <img src="assets/imgs/prantls.jpg">
+          <ion-card-content>
+            <ion-card-title>Prantl’s Bakery</ion-card-title>
+            <p>5525 Walnut St, Pittsburgh, PA 15232 ($)</p>
+            <ion-icon name="heart-outline" (click)="toggleHeart(this);"></ion-icon>
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+
     </ion-list>
-    <div>
-      <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"
-        style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
-    </div>
 
-    <ion-list id="explore-list9">
-      <ion-card>
-        <img src="assets/imgs/gidas.jpg">
-        <ion-card-content>
-          <ion-card-title>Gidas Flowers</ion-card-title>
-          <p>3719 Forbes Ave, Pittsburgh, PA 15213 ($$)</p>
-          <!-- TODO: toggleHeart thing broken now -->
-          <ion-icon name="heart-outline" (click)="toggleHeart($event);"></ion-icon>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card>
-        <img src="assets/imgs/prantls.jpg">
-        <ion-card-content>
-          <ion-card-title>Prantl’s Bakery</ion-card-title>
-          <p>5525 Walnut St, Pittsburgh, PA 15232 ($)</p>
-          <ion-icon name="heart-outline" (click)="toggleHeart($event);"></ion-icon>
-        </ion-card-content>
-      </ion-card>
+    <ion-list *ngSwitchCase="'saved'">
+      <form id="saved-form10" class="list">
+        <label class="item item-select" id="saved-select3">
+          <span class="input-label">Filter by Category</span>
+          <select>
+            <option>Wardrobe</option>
+            <option>Decorations</option>
+            <option>Invites</option>
+            <option>Venue</option>
+            <option>Catering</option>
+          </select>
+        </label>
+      </form>
+      <ion-list id="saved-list10">
+        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item46" ui-sref="tabsController.vendor1Details()">
+          <img src="assets/imgs/catering.jpg">
+          <h2>Pittsburgh Premier Catering</h2>
+          <p>4729 Ellsworth Ave, Pittsburgh, PA 15213</p>
+          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
+        </ion-item>
+        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item47" ui-sref="tabsController.vendor2Details()">
+          <img src="assets/imgs/glitterandgrit.jpg">
+          <h2>Glitter &amp; Grit</h2>
+          <p>5300 Butler St Pittsburgh, PA 15201 ($$)</p>
+          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
+        </ion-item>
+        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item48" ui-sref="tabsController.vendor3Details()">
+          <img src="assets/imgs/pointbreezeway.jpg">
+          <h2>PointBreezeway</h2>
+          <p>7113 Reynolds St Pittsburgh, PA 15208</p>
+          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
+        </ion-item>
+      </ion-list>
     </ion-list>
-
-  </ion-list>
-
-  <ion-list *ngSwitchCase="'saved'">
-    <form id="saved-form10" class="list">
-      <label class="item item-select" id="saved-select3">
-        <span class="input-label">Filter by Category</span>
-        <select>
-          <option>Wardrobe</option>
-          <option>Decorations</option>
-          <option>Invites</option>
-          <option>Venue</option>
-          <option>Catering</option>
-        </select>
-      </label>
-    </form>
-    <ion-list id="saved-list10">
-      <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item46" ui-sref="tabsController.vendor1Details()">
-        <img src="assets/imgs/catering.jpg">
-        <h2>Pittsburgh Premier Catering</h2>
-        <p>4729 Ellsworth Ave, Pittsburgh, PA 15213</p>
-        <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
-      </ion-item>
-      <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item47" ui-sref="tabsController.vendor2Details()">
-        <img src="assets/imgs/glitterandgrit.jpg">
-        <h2>Glitter &amp; Grit</h2>
-        <p>5300 Butler St Pittsburgh, PA 15201 ($$)</p>
-        <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
-      </ion-item>
-      <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item48" ui-sref="tabsController.vendor3Details()">
-        <img src="assets/imgs/pointbreezeway.jpg">
-        <h2>PointBreezeway</h2>
-        <p>7113 Reynolds St Pittsburgh, PA 15208</p>
-        <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
-      </ion-item>
-    </ion-list>
-  </ion-list>
-</div>
+  </div>
 
 
 </ion-content>
