@@ -7,12 +7,36 @@
 </ion-header>
 
 <ion-content padding="true" class="has-header">
-    <div id="checklist-button-bar2" class="button-bar">
+    <!-- <div id="checklist-button-bar2" class="button-bar">
       <a ui-sref="tabsController.newChecklistItem()" id="checklist-button13" class="button button-balanced button-block icon-left ion-android-add">Add item</a>
-    </div>
+    </div> -->
+    
+    <!-- <button ion-button block (click)="addTask()">
+      add item
+    </button> -->
+    <button ion-button block (click)="addTaskStorage()">
+      add item
+    </button> 
+    
+    <ion-content padding>
+      <h2>Tasks List</h2>
+      <ion-list>
+        <ion-item-sliding *ngFor= "let expense of tasks; let i=index">
+          <ion-item nopadding>
+            <p>
+              <span>{{expense.key}}</span><br>
+              Value: {{expense.value}}
+            </p>
+          </ion-item>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-content>
+
+    
+
     <ion-item>
       <ion-label>Order wedding dress - 1/15</ion-label>
-      <ion-checkbox (click)="updateCheckbox()"></ion-checkbox>
+      <ion-checkbox ></ion-checkbox>
     </ion-item>
     <ion-item>
       <ion-label>Send out RSVPs - 1/29</ion-label>
