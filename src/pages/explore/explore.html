@@ -5,7 +5,6 @@
     </ion-title>
   </ion-navbar>
 
-
   <ion-toolbar no-border-top>
     <ion-segment [(ngModel)]="vendors">
       <ion-segment-button value="explore">
@@ -18,11 +17,15 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content padding="true" class="has-header">
-
+  <button (click)="vendorTapped($event)">
+    <div>Vendor details page</div>
+  </button>
   <div [ngSwitch]="vendors">
     <ion-list *ngSwitchCase="'explore'">
+      <ion-list>
+        <ion-item *ngFor="let vendor of (searchedVendors | async)">{{vendor.venue.name}}</ion-item>
+      </ion-list>
       <ion-list id="explore-list1">
         <label class="item item-input" id="explore-search1">
           <ion-icon name="search"></ion-icon>

@@ -2,10 +2,11 @@ const express = require("express");
 const app = express();
 const request = require("request");
 const config = require("./config");
+const path = require("path");
 
 // https://developer.foursquare.com/docs/api/endpoints
 app.get("/", function(req, res) {
-  res.send("GET request to homepage");
+  res.sendFile(path.join(__dirname, "./index.html"));
 });
 
 app.get("/api/foursquare/explore/:query-:location", function(req, res) {
@@ -28,7 +29,9 @@ app.get("/api/foursquare/explore/:query-:location", function(req, res) {
       if (err) {
         console.error(err);
       } else {
-        endpoint_res.send(body);
+        console.log(res);
+        let results = JSON.parse(body);
+        endpoint_res.send(results["response"]);
       }
     }
   );
@@ -53,7 +56,21 @@ app.get("/api/foursquare/search/:query-:location", function(req, res) {
       if (err) {
         console.error(err);
       } else {
-        endpoint_res.send(body);
+        let results = JSON.parse(body)["response"]["venues"];
+        let summary = "";
+        for (let i = 0; i < results.length; i++) {
+          let venue = results[i];
+          summary +=
+            venue.name +
+            ", id=" +
+            venue.id +
+            ", " +
+            venue.contact.formattedPhone +
+            ", " +
+            venue.location.formattedAddress +
+            "<br>";
+        }
+        endpoint_res.send(summary);
       }
     }
   );
