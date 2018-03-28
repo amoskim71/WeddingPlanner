@@ -14,13 +14,24 @@
     </ion-item>
 
     <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-select [(ngModel)]="category">
+        <ion-option value="catering">Catering</ion-option>
+        <ion-option value="decorations">Decorations</ion-option>
+        <ion-option value="invites">Invites</ion-option>
+        <ion-option value="venue">Venue</ion-option>
+        <ion-option value="wardrobe">Wardrobe</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
       <ion-label floating>Due</ion-label>
       <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="dueDate"></ion-datetime>
     </ion-item>
 
     <ion-item>
       <ion-label floating>Notes</ion-label>
-      <ion-textarea type="text"></ion-textarea>
+      <ion-textarea type="text" [(ngModel)]="taskNotes"></ion-textarea>
     </ion-item>
 
     <div padding>
