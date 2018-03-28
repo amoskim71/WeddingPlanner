@@ -1,2 +1,4 @@
 .DS_Store
 backend/config.js
+node_modules/
+.vscode
