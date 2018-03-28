@@ -2,21 +2,22 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { Storage } from '@ionic/storage';
-import { NewChecklistItemPage } from '../newChecklistItem/newChecklistItem';
-
+import { ChecklistOverviewPage } from '../checklistOverview/checklistOverview';
+  
 @Component({
-  selector: 'page-checklistOverview',
-  templateUrl: 'checklistOverview.html'
+  selector: 'page-newChecklistItem',
+  templateUrl: 'newChecklistItem.html'
 })
-export class ChecklistOverviewPage {
+export class NewChecklistItemPage {
 
   tasks: any = [];
-  newChecklistItemPage: any;
+  taskName: string = '';
+  dueDate: Date = new Date();
+  checklistOverviewPage: any;
 
   constructor(public navCtrl: NavController, private sqlite: SQLite, public storage: Storage) {
     //this.getData();
-    this.loadTaskStorage();
-    this.newChecklistItemPage = NewChecklistItemPage;
+    this.checklistOverviewPage = ChecklistOverviewPage;
   }
 
   updateCheckbox() {
@@ -26,17 +27,14 @@ export class ChecklistOverviewPage {
     });
   }
 
-  loadTaskStorage(){
-    console.log("load");
-    this.tasks = [];
-    this.storage.forEach( (value, key, index) => {
-      //console.log("This is the value", value)
-      //console.log("from the key", key)
-      //console.log("Index is" index)
-      this.tasks.push({key:key, value:value})
-    })
-
+  addTaskStorage(){
+    var key = this.taskName;
+    var value = this.dueDate;
+    this.storage.set(key,value);
+    this.tasks.push({key:key,value:value});
+    console.log('add test test 1');
   }
+
 
   getData() {
     this.sqlite.create({
