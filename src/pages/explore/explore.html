@@ -18,46 +18,31 @@
 </ion-header>
 
 <ion-content padding="true" class="has-header">
-  <button (click)="vendorTapped($event)">
-    <div>Vendor details page</div>
-  </button>
   <div [ngSwitch]="vendors">
-    <ion-list *ngSwitchCase="'explore'">
+    <ion-list id="explore-list1">
+      <label class="item item-input" id="explore-search1">
+        <ion-icon name="search"></ion-icon>
+        <input type="search" placeholder="Search by Address or Category">
+      </label>
+    </ion-list>
+    <div>
+      <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"
+        style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
+    </div>
+    <ion-list *ngSwitchDefault>
       <ion-list>
-        <ion-item *ngFor="let vendor of (searchedVendors | async)">{{vendor.venue.name}}</ion-item>
+        <ion-list *ngFor="let vendor of (searchedVendors | async)">
+          <ion-card>
+            <img src="{{ vendor.photoUrl }}">
+            <ion-card-content>
+              <ion-card-title>{{vendor.venue.name}}</ion-card-title>
+              <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" :
+                "" }}</p>
+              <ion-icon name="heart-outline"></ion-icon>
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
       </ion-list>
-      <ion-list id="explore-list1">
-        <label class="item item-input" id="explore-search1">
-          <ion-icon name="search"></ion-icon>
-          <input type="search" placeholder="Search by Address or Category">
-        </label>
-      </ion-list>
-      <div>
-        <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"
-          style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
-      </div>
-
-      <ion-list id="explore-list9">
-        <ion-card>
-          <img src="assets/imgs/gidas.jpg">
-          <ion-card-content>
-            <ion-card-title>Gidas Flowers</ion-card-title>
-            <p>3719 Forbes Ave, Pittsburgh, PA 15213 ($$)</p>
-            <!-- TODO: toggleHeart thing broken now -->
-            <ion-icon name="heart-outline" (click)="toggleHeart(this);"></ion-icon>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card>
-          <img src="assets/imgs/prantls.jpg">
-          <ion-card-content>
-            <ion-card-title>Prantl’s Bakery</ion-card-title>
-            <p>5525 Walnut St, Pittsburgh, PA 15232 ($)</p>
-            <ion-icon name="heart-outline" (click)="toggleHeart(this);"></ion-icon>
-          </ion-card-content>
-        </ion-card>
-      </ion-list>
-
     </ion-list>
 
     <ion-list *ngSwitchCase="'saved'">

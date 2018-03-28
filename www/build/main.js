@@ -165,35 +165,86 @@ var ExplorePage = /** @class */ (function () {
         this.navCtrl = navCtrl;
         this.http = http;
         this.geolocation = geolocation;
-        var clientId = "INSERT_CLIENT_ID_HERE";
-        var clientSecret = "INSERT_CLIENT_SECRET_HERE";
+        this.vendors = "explore";
+        // const clientId = "";
+        // const clientSecret = "";
+        // let apiUrl = "https://api.foursquare.com/v2/venues/explore?";
+        // let params = {
+        //   client_id: clientId,
+        //   client_secret: clientSecret,
+        //   near: "Pittsburgh, PA",
+        //   query: "bakery",
+        //   venuePhotos: 1,
+        //   v: "20170801",
+        //   limit: 50
+        // };
+        // apiUrl += $.param(params);
+        // this.searchedVendors = this.http.get(apiUrl).map(res => {
+        //   let results = JSON.parse(res.text()).response;
+        //   let allItems = [];
+        //   for (let i = 0; i < results.groups.length; i++) {
+        //     let group = results.groups[i];
+        //     for (let j = 0; j < group.items.length; j++) {
+        //       let item = group.items[j];
+        //       let photoUrl =
+        //         "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
+        //       if (!!item.venue.featuredPhotos) {
+        //         const photoInfo = item.venue.featuredPhotos.items[0];
+        //         photoUrl = photoInfo.prefix + "width300x300" + photoInfo.suffix;
+        //       }
+        //       item["photoUrl"] = photoUrl;
+        //       console.log(item);
+        //     }
+        //     allItems = allItems.concat(group.items);
+        //   }
+        //   return allItems;
+        // });
+    }
+    ExplorePage.prototype.vendorTapped = function (event) {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__["a" /* VendorpagePage */]);
+    };
+    ExplorePage.prototype.search = function (q) {
+        var clientId = "INSERT_CLIENT_ID";
+        var clientSecret = "INSERT_CLIENT_SECRET";
         var apiUrl = "https://api.foursquare.com/v2/venues/explore?";
         var params = {
             client_id: clientId,
             client_secret: clientSecret,
             near: "Pittsburgh, PA",
-            query: "bakery",
+            query: q,
             venuePhotos: 1,
             v: "20170801",
             limit: 50
         };
         apiUrl += __WEBPACK_IMPORTED_MODULE_6_jquery__["param"](params);
-        this.searchedVendors = this.http
-            .get(apiUrl)
-            .map(function (res) { return JSON.parse(res.text()).response.groups[0].items; });
-    }
-    ExplorePage.prototype.vendorTapped = function (event) {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__["a" /* VendorpagePage */]);
+        this.searchedVendors = this.http.get(apiUrl).map(function (res) {
+            var results = JSON.parse(res.text()).response;
+            var allItems = [];
+            // Combine all results together
+            for (var i = 0; i < results.groups.length; i++) {
+                var group = results.groups[i];
+                for (var j = 0; j < group.items.length; j++) {
+                    var item = group.items[j];
+                    var photoUrl = "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
+                    if (!!item.venue.featuredPhotos) {
+                        var photoInfo = item.venue.featuredPhotos.items[0];
+                        photoUrl = photoInfo.prefix + "width300x300" + photoInfo.suffix;
+                    }
+                    item["photoUrl"] = photoUrl;
+                }
+                allItems = allItems.concat(group.items);
+            }
+            return allItems;
+        });
     };
     ExplorePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <button (click)="vendorTapped($event)">\n    <div>Vendor details page</div>\n  </button>\n  <div [ngSwitch]="vendors">\n    <ion-list *ngSwitchCase="\'explore\'">\n      <ion-list>\n        <ion-item *ngFor="let vendor of (searchedVendors | async)">{{vendor.venue.name}}</ion-item>\n      </ion-list>\n      <ion-list id="explore-list1">\n        <label class="item item-input" id="explore-search1">\n          <ion-icon name="search"></ion-icon>\n          <input type="search" placeholder="Search by Address or Category">\n        </label>\n      </ion-list>\n      <div>\n        <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"\n          style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">\n      </div>\n\n      <ion-list id="explore-list9">\n        <ion-card>\n          <img src="assets/imgs/gidas.jpg">\n          <ion-card-content>\n            <ion-card-title>Gidas Flowers</ion-card-title>\n            <p>3719 Forbes Ave, Pittsburgh, PA 15213 ($)</p>\n            <!-- TODO: toggleHeart thing broken now -->\n            <ion-icon name="heart-outline" (click)="toggleHeart(this);"></ion-icon>\n          </ion-card-content>\n        </ion-card>\n\n        <ion-card>\n          <img src="assets/imgs/prantls.jpg">\n          <ion-card-content>\n            <ion-card-title>Prantl’s Bakery</ion-card-title>\n            <p>5525 Walnut St, Pittsburgh, PA 15232 ($)</p>\n            <ion-icon name="heart-outline" (click)="toggleHeart(this);"></ion-icon>\n          </ion-card-content>\n        </ion-card>\n      </ion-list>\n\n    </ion-list>\n\n    <ion-list *ngSwitchCase="\'saved\'">\n      <form id="saved-form10" class="list">\n        <label class="item item-select" id="saved-select3">\n          <span class="input-label">Filter by Category</span>\n          <select>\n            <option>Wardrobe</option>\n            <option>Decorations</option>\n            <option>Invites</option>\n            <option>Venue</option>\n            <option>Catering</option>\n          </select>\n        </label>\n      </form>\n      <ion-list id="saved-list10">\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item46" ui-sref="tabsController.vendor1Details()">\n          <img src="assets/imgs/catering.jpg">\n          <h2>Pittsburgh Premier Catering</h2>\n          <p>4729 Ellsworth Ave, Pittsburgh, PA 15213</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item47" ui-sref="tabsController.vendor2Details()">\n          <img src="assets/imgs/glitterandgrit.jpg">\n          <h2>Glitter &amp; Grit</h2>\n          <p>5300 Butler St Pittsburgh, PA 15201 ($)</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item48" ui-sref="tabsController.vendor3Details()">\n          <img src="assets/imgs/pointbreezeway.jpg">\n          <h2>PointBreezeway</h2>\n          <p>7113 Reynolds St Pittsburgh, PA 15208</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n      </ion-list>\n    </ion-list>\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
+            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <div [ngSwitch]="vendors">\n    <ion-list id="explore-list1">\n      <label class="item item-input" id="explore-search1">\n        <ion-icon name="search"></ion-icon>\n        <input type="search" placeholder="Search by Address or Category">\n      </label>\n    </ion-list>\n    <div>\n      <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"\n        style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">\n    </div>\n    <ion-list *ngSwitchDefault>\n      <ion-list>\n        <ion-list *ngFor="let vendor of (searchedVendors | async)">\n          <ion-card>\n            <img src="{{ vendor.photoUrl }}">\n            <ion-card-content>\n              <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n              <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" :\n                "" }}</p>\n              <ion-icon name="heart-outline"></ion-icon>\n            </ion-card-content>\n          </ion-card>\n        </ion-list>\n      </ion-list>\n    </ion-list>\n\n    <ion-list *ngSwitchCase="\'saved\'">\n      <form id="saved-form10" class="list">\n        <label class="item item-select" id="saved-select3">\n          <span class="input-label">Filter by Category</span>\n          <select>\n            <option>Wardrobe</option>\n            <option>Decorations</option>\n            <option>Invites</option>\n            <option>Venue</option>\n            <option>Catering</option>\n          </select>\n        </label>\n      </form>\n      <ion-list id="saved-list10">\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item46" ui-sref="tabsController.vendor1Details()">\n          <img src="assets/imgs/catering.jpg">\n          <h2>Pittsburgh Premier Catering</h2>\n          <p>4729 Ellsworth Ave, Pittsburgh, PA 15213</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item47" ui-sref="tabsController.vendor2Details()">\n          <img src="assets/imgs/glitterandgrit.jpg">\n          <h2>Glitter &amp; Grit</h2>\n          <p>5300 Butler St Pittsburgh, PA 15201 ($)</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item48" ui-sref="tabsController.vendor3Details()">\n          <img src="assets/imgs/pointbreezeway.jpg">\n          <h2>PointBreezeway</h2>\n          <p>7113 Reynolds St Pittsburgh, PA 15208</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n      </ion-list>\n    </ion-list>\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _c || Object])
     ], ExplorePage);
     return ExplorePage;
+    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=explore.js.map
@@ -363,7 +414,7 @@ var ChecklistOverviewPage = /** @class */ (function () {
     };
     ChecklistOverviewPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    <!-- <div id="checklist-button-bar2" class="button-bar">\n      <a ui-sref="tabsController.newChecklistItem()" id="checklist-button13" class="button button-balanced button-block icon-left ion-android-add">Add item</a>\n    </div> -->\n    \n    <!-- <button ion-button block (click)="addTask()">\n      add item\n    </button> -->\n    <button ion-button block (click)="addTaskStorage()">\n      add item\n    </button> \n    \n    <ion-content padding>\n      <h2>Tasks List</h2>\n      <ion-list>\n        <ion-item-sliding *ngFor= "let expense of tasks; let i=index">\n          <ion-item nopadding>\n            <p>\n              <span>{{expense.key}}</span><br>\n              Value: {{expense.value}}\n            </p>\n          </ion-item>\n        </ion-item-sliding>\n      </ion-list>\n    </ion-content>\n\n    \n\n    <ion-item>\n      <ion-label>Order wedding dress - 1/15</ion-label>\n      <ion-checkbox ></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Send out RSVPs - 1/29</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Pick up flowers - 3/15</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n    <ion-item>\n      <ion-label>Pick up cake - 3/15</ion-label>\n      <ion-checkbox></ion-checkbox>\n    </ion-item>\n\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
+            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    \n    <button ion-button block [navPush]="newChecklistItemPage">\n      add task\n    </button>\n    \n    <h2>Tasks List</h2>\n    <ion-list>\n      <ion-item-sliding *ngFor= "let task of tasks; let i=index">\n        <ion-item nopadding>\n          <ion-label>\n            <span>{{task.key}}</span><br>\n            Due: {{task.value["dueDate"] | date: \'MM/dd/yyyy\' }}\n          </ion-label>\n          <ion-checkbox></ion-checkbox>\n        </ion-item>\n      </ion-item-sliding>\n    </ion-list>\n\n\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__["a" /* SQLite */], __WEBPACK_IMPORTED_MODULE_3__ionic_storage__["b" /* Storage */]])
     ], ChecklistOverviewPage);
