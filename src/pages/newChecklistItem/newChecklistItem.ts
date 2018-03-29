@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { ChecklistOverviewPage } from '../checklistOverview/checklistOverview';
   
@@ -15,8 +15,24 @@ export class NewChecklistItemPage {
   taskNotes: string = '';
   checklistOverviewPage: any;
 
-  constructor(public navCtrl: NavController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
     this.checklistOverviewPage = ChecklistOverviewPage;
+    this.retrieveStoredInfo();
+  }
+
+  retrieveStoredInfo() {
+    console.log("retrieving stored info");
+    this.taskName = this.navParams.get('task');
+    if (this.taskName) {
+      console.log("Task found in storage");
+      this.storage.get(this.taskName).then(val => {
+          console.log(val);
+          this.category = val["category"];
+          this.dueDate = val["dueDate"];
+          this.taskNotes = val["taskNotes"];
+      })
+
+    }
   }
 
   addTaskStorage(){

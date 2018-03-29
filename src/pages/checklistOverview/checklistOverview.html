@@ -24,7 +24,7 @@
         </ion-item>
 
         <ion-item-options side="right">
-          <button ion-button color="secondary"><ion-icon name="create"></ion-icon>EDIT</button>
+          <button ion-button color="secondary" [navPush]="newChecklistItemPage" [navParams]="{'task': task.key}"><ion-icon name="create"></ion-icon>EDIT</button>
           <button ion-button color="danger" (click)="delete(task.key)"><ion-icon name="trash"></ion-icon>DELETE</button>
         </ion-item-options>
       </ion-item-sliding>
