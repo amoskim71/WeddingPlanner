@@ -49,7 +49,7 @@
       <ion-list>
         <ion-item>
           <ion-label>Filter</ion-label>
-          <ion-select placeholder="Select a filter" [(ngModel)]="selectedFilter" (ionChange)="filterSaved()">
+          <ion-select placeholder="Select a filter" [(ngModel)]="selectedFilter" (ionChange)="filterChanged()">
             <ion-option *ngFor="let filterOpt of vendorFilterOptions" value="{{filterOpt}}">{{ filterOpt }}</ion-option>
           </ion-select>
         </ion-item>

@@ -40,9 +40,14 @@ var ChecklistOverviewPage = /** @class */ (function () {
         });
         console.log(this.tasks);
     };
+    ChecklistOverviewPage.prototype.delete = function (taskToDelete) {
+        console.log(taskToDelete);
+        this.storage.remove(taskToDelete);
+        this.loadTaskStorage();
+    };
     ChecklistOverviewPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    \n    <button ion-button block [navPush]="newChecklistItemPage">\n      add task\n    </button>\n    \n    <h2>Tasks List</h2>\n    <ion-list>\n      <ion-item-sliding *ngFor= "let task of tasks; let i=index">\n        <ion-item nopadding>\n          <ion-label>\n            <span>{{task.key}}</span><br>\n            Due: {{task.value["dueDate"] | date: \'MM/dd/yyyy\' }}\n          </ion-label>\n          <ion-checkbox></ion-checkbox>\n        </ion-item>\n      </ion-item-sliding>\n    </ion-list>\n\n\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
+            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    \n    <button ion-button block [navPush]="newChecklistItemPage">\n      add task\n    </button>\n    \n    <h2>Tasks List</h2>\n    <ion-list>\n      <ion-item-sliding *ngFor= "let task of tasks; let i=index">\n        <ion-item nopadding>\n          <ion-label>\n            <span>{{task.key}}</span><br>\n            Due: {{task.value["dueDate"] | date: \'MM/dd/yyyy\' }}\n          </ion-label>\n          <ion-checkbox></ion-checkbox>\n        </ion-item>\n\n        <ion-item-options side="right">\n          <button ion-button color="secondary" [navPush]="newChecklistItemPage" [navParams]="{\'task\': task.key}"><ion-icon name="create"></ion-icon>EDIT</button>\n          <button ion-button color="danger" (click)="delete(task.key)"><ion-icon name="trash"></ion-icon>DELETE</button>\n        </ion-item-options>\n      </ion-item-sliding>\n    </ion-list>\n\n\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */]])
     ], ChecklistOverviewPage);
@@ -197,8 +202,6 @@ var TabsPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_storage__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__ = __webpack_require__(282);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery__ = __webpack_require__(283);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_jquery__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -215,16 +218,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var ExplorePage = /** @class */ (function () {
     function ExplorePage(navCtrl, http, geolocation, storage) {
         this.navCtrl = navCtrl;
         this.http = http;
         this.geolocation = geolocation;
         this.storage = storage;
-        // for segment button
-        this.vendors = "explore";
         this.savedVendors = {};
+        this.vendors = "explore";
         this.vendorFilterOptions = [
             "Wardrobe",
             "Decorations",
@@ -240,9 +241,7 @@ var ExplorePage = /** @class */ (function () {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__["a" /* VendorpagePage */], { vendor: vendor });
     };
     ExplorePage.prototype.saveOrRemoveVendor = function (event, vendor) {
-        console.log("clicked");
-        var vendorId = vendor.venue.id;
-        var vendorKey = "saved-vendor-" + vendorId;
+        var vendorKey = this._savedVendorKey(vendor);
         if (vendorKey in this.savedVendors) {
             delete this.savedVendors[vendorKey];
             this.storage.remove(vendorKey);
@@ -255,18 +254,17 @@ var ExplorePage = /** @class */ (function () {
         return Object.keys(obj);
     };
     ExplorePage.prototype.isSaved = function (vendor) {
-        var vendorId = vendor.venue.id;
-        var vendorKey = "saved-vendor-" + vendorId;
-        return vendorKey in this.savedVendors;
+        return this._savedVendorKey(vendor) in this.savedVendors;
     };
-    ExplorePage.prototype.filterSaved = function () {
+    ExplorePage.prototype.filterChanged = function () {
         if (this.selectedFilter == "None")
             this.selectedFilter = null;
     };
     // TODO: don't want to keep searching if switch tabs
     ExplorePage.prototype.search = function () {
-        var clientId = "WGPAZ2CRUWRWJYK1MLGRMXXXORZFFLEINAASEYUYXO40MAVL";
-        var clientSecret = "FDMVWCI3WNBEFTDZAXYWW54QEZUUEDM5XOPNWE2VUGKP0GGP";
+        // TODO: Foursquare implementation elsewhere?
+        var clientId = "INSERT_CLIENT_ID_HERE";
+        var clientSecret = "INSERT_CLIENT_SECRET_HERE";
         var apiUrl = "https://api.foursquare.com/v2/venues/explore?";
         var params = {
             client_id: clientId,
@@ -277,30 +275,32 @@ var ExplorePage = /** @class */ (function () {
             v: "20170801",
             limit: 50
         };
-        apiUrl += __WEBPACK_IMPORTED_MODULE_7_jquery__["param"](params);
+        apiUrl += $.param(params);
         this.searchedVendors = this.http.get(apiUrl).map(function (res) {
-            var results = JSON.parse(res.text()).response;
             var allItems = [];
-            // Combine all results together
+            var results = JSON.parse(res.text()).response;
             for (var i = 0; i < results.groups.length; i++) {
                 var group = results.groups[i];
                 for (var j = 0; j < group.items.length; j++) {
-                    var item = group.items[j];
+                    var vendor = group.items[j];
                     var photoUrl = "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
-                    if (!!item.venue.featuredPhotos) {
-                        var photoInfo = item.venue.featuredPhotos.items[0];
+                    if (vendor.venue.featuredPhotos) {
+                        var photoInfo = vendor.venue.featuredPhotos.items[0];
                         photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
                     }
-                    item["photoUrl"] = photoUrl;
+                    vendor["photoUrl"] = photoUrl;
                 }
                 allItems = allItems.concat(group.items);
             }
             return allItems;
         });
     };
+    ExplorePage.prototype._savedVendorKey = function (vendor) {
+        return "saved-vendor-" + vendor.venue.id;
+    };
     ExplorePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <div [ngSwitch]="vendors">\n    <ion-list *ngSwitchDefault>\n      <form action=".">\n        <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"></ion-searchbar>\n      </form>\n      <h1 class=\'centered\' *ngIf="!searchedVendors">Search for a venue!</h1>\n      <ion-card *ngFor="let vendor of (searchedVendors | async)">\n        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">\n        <ion-card-content>\n          <ion-grid>\n            <ion-row>\n              <ion-col col-10>\n                <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n                <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")"\n                  : "" }}\n                </p>\n              </ion-col>\n              <ion-col col-2>\n                <div class="centered">\n                  <ion-icon name="{{ isSaved(vendor) ? \'heart\' : \'heart-outline\'}}" (click)="saveOrRemoveVendor($event,vendor)" style="font-size:32px;"></ion-icon>\n                </div>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n    <ion-list *ngSwitchCase="\'saved\'">\n      <ion-list>\n        <ion-item>\n          <ion-label>Filter</ion-label>\n          <ion-select placeholder="Select a filter" [(ngModel)]="selectedFilter" (ionChange)="filterSaved()">\n            <ion-option *ngFor="let filterOpt of vendorFilterOptions" value="{{filterOpt}}">{{ filterOpt }}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-list>\n      <ion-card *ngFor="let key of keys(savedVendors)">\n        <img src="{{ savedVendors[key].photoUrl }}" (click)="vendorDetails($event,savedVendors[key])">\n        <ion-card-content>\n          <ion-grid>\n            <ion-row>\n              <ion-col col-10>\n                <ion-card-title>{{savedVendors[key].venue.name}}</ion-card-title>\n                <p>{{savedVendors[key].venue.location.address}} {{ savedVendors[key].venue.price ? "(" + "$".repeat(savedVendors[key].venue.price.tier)\n                  + ")" : "" }}\n                </p>\n              </ion-col>\n              <ion-col col-2>\n                <div class="centered">\n                  <ion-icon name="{{ isSaved(savedVendors[key]) ? \'heart\' : \'heart-outline\'}}" (click)="saveOrRemoveVendor($event,savedVendors[key])"\n                    style="font-size:32px;"></ion-icon>\n                </div>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n  </div>\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
+            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <div [ngSwitch]="vendors">\n    <ion-list *ngSwitchDefault>\n      <form action=".">\n        <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"></ion-searchbar>\n      </form>\n      <h1 class=\'centered\' *ngIf="!searchedVendors">Search for a venue!</h1>\n      <ion-card *ngFor="let vendor of (searchedVendors | async)">\n        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">\n        <ion-card-content>\n          <ion-grid>\n            <ion-row>\n              <ion-col col-10>\n                <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n                <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")"\n                  : "" }}\n                </p>\n              </ion-col>\n              <ion-col col-2>\n                <div class="centered">\n                  <ion-icon name="{{ isSaved(vendor) ? \'heart\' : \'heart-outline\'}}" (click)="saveOrRemoveVendor($event,vendor)" style="font-size:32px;"></ion-icon>\n                </div>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n    <ion-list *ngSwitchCase="\'saved\'">\n      <ion-list>\n        <ion-item>\n          <ion-label>Filter</ion-label>\n          <ion-select placeholder="Select a filter" [(ngModel)]="selectedFilter" (ionChange)="filterChanged()">\n            <ion-option *ngFor="let filterOpt of vendorFilterOptions" value="{{filterOpt}}">{{ filterOpt }}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-list>\n      <ion-card *ngFor="let key of keys(savedVendors)">\n        <img src="{{ savedVendors[key].photoUrl }}" (click)="vendorDetails($event,savedVendors[key])">\n        <ion-card-content>\n          <ion-grid>\n            <ion-row>\n              <ion-col col-10>\n                <ion-card-title>{{savedVendors[key].venue.name}}</ion-card-title>\n                <p>{{savedVendors[key].venue.location.address}} {{ savedVendors[key].venue.price ? "(" + "$".repeat(savedVendors[key].venue.price.tier)\n                  + ")" : "" }}\n                </p>\n              </ion-col>\n              <ion-col col-2>\n                <div class="centered">\n                  <ion-icon name="{{ isSaved(savedVendors[key]) ? \'heart\' : \'heart-outline\'}}" (click)="saveOrRemoveVendor($event,savedVendors[key])"\n                    style="font-size:32px;"></ion-icon>\n                </div>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n  </div>\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_storage__["b" /* Storage */]) === "function" && _d || Object])
     ], ExplorePage);
@@ -409,15 +409,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var NewChecklistItemPage = /** @class */ (function () {
-    function NewChecklistItemPage(navCtrl, storage) {
+    function NewChecklistItemPage(navCtrl, navParams, storage) {
         this.navCtrl = navCtrl;
+        this.navParams = navParams;
         this.storage = storage;
         this.taskName = '';
         this.category = '';
         this.dueDate = new Date().toISOString();
         this.taskNotes = '';
         this.checklistOverviewPage = __WEBPACK_IMPORTED_MODULE_3__checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */];
+        this.retrieveStoredInfo();
     }
+    NewChecklistItemPage.prototype.retrieveStoredInfo = function () {
+        var _this = this;
+        console.log("retrieving stored info");
+        this.taskName = this.navParams.get('task');
+        if (this.taskName) {
+            console.log("Task found in storage");
+            this.storage.get(this.taskName).then(function (val) {
+                console.log(val);
+                _this.category = val["category"];
+                _this.dueDate = val["dueDate"];
+                _this.taskNotes = val["taskNotes"];
+            });
+        }
+    };
     NewChecklistItemPage.prototype.addTaskStorage = function () {
         var key = this.taskName;
         var value = { "category": this.category, "dueDate": this.dueDate, "taskNotes": this.taskNotes };
@@ -427,7 +443,7 @@ var NewChecklistItemPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-newChecklistItem',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/newChecklistItem/newChecklistItem.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist Item\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <ion-list>\n    <ion-item>\n      <ion-label floating>Task</ion-label>\n      <ion-input type="text"  [(ngModel)]="taskName"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-label>Category</ion-label>\n      <ion-select [(ngModel)]="category">\n        <ion-option value="catering">Catering</ion-option>\n        <ion-option value="decorations">Decorations</ion-option>\n        <ion-option value="invites">Invites</ion-option>\n        <ion-option value="venue">Venue</ion-option>\n        <ion-option value="wardrobe">Wardrobe</ion-option>\n      </ion-select>\n    </ion-item>\n\n    <ion-item>\n      <ion-label floating>Due</ion-label>\n      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="dueDate"></ion-datetime>\n    </ion-item>\n\n    <ion-item>\n      <ion-label floating>Notes</ion-label>\n      <ion-textarea type="text" [(ngModel)]="taskNotes"></ion-textarea>\n    </ion-item>\n\n    <div padding>\n      <button ion-button color="primary" (click)="addTaskStorage()" [navPush]="checklistOverviewPage" block>Save</button>\n    </div>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/newChecklistItem/newChecklistItem.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */]])
     ], NewChecklistItemPage);
     return NewChecklistItemPage;
 }());
