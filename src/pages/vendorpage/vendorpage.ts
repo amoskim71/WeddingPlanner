@@ -15,7 +15,9 @@ import { IonicPage, NavController, NavParams } from "ionic-angular";
 })
 export class VendorpagePage {
   public vendor: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.vendor = navParams.data.vendor;
+  }
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad VendorpagePage");

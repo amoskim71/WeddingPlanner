@@ -25679,10 +25679,16 @@ ion-navbar.toolbar {
 }
 
 page-explore .centered {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   /* bring your own prefixes */
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+page-explore div.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }

@@ -18,6 +18,8 @@ export class ExplorePage {
   savedVendors: any;
   vendors: any;
   queryString: string;
+  vendorFilterOptions: any;
+  selectedFilter: any;
   _savedVendors: any;
   constructor(
     public navCtrl: NavController,
@@ -27,42 +29,52 @@ export class ExplorePage {
   ) {
     // for segment button
     this.vendors = "explore";
-    this.savedVendors = [];
-    this.loadSavedVendors();
-  }
+    this.savedVendors = {};
 
-  loadSavedVendors() {
-    this.storage.forEach((val, key, i) => {
-      if (key.startsWith("saved-vendor-")) {
-        this.savedVendors.push(val);
-      }
-    });
+    this.vendorFilterOptions = [
+      "Wardrobe",
+      "Decorations",
+      "Invites",
+      "Venue",
+      "Catering",
+      "None"
+    ];
+    // use only for development
+    this.storage.clear();
   }
 
   vendorDetails(event, vendor) {
-    this.navCtrl.push(VendorpagePage);
+    this.navCtrl.push(VendorpagePage, { vendor: vendor });
   }
 
   saveOrRemoveVendor(event, vendor) {
+    console.log("clicked");
     const vendorId = vendor.venue.id;
     const vendorKey = "saved-vendor-" + vendorId;
-    this.storage.get(vendorKey).then(
-      val => {
-        if (!val) {
-          console.log("saved");
-          this.storage.set(vendorKey, vendor);
-        } else {
-          console.log("removed", val);
-          this.storage.remove(vendorKey);
-        }
-      },
-      err => {
-        // TODO: add error message
-        console.log(err);
-      }
-    );
+    if (vendorKey in this.savedVendors) {
+      delete this.savedVendors[vendorKey];
+      this.storage.remove(vendorKey);
+      return;
+    }
+    this.storage.set(vendorKey, vendor);
+    this.savedVendors[vendorKey] = vendor;
   }
 
+  keys(obj) {
+    return Object.keys(obj);
+  }
+
+  isSaved(vendor) {
+    const vendorId = vendor.venue.id;
+    const vendorKey = "saved-vendor-" + vendorId;
+    return vendorKey in this.savedVendors;
+  }
+
+  filterSaved() {
+    if (this.selectedFilter == "None") this.selectedFilter = null;
+  }
+
+  // TODO: don't want to keep searching if switch tabs
   search() {
     const clientId = "INSERT_CLIENT_ID_HERE";
     const clientSecret = "INSERT_CLIENT_SECRET_HERE";
@@ -70,7 +82,7 @@ export class ExplorePage {
     let params = {
       client_id: clientId,
       client_secret: clientSecret,
-      near: "Pittsburgh, PA",
+      near: "Pittsburgh, PA", // TODO: search by current geolocation
       query: this.queryString,
       venuePhotos: 1,
       v: "20170801",

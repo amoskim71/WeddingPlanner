@@ -7,7 +7,7 @@ webpackJsonp([1],{
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChecklistOverviewPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__newChecklistItem_newChecklistItem__ = __webpack_require__(203);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -81,13 +81,14 @@ var VendorpagePage = /** @class */ (function () {
     function VendorpagePage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.vendor = navParams.data.vendor;
     }
     VendorpagePage.prototype.ionViewDidLoad = function () {
         console.log("ionViewDidLoad VendorpagePage");
     };
     VendorpagePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: "page-vendorpage",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/'<!--\n  Generated template for the VendorpagePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>vendorpage</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div>Vendor Details</div>\n  <ion-card *ngFor="let vendor of (searchedVendors | async)">\n    <img src="{{ vendor.photoUrl }}">\n    <ion-card-content>\n      <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n      <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : "" }}\n      </p>\n      <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>\n    </ion-card-content>\n  </ion-card>\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/
+            selector: "page-vendorpage",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/'<!--\n  Generated template for the VendorpagePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>vendorpage</ion-title>\n  </ion-navbar>\n\n</ion-header>\n<ion-content padding>\n  <div>Vendor Details</div>\n  <ion-card *ngFor="let vendor of (searchedVendors | async)">\n    <img src="{{ vendor.photoUrl }}">\n    <ion-card-content>\n      <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n      <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : "" }}\n      </p>\n      <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>\n    </ion-card-content>\n  </ion-card>\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
     ], VendorpagePage);
@@ -193,7 +194,7 @@ var TabsPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_storage__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_storage__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__ = __webpack_require__(282);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery__ = __webpack_require__(283);
@@ -223,43 +224,49 @@ var ExplorePage = /** @class */ (function () {
         this.storage = storage;
         // for segment button
         this.vendors = "explore";
-        this.savedVendors = [];
-        this.loadSavedVendors();
+        this.savedVendors = {};
+        this.vendorFilterOptions = [
+            "Wardrobe",
+            "Decorations",
+            "Invites",
+            "Venue",
+            "Catering",
+            "None"
+        ];
+        // use only for development
+        this.storage.clear();
     }
-    ExplorePage.prototype.loadSavedVendors = function () {
-        var _this = this;
-        this.storage.forEach(function (val, key, i) {
-            if (key.startsWith("saved-vendor-")) {
-                _this.savedVendors.push(val);
-            }
-        });
-    };
     ExplorePage.prototype.vendorDetails = function (event, vendor) {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__["a" /* VendorpagePage */]);
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__["a" /* VendorpagePage */], { vendor: vendor });
     };
     ExplorePage.prototype.saveOrRemoveVendor = function (event, vendor) {
-        var _this = this;
+        console.log("clicked");
         var vendorId = vendor.venue.id;
         var vendorKey = "saved-vendor-" + vendorId;
-        this.storage.get(vendorKey).then(function (val) {
-            if (!val) {
-                console.log("saved");
-                _this.storage.set(vendorKey, vendor);
-            }
-            else {
-                console.log("removed", val);
-                _this.storage.remove(vendorKey);
-            }
-        }, function (err) {
-            // TODO: add error message
-            console.log(err);
-        });
+        if (vendorKey in this.savedVendors) {
+            delete this.savedVendors[vendorKey];
+            this.storage.remove(vendorKey);
+            return;
+        }
+        this.storage.set(vendorKey, vendor);
+        this.savedVendors[vendorKey] = vendor;
     };
+    ExplorePage.prototype.keys = function (obj) {
+        return Object.keys(obj);
+    };
+    ExplorePage.prototype.isSaved = function (vendor) {
+        var vendorId = vendor.venue.id;
+        var vendorKey = "saved-vendor-" + vendorId;
+        return vendorKey in this.savedVendors;
+    };
+    ExplorePage.prototype.filterSaved = function () {
+        if (this.selectedFilter == "None")
+            this.selectedFilter = null;
+    };
+    // TODO: don't want to keep searching if switch tabs
     ExplorePage.prototype.search = function () {
         var clientId = "WGPAZ2CRUWRWJYK1MLGRMXXXORZFFLEINAASEYUYXO40MAVL";
         var clientSecret = "FDMVWCI3WNBEFTDZAXYWW54QEZUUEDM5XOPNWE2VUGKP0GGP";
-        // const clientId = "INSERT_CLIENT_ID_HERE";
-        // const clientSecret = "INSERT_CLIENT_SECRET_HERE";
         var apiUrl = "https://api.foursquare.com/v2/venues/explore?";
         var params = {
             client_id: clientId,
@@ -293,7 +300,7 @@ var ExplorePage = /** @class */ (function () {
     };
     ExplorePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <div [ngSwitch]="vendors">\n    <!-- <div>\n      <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"\n        style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">\n    </div> -->\n    <form action=".">\n      <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"></ion-searchbar>\n    </form>\n    <ion-list *ngSwitchDefault>\n      <h1 class=\'centered\' *ngIf="!searchedVendors">Search for a venue!</h1>\n      <ion-card *ngFor="let vendor of (searchedVendors | async)">\n        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">\n        <ion-card-content>\n          <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n          <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : ""\n            }}\n          </p>\n          <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n\n    <ion-list *ngSwitchCase="\'saved\'">\n      <form id="saved-form10" class="list">\n        <label class="item item-select" id="saved-select3">\n          <span class="input-label">Filter by Category</span>\n          <select>\n            <option>Wardrobe</option>\n            <option>Decorations</option>\n            <option>Invites</option>\n            <option>Venue</option>\n            <option>Catering</option>\n          </select>\n        </label>\n      </form>\n      <ion-card *ngFor="let vendor of (savedVendor)">\n        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">\n        <ion-card-content>\n          <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n          <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : ""\n            }}\n          </p>\n          <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
+            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <div [ngSwitch]="vendors">\n    <ion-list *ngSwitchDefault>\n      <form action=".">\n        <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"></ion-searchbar>\n      </form>\n      <h1 class=\'centered\' *ngIf="!searchedVendors">Search for a venue!</h1>\n      <ion-card *ngFor="let vendor of (searchedVendors | async)">\n        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">\n        <ion-card-content>\n          <ion-grid>\n            <ion-row>\n              <ion-col col-10>\n                <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n                <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")"\n                  : "" }}\n                </p>\n              </ion-col>\n              <ion-col col-2>\n                <div class="centered">\n                  <ion-icon name="{{ isSaved(vendor) ? \'heart\' : \'heart-outline\'}}" (click)="saveOrRemoveVendor($event,vendor)" style="font-size:32px;"></ion-icon>\n                </div>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n    <ion-list *ngSwitchCase="\'saved\'">\n      <ion-list>\n        <ion-item>\n          <ion-label>Filter</ion-label>\n          <ion-select placeholder="Select a filter" [(ngModel)]="selectedFilter" (ionChange)="filterSaved()">\n            <ion-option *ngFor="let filterOpt of vendorFilterOptions" value="{{filterOpt}}">{{ filterOpt }}</ion-option>\n          </ion-select>\n        </ion-item>\n      </ion-list>\n      <ion-card *ngFor="let key of keys(savedVendors)">\n        <img src="{{ savedVendors[key].photoUrl }}" (click)="vendorDetails($event,savedVendors[key])">\n        <ion-card-content>\n          <ion-grid>\n            <ion-row>\n              <ion-col col-10>\n                <ion-card-title>{{savedVendors[key].venue.name}}</ion-card-title>\n                <p>{{savedVendors[key].venue.location.address}} {{ savedVendors[key].venue.price ? "(" + "$".repeat(savedVendors[key].venue.price.tier)\n                  + ")" : "" }}\n                </p>\n              </ion-col>\n              <ion-col col-2>\n                <div class="centered">\n                  <ion-icon name="{{ isSaved(savedVendors[key]) ? \'heart\' : \'heart-outline\'}}" (click)="saveOrRemoveVendor($event,savedVendors[key])"\n                    style="font-size:32px;"></ion-icon>\n                </div>\n              </ion-col>\n            </ion-row>\n          </ion-grid>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n  </div>\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_storage__["b" /* Storage */]) === "function" && _d || Object])
     ], ExplorePage);
@@ -386,7 +393,7 @@ var ChecklistPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewChecklistItemPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__checklistOverview_checklistOverview__ = __webpack_require__(102);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -486,7 +493,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_storage__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_storage__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(273);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_sqlite__ = __webpack_require__(284);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_http__ = __webpack_require__(200);
