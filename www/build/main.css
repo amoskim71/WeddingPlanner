@@ -25677,3 +25677,12 @@ ion-navbar.toolbar {
   min-height: calc(46px + constant(safe-area-inset-bottom));
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
+
+page-explore .centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

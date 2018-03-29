@@ -19,30 +19,25 @@
 
 <ion-content padding="true" class="has-header">
   <div [ngSwitch]="vendors">
-    <ion-list id="explore-list1">
-      <label class="item item-input" id="explore-search1">
-        <ion-icon name="search"></ion-icon>
-        <input type="search" placeholder="Search by Address or Category">
-      </label>
-    </ion-list>
-    <div>
+    <!-- <div>
       <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"
         style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">
-    </div>
+    </div> -->
+    <form action=".">
+      <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"></ion-searchbar>
+    </form>
     <ion-list *ngSwitchDefault>
-      <ion-list>
-        <ion-list *ngFor="let vendor of (searchedVendors | async)">
-          <ion-card>
-            <img src="{{ vendor.photoUrl }}">
-            <ion-card-content>
-              <ion-card-title>{{vendor.venue.name}}</ion-card-title>
-              <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" :
-                "" }}</p>
-              <ion-icon name="heart-outline"></ion-icon>
-            </ion-card-content>
-          </ion-card>
-        </ion-list>
-      </ion-list>
+      <h1 class='centered' *ngIf="!searchedVendors">Search for a venue!</h1>
+      <ion-card *ngFor="let vendor of (searchedVendors | async)">
+        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">
+        <ion-card-content>
+          <ion-card-title>{{vendor.venue.name}}</ion-card-title>
+          <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : ""
+            }}
+          </p>
+          <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>
+        </ion-card-content>
+      </ion-card>
     </ion-list>
 
     <ion-list *ngSwitchCase="'saved'">
@@ -58,26 +53,16 @@
           </select>
         </label>
       </form>
-      <ion-list id="saved-list10">
-        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item46" ui-sref="tabsController.vendor1Details()">
-          <img src="assets/imgs/catering.jpg">
-          <h2>Pittsburgh Premier Catering</h2>
-          <p>4729 Ellsworth Ave, Pittsburgh, PA 15213</p>
-          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
-        </ion-item>
-        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item47" ui-sref="tabsController.vendor2Details()">
-          <img src="assets/imgs/glitterandgrit.jpg">
-          <h2>Glitter &amp; Grit</h2>
-          <p>5300 Butler St Pittsburgh, PA 15201 ($$)</p>
-          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
-        </ion-item>
-        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item48" ui-sref="tabsController.vendor3Details()">
-          <img src="assets/imgs/pointbreezeway.jpg">
-          <h2>PointBreezeway</h2>
-          <p>7113 Reynolds St Pittsburgh, PA 15208</p>
-          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>
-        </ion-item>
-      </ion-list>
+      <ion-card *ngFor="let vendor of (savedVendor)">
+        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">
+        <ion-card-content>
+          <ion-card-title>{{vendor.venue.name}}</ion-card-title>
+          <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : ""
+            }}
+          </p>
+          <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>
+        </ion-card-content>
+      </ion-card>
     </ion-list>
   </div>
 

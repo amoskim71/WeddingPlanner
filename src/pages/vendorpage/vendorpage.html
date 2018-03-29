@@ -15,4 +15,13 @@
 
 <ion-content padding>
   <div>Vendor Details</div>
+  <ion-card *ngFor="let vendor of (searchedVendors | async)">
+    <img src="{{ vendor.photoUrl }}">
+    <ion-card-content>
+      <ion-card-title>{{vendor.venue.name}}</ion-card-title>
+      <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : "" }}
+      </p>
+      <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

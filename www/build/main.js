@@ -1,12 +1,65 @@
 webpackJsonp([1],{
 
-/***/ 101:
+/***/ 102:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChecklistOverviewPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__newChecklistItem_newChecklistItem__ = __webpack_require__(203);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ChecklistOverviewPage = /** @class */ (function () {
+    function ChecklistOverviewPage(navCtrl, storage) {
+        this.navCtrl = navCtrl;
+        this.storage = storage;
+        this.tasks = [];
+        // storage.clear();
+        this.loadTaskStorage();
+        this.newChecklistItemPage = __WEBPACK_IMPORTED_MODULE_3__newChecklistItem_newChecklistItem__["a" /* NewChecklistItemPage */];
+    }
+    ChecklistOverviewPage.prototype.loadTaskStorage = function () {
+        var _this = this;
+        console.log("load");
+        this.tasks = [];
+        this.storage.forEach(function (value, key, index) {
+            _this.tasks.push({ key: key, value: value });
+        });
+        console.log(this.tasks);
+    };
+    ChecklistOverviewPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    \n    <button ion-button block [navPush]="newChecklistItemPage">\n      add task\n    </button>\n    \n    <h2>Tasks List</h2>\n    <ion-list>\n      <ion-item-sliding *ngFor= "let task of tasks; let i=index">\n        <ion-item nopadding>\n          <ion-label>\n            <span>{{task.key}}</span><br>\n            Due: {{task.value["dueDate"] | date: \'MM/dd/yyyy\' }}\n          </ion-label>\n          <ion-checkbox></ion-checkbox>\n        </ion-item>\n      </ion-item-sliding>\n    </ion-list>\n\n\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */]])
+    ], ChecklistOverviewPage);
+    return ChecklistOverviewPage;
+}());
+
+//# sourceMappingURL=checklistOverview.js.map
+
+/***/ }),
+
+/***/ 103:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VendorpagePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -34,7 +87,7 @@ var VendorpagePage = /** @class */ (function () {
     };
     VendorpagePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: "page-vendorpage",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/'<!--\n  Generated template for the VendorpagePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>vendorpage</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div>Vendor Details</div>\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/
+            selector: "page-vendorpage",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/'<!--\n  Generated template for the VendorpagePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>vendorpage</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n  <div>Vendor Details</div>\n  <ion-card *ngFor="let vendor of (searchedVendors | async)">\n    <img src="{{ vendor.photoUrl }}">\n    <ion-card-content>\n      <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n      <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : "" }}\n      </p>\n      <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>\n    </ion-card-content>\n  </ion-card>\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/vendorpage/vendorpage.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */]])
     ], VendorpagePage);
@@ -45,7 +98,7 @@ var VendorpagePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 110:
+/***/ 112:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -58,16 +111,16 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 110;
+webpackEmptyAsyncContext.id = 112;
 
 /***/ }),
 
-/***/ 152:
+/***/ 154:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"../pages/vendorpage/vendorpage.module": [
-		284,
+		285,
 		0
 	]
 };
@@ -82,20 +135,20 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 152;
+webpackAsyncContext.id = 154;
 module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 196:
+/***/ 197:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__explore_explore__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_budget__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__checklist_checklist__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__explore_explore__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__budget_budget__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__checklist_checklist__ = __webpack_require__(202);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__settings_settings__ = __webpack_require__(204);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -130,20 +183,21 @@ var TabsPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 197:
+/***/ 198:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ExplorePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(282);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jquery__ = __webpack_require__(283);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_storage__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__ = __webpack_require__(282);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery__ = __webpack_require__(283);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_jquery__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -160,63 +214,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ExplorePage = /** @class */ (function () {
-    function ExplorePage(navCtrl, http, geolocation) {
+    function ExplorePage(navCtrl, http, geolocation, storage) {
         this.navCtrl = navCtrl;
         this.http = http;
         this.geolocation = geolocation;
+        this.storage = storage;
+        // for segment button
         this.vendors = "explore";
-        // const clientId = "";
-        // const clientSecret = "";
-        // let apiUrl = "https://api.foursquare.com/v2/venues/explore?";
-        // let params = {
-        //   client_id: clientId,
-        //   client_secret: clientSecret,
-        //   near: "Pittsburgh, PA",
-        //   query: "bakery",
-        //   venuePhotos: 1,
-        //   v: "20170801",
-        //   limit: 50
-        // };
-        // apiUrl += $.param(params);
-        // this.searchedVendors = this.http.get(apiUrl).map(res => {
-        //   let results = JSON.parse(res.text()).response;
-        //   let allItems = [];
-        //   for (let i = 0; i < results.groups.length; i++) {
-        //     let group = results.groups[i];
-        //     for (let j = 0; j < group.items.length; j++) {
-        //       let item = group.items[j];
-        //       let photoUrl =
-        //         "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
-        //       if (!!item.venue.featuredPhotos) {
-        //         const photoInfo = item.venue.featuredPhotos.items[0];
-        //         photoUrl = photoInfo.prefix + "width300x300" + photoInfo.suffix;
-        //       }
-        //       item["photoUrl"] = photoUrl;
-        //       console.log(item);
-        //     }
-        //     allItems = allItems.concat(group.items);
-        //   }
-        //   return allItems;
-        // });
+        this.savedVendors = [];
+        this.loadSavedVendors();
     }
-    ExplorePage.prototype.vendorTapped = function (event) {
+    ExplorePage.prototype.loadSavedVendors = function () {
+        var _this = this;
+        this.storage.forEach(function (val, key, i) {
+            if (key.startsWith("saved-vendor-")) {
+                _this.savedVendors.push(val);
+            }
+        });
+    };
+    ExplorePage.prototype.vendorDetails = function (event, vendor) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__vendorpage_vendorpage__["a" /* VendorpagePage */]);
     };
-    ExplorePage.prototype.search = function (q) {
-        var clientId = "INSERT_CLIENT_ID";
-        var clientSecret = "INSERT_CLIENT_SECRET";
+    ExplorePage.prototype.saveOrRemoveVendor = function (event, vendor) {
+        var _this = this;
+        var vendorId = vendor.venue.id;
+        var vendorKey = "saved-vendor-" + vendorId;
+        this.storage.get(vendorKey).then(function (val) {
+            if (!val) {
+                console.log("saved");
+                _this.storage.set(vendorKey, vendor);
+            }
+            else {
+                console.log("removed", val);
+                _this.storage.remove(vendorKey);
+            }
+        }, function (err) {
+            // TODO: add error message
+            console.log(err);
+        });
+    };
+    ExplorePage.prototype.search = function () {
+        var clientId = "WGPAZ2CRUWRWJYK1MLGRMXXXORZFFLEINAASEYUYXO40MAVL";
+        var clientSecret = "FDMVWCI3WNBEFTDZAXYWW54QEZUUEDM5XOPNWE2VUGKP0GGP";
+        // const clientId = "INSERT_CLIENT_ID_HERE";
+        // const clientSecret = "INSERT_CLIENT_SECRET_HERE";
         var apiUrl = "https://api.foursquare.com/v2/venues/explore?";
         var params = {
             client_id: clientId,
             client_secret: clientSecret,
             near: "Pittsburgh, PA",
-            query: q,
+            query: this.queryString,
             venuePhotos: 1,
             v: "20170801",
             limit: 50
         };
-        apiUrl += __WEBPACK_IMPORTED_MODULE_6_jquery__["param"](params);
+        apiUrl += __WEBPACK_IMPORTED_MODULE_7_jquery__["param"](params);
         this.searchedVendors = this.http.get(apiUrl).map(function (res) {
             var results = JSON.parse(res.text()).response;
             var allItems = [];
@@ -228,7 +282,7 @@ var ExplorePage = /** @class */ (function () {
                     var photoUrl = "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
                     if (!!item.venue.featuredPhotos) {
                         var photoInfo = item.venue.featuredPhotos.items[0];
-                        photoUrl = photoInfo.prefix + "width300x300" + photoInfo.suffix;
+                        photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
                     }
                     item["photoUrl"] = photoUrl;
                 }
@@ -239,25 +293,25 @@ var ExplorePage = /** @class */ (function () {
     };
     ExplorePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <div [ngSwitch]="vendors">\n    <ion-list id="explore-list1">\n      <label class="item item-input" id="explore-search1">\n        <ion-icon name="search"></ion-icon>\n        <input type="search" placeholder="Search by Address or Category">\n      </label>\n    </ion-list>\n    <div>\n      <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"\n        style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">\n    </div>\n    <ion-list *ngSwitchDefault>\n      <ion-list>\n        <ion-list *ngFor="let vendor of (searchedVendors | async)">\n          <ion-card>\n            <img src="{{ vendor.photoUrl }}">\n            <ion-card-content>\n              <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n              <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" :\n                "" }}</p>\n              <ion-icon name="heart-outline"></ion-icon>\n            </ion-card-content>\n          </ion-card>\n        </ion-list>\n      </ion-list>\n    </ion-list>\n\n    <ion-list *ngSwitchCase="\'saved\'">\n      <form id="saved-form10" class="list">\n        <label class="item item-select" id="saved-select3">\n          <span class="input-label">Filter by Category</span>\n          <select>\n            <option>Wardrobe</option>\n            <option>Decorations</option>\n            <option>Invites</option>\n            <option>Venue</option>\n            <option>Catering</option>\n          </select>\n        </label>\n      </form>\n      <ion-list id="saved-list10">\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item46" ui-sref="tabsController.vendor1Details()">\n          <img src="assets/imgs/catering.jpg">\n          <h2>Pittsburgh Premier Catering</h2>\n          <p>4729 Ellsworth Ave, Pittsburgh, PA 15213</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item47" ui-sref="tabsController.vendor2Details()">\n          <img src="assets/imgs/glitterandgrit.jpg">\n          <h2>Glitter &amp; Grit</h2>\n          <p>5300 Butler St Pittsburgh, PA 15201 ($)</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n        <ion-item class="item-thumbnail-left item-icon-right item-text-wrap" id="saved-list-item48" ui-sref="tabsController.vendor3Details()">\n          <img src="assets/imgs/pointbreezeway.jpg">\n          <h2>PointBreezeway</h2>\n          <p>7113 Reynolds St Pittsburgh, PA 15208</p>\n          <ion-icon name="heart" (click)="toggleHeart($event);"></ion-icon>\n        </ion-item>\n      </ion-list>\n    </ion-list>\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
+            selector: "page-explore",template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Explore\n    </ion-title>\n  </ion-navbar>\n\n  <ion-toolbar no-border-top>\n    <ion-segment [(ngModel)]="vendors">\n      <ion-segment-button value="explore">\n        Explore\n      </ion-segment-button>\n      <ion-segment-button value="saved">\n        Saved\n      </ion-segment-button>\n    </ion-segment>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <div [ngSwitch]="vendors">\n    <!-- <div>\n      <img src="assets/imgs/exist-doing-likewise-foremost-position-grab-finally-best-over-limited-quickly-wish-googlo-maps-of-googlo-maps.png"\n        style="display: block; width: 100%; height: auto; margin-left: auto; margin-right: auto;">\n    </div> -->\n    <form action=".">\n      <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"></ion-searchbar>\n    </form>\n    <ion-list *ngSwitchDefault>\n      <h1 class=\'centered\' *ngIf="!searchedVendors">Search for a venue!</h1>\n      <ion-card *ngFor="let vendor of (searchedVendors | async)">\n        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">\n        <ion-card-content>\n          <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n          <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : ""\n            }}\n          </p>\n          <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n\n    <ion-list *ngSwitchCase="\'saved\'">\n      <form id="saved-form10" class="list">\n        <label class="item item-select" id="saved-select3">\n          <span class="input-label">Filter by Category</span>\n          <select>\n            <option>Wardrobe</option>\n            <option>Decorations</option>\n            <option>Invites</option>\n            <option>Venue</option>\n            <option>Catering</option>\n          </select>\n        </label>\n      </form>\n      <ion-card *ngFor="let vendor of (savedVendor)">\n        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">\n        <ion-card-content>\n          <ion-card-title>{{vendor.venue.name}}</ion-card-title>\n          <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : ""\n            }}\n          </p>\n          <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>\n        </ion-card-content>\n      </ion-card>\n    </ion-list>\n  </div>\n\n\n</ion-content>'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/explore/explore.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_storage__["b" /* Storage */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_storage__["b" /* Storage */]) === "function" && _d || Object])
     ], ExplorePage);
     return ExplorePage;
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=explore.js.map
 
 /***/ }),
 
-/***/ 200:
+/***/ 201:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BudgetPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -287,14 +341,14 @@ var BudgetPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 201:
+/***/ 202:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChecklistPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__checklistOverview_checklistOverview__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__checklistOverview_checklistOverview__ = __webpack_require__(102);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -325,15 +379,15 @@ var ChecklistPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 202:
+/***/ 203:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChecklistOverviewPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewChecklistItemPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__ = __webpack_require__(203);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_storage__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_storage__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__checklistOverview_checklistOverview__ = __webpack_require__(102);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -347,81 +401,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ChecklistOverviewPage = /** @class */ (function () {
-    function ChecklistOverviewPage(navCtrl, sqlite, storage) {
+var NewChecklistItemPage = /** @class */ (function () {
+    function NewChecklistItemPage(navCtrl, storage) {
         this.navCtrl = navCtrl;
-        this.sqlite = sqlite;
         this.storage = storage;
-        this.tasks = [];
-        //this.getData();
-        this.loadTaskStorage();
-        this.addTaskStorage();
+        this.taskName = '';
+        this.category = '';
+        this.dueDate = new Date().toISOString();
+        this.taskNotes = '';
+        this.checklistOverviewPage = __WEBPACK_IMPORTED_MODULE_3__checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */];
     }
-    ChecklistOverviewPage.prototype.updateCheckbox = function () {
-        this.storage.set('name', 'Max');
-        this.storage.get('name').then(function (val) {
-            console.log('Your name is', val);
-        });
-    };
-    ChecklistOverviewPage.prototype.addTaskStorage = function () {
-        var key = 'get food';
-        var value = '0';
+    NewChecklistItemPage.prototype.addTaskStorage = function () {
+        var key = this.taskName;
+        var value = { "category": this.category, "dueDate": this.dueDate, "taskNotes": this.taskNotes };
         this.storage.set(key, value);
-        this.tasks.push({ key: key, value: value });
-        console.log('add task get Food');
     };
-    ChecklistOverviewPage.prototype.loadTaskStorage = function () {
-        var _this = this;
-        this.tasks = [];
-        this.storage.forEach(function (value, key, index) {
-            //console.log("This is the value", value)
-            //console.log("from the key", key)
-            //console.log("Index is" index)
-            _this.tasks.push({ key: key, value: value });
-        });
-    };
-    ChecklistOverviewPage.prototype.getData = function () {
-        var _this = this;
-        this.sqlite.create({
-            name: 'ionicdb.db',
-            location: 'default'
-        }).then(function (db) {
-            db.executeSql('CREATE TABLE IF NOT EXISTS tasklist (rowid INTEGER PRIMARY KEY, task VARCHAR(255), completed BIT)', {})
-                .then(function (res) { return console.log('Executed create table SQL'); })
-                .catch(function (e) { return console.log(e); });
-            db.executeSql('SELECT * FROM tasklist ORDER BY rowid DESC', {})
-                .then(function (res) {
-                _this.tasks = [];
-                for (var i = 0; i < res.rows.length; i++) {
-                    _this.tasks.push({
-                        rowid: res.rows.item(i).rowid,
-                        task: res.rows.item(i).task,
-                        completed: res.rows.item(i).completed
-                    });
-                }
-            }).catch(function (e) { return console.log(e); });
-        }).catch(function (e) { return console.log(e); });
-    };
-    ChecklistOverviewPage.prototype.addTask = function () {
-        this.sqlite.create({
-            name: 'ionicdb.db',
-            location: 'default'
-        }).then(function (db) {
-            db.executeSql('INSERT INTO tasklist VALUES(NULL,"get Food", 0)', {})
-                .then(function (res) { return console.log(res); })
-                .catch(function (e) { return console.log(e); });
-        }).catch(function (e) { return console.log(e); });
-    };
-    ChecklistOverviewPage = __decorate([
+    NewChecklistItemPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-checklistOverview',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n    \n    <button ion-button block [navPush]="newChecklistItemPage">\n      add task\n    </button>\n    \n    <h2>Tasks List</h2>\n    <ion-list>\n      <ion-item-sliding *ngFor= "let task of tasks; let i=index">\n        <ion-item nopadding>\n          <ion-label>\n            <span>{{task.key}}</span><br>\n            Due: {{task.value["dueDate"] | date: \'MM/dd/yyyy\' }}\n          </ion-label>\n          <ion-checkbox></ion-checkbox>\n        </ion-item>\n      </ion-item-sliding>\n    </ion-list>\n\n\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/checklistOverview/checklistOverview.html"*/
+            selector: 'page-newChecklistItem',template:/*ion-inline-start:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/newChecklistItem/newChecklistItem.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Checklist Item\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding="true" class="has-header">\n  <ion-list>\n    <ion-item>\n      <ion-label floating>Task</ion-label>\n      <ion-input type="text"  [(ngModel)]="taskName"></ion-input>\n    </ion-item>\n\n    <ion-item>\n      <ion-label>Category</ion-label>\n      <ion-select [(ngModel)]="category">\n        <ion-option value="catering">Catering</ion-option>\n        <ion-option value="decorations">Decorations</ion-option>\n        <ion-option value="invites">Invites</ion-option>\n        <ion-option value="venue">Venue</ion-option>\n        <ion-option value="wardrobe">Wardrobe</ion-option>\n      </ion-select>\n    </ion-item>\n\n    <ion-item>\n      <ion-label floating>Due</ion-label>\n      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="dueDate"></ion-datetime>\n    </ion-item>\n\n    <ion-item>\n      <ion-label floating>Notes</ion-label>\n      <ion-textarea type="text" [(ngModel)]="taskNotes"></ion-textarea>\n    </ion-item>\n\n    <div padding>\n      <button ion-button color="primary" (click)="addTaskStorage()" [navPush]="checklistOverviewPage" block>Save</button>\n    </div>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/Stephen/Desktop/WeddingPlanner/src/pages/newChecklistItem/newChecklistItem.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_sqlite__["a" /* SQLite */], __WEBPACK_IMPORTED_MODULE_3__ionic_storage__["b" /* Storage */]])
-    ], ChecklistOverviewPage);
-    return ChecklistOverviewPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__ionic_storage__["b" /* Storage */]])
+    ], NewChecklistItemPage);
+    return NewChecklistItemPage;
 }());
 
-//# sourceMappingURL=checklistOverview.js.map
+//# sourceMappingURL=newChecklistItem.js.map
 
 /***/ }),
 
@@ -431,7 +435,7 @@ var ChecklistOverviewPage = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SettingsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -481,27 +485,29 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_storage__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_storage__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(273);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_sqlite__ = __webpack_require__(203);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_http__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_explore_explore__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_budget_budget__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_checklist_checklist__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_checklistOverview_checklistOverview__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_settings_settings__ = __webpack_require__(204);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_vendorpage_vendorpage__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_tabs_tabs__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_status_bar__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_splash_screen__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_geolocation__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_sqlite__ = __webpack_require__(284);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_http__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_explore_explore__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_budget_budget__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_checklist_checklist__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_checklistOverview_checklistOverview__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_newChecklistItem_newChecklistItem__ = __webpack_require__(203);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_settings_settings__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_vendorpage_vendorpage__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_tabs_tabs__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_status_bar__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_splash_screen__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ionic_native_geolocation__ = __webpack_require__(199);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -530,9 +536,10 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_8__pages_budget_budget__["a" /* BudgetPage */],
                 __WEBPACK_IMPORTED_MODULE_9__pages_checklist_checklist__["a" /* ChecklistPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */],
-                __WEBPACK_IMPORTED_MODULE_11__pages_settings_settings__["a" /* SettingsPage */],
-                __WEBPACK_IMPORTED_MODULE_13__pages_tabs_tabs__["a" /* TabsPage */],
-                __WEBPACK_IMPORTED_MODULE_12__pages_vendorpage_vendorpage__["a" /* VendorpagePage */]
+                __WEBPACK_IMPORTED_MODULE_11__pages_newChecklistItem_newChecklistItem__["a" /* NewChecklistItemPage */],
+                __WEBPACK_IMPORTED_MODULE_12__pages_settings_settings__["a" /* SettingsPage */],
+                __WEBPACK_IMPORTED_MODULE_14__pages_tabs_tabs__["a" /* TabsPage */],
+                __WEBPACK_IMPORTED_MODULE_13__pages_vendorpage_vendorpage__["a" /* VendorpagePage */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
@@ -551,15 +558,16 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_8__pages_budget_budget__["a" /* BudgetPage */],
                 __WEBPACK_IMPORTED_MODULE_9__pages_checklist_checklist__["a" /* ChecklistPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_checklistOverview_checklistOverview__["a" /* ChecklistOverviewPage */],
-                __WEBPACK_IMPORTED_MODULE_11__pages_settings_settings__["a" /* SettingsPage */],
-                __WEBPACK_IMPORTED_MODULE_13__pages_tabs_tabs__["a" /* TabsPage */],
-                __WEBPACK_IMPORTED_MODULE_12__pages_vendorpage_vendorpage__["a" /* VendorpagePage */]
+                __WEBPACK_IMPORTED_MODULE_11__pages_newChecklistItem_newChecklistItem__["a" /* NewChecklistItemPage */],
+                __WEBPACK_IMPORTED_MODULE_12__pages_settings_settings__["a" /* SettingsPage */],
+                __WEBPACK_IMPORTED_MODULE_14__pages_tabs_tabs__["a" /* TabsPage */],
+                __WEBPACK_IMPORTED_MODULE_13__pages_vendorpage_vendorpage__["a" /* VendorpagePage */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_14__ionic_native_status_bar__["a" /* StatusBar */],
-                __WEBPACK_IMPORTED_MODULE_15__ionic_native_splash_screen__["a" /* SplashScreen */],
+                __WEBPACK_IMPORTED_MODULE_15__ionic_native_status_bar__["a" /* StatusBar */],
+                __WEBPACK_IMPORTED_MODULE_16__ionic_native_splash_screen__["a" /* SplashScreen */],
                 __WEBPACK_IMPORTED_MODULE_5__ionic_native_sqlite__["a" /* SQLite */],
-                __WEBPACK_IMPORTED_MODULE_16__ionic_native_geolocation__["a" /* Geolocation */],
+                __WEBPACK_IMPORTED_MODULE_17__ionic_native_geolocation__["a" /* Geolocation */],
                 { provide: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicErrorHandler */] }
             ]
         })
@@ -577,10 +585,10 @@ var AppModule = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_tabs_tabs__ = __webpack_require__(197);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
