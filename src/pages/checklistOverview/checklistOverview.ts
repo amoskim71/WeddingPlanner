@@ -26,4 +26,10 @@ export class ChecklistOverviewPage {
     })
     console.log(this.tasks);
   }
+
+  delete(taskToDelete){
+    console.log(taskToDelete);
+    this.storage.remove(taskToDelete);
+    this.loadTaskStorage();
+  }
 }
