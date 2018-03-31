@@ -20,9 +20,18 @@
 <ion-content padding="true" class="has-header">
   <div [ngSwitch]="vendors">
     <ion-list *ngSwitchDefault>
-      <form action=".">
-        <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
-          (ionClear)="clearSearch()"></ion-searchbar>
+      <form action="." (ngSubmit)="search()">
+        <ion-list>
+          <ion-item>
+            <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
+              (ionClear)="clearSearch()">
+            </ion-searchbar>
+          </ion-item>
+          <ion-item>
+            <ion-input name="queryLocation" [(ngModel)]="queryLocation" type="text" placeholder="Using current location"></ion-input>
+          </ion-item>
+          <button type="submit" class="button hide"></button>
+        </ion-list>
       </form>
       <h1 class='centered' *ngIf="(searchedVendors | async)?.length==0">No venues</h1>
       <ion-card *ngFor="let vendor of (searchedVendors | async)">

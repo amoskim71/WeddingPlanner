@@ -19,15 +19,17 @@ export class ExplorePage {
   savedVendors: any;
   vendors: any;
   queryString: string;
+  queryLocation: string;
   vendorFilterOptions: any;
   selectedFilter: any;
-
+  apiUrl: any;
   constructor(
     public navCtrl: NavController,
     public http: Http,
     public geolocation: Geolocation,
     public storage: Storage
   ) {
+    this.apiUrl = "https://api.foursquare.com/v2/venues/explore?";
     this.searchedVendors = Observable.empty<any[]>();
     this.savedVendors = {};
     this.vendors = "explore";
@@ -72,30 +74,47 @@ export class ExplorePage {
 
   clearSearch() {
     this.searchedVendors = Observable.empty<any[]>();
-    return false;
   }
-  // TODO: don't want to keep searching if switch tabs
+
   search() {
+    console.log("searched", this.queryString, this.queryLocation);
     // TODO: Foursquare implementation elsewhere?
     const clientId = "INSERT_CLIENT_ID_HERE";
     const clientSecret = "INSERT_CLIENT_SECRET_HERE";
 
-    let apiUrl = "https://api.foursquare.com/v2/venues/explore?";
     let params = {
       client_id: clientId,
       client_secret: clientSecret,
-      near: "Pittsburgh, PA", // TODO: search by current geolocation
-      query: "bakery",
+      query: this.queryString,
       venuePhotos: 1,
       v: "20170801",
       limit: 50
     };
-    apiUrl += $.param(params);
+    if (!this.queryLocation) {
+      console.log("no location specified");
+      this.geolocation
+        .getCurrentPosition({
+          timeout: 10000,
+          enableHighAccuracy: true,
+          maximumAge: 3600
+        })
+        .then(
+          resp => {
+            params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
+            this.searchedVendors = this._search(params);
+          },
+          err => console.log(err)
+        );
+    } else {
+      params["near"] = this.queryLocation;
+      this.searchedVendors = this._search(params);
+    }
+  }
 
-    this.searchedVendors = this.http.get(apiUrl).map(res => {
+  _search(params) {
+    return this.http.get(this.apiUrl + $.param(params)).map(res => {
       let allItems = [];
       let results = JSON.parse(res.text()).response;
-
       for (let i = 0; i < results.groups.length; i++) {
         let group = results.groups[i];
         for (let j = 0; j < group.items.length; j++) {
@@ -113,7 +132,6 @@ export class ExplorePage {
       return allItems;
     });
   }
-
   _savedVendorKey(vendor) {
     return "saved-vendor-" + vendor.venue.id;
   }
