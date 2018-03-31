@@ -12,13 +12,17 @@
 
 </ion-header>
 <ion-content padding>
-  <div>Vendor Details</div>
-  <ion-card *ngFor="let vendor of (searchedVendors | async)">
+  <ion-card>
     <img src="{{ vendor.photoUrl }}">
     <ion-card-content>
       <ion-card-title>{{vendor.venue.name}}</ion-card-title>
-      <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : "" }}
+      <p>{{location.address}}, {{ location.city }}, {{ location.state }} {{ location.postalCode }} {{ vendor.venue.price ? "("
+        + "$".repeat(vendor.venue.price.tier) + ")" : "" }}
       </p>
+      <p>
+        <span>
+          <ion-icon name="call"></ion-icon>
+        </span>{{ vendor.venue.contact.formattedPhone }}</p>
       <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>
     </ion-card-content>
   </ion-card>

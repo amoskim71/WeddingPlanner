@@ -6,13 +6,16 @@ import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Storage } from "@ionic/storage";
 import "rxjs/add/operator/map";
+import "rxjs/add/observable/empty";
+
+import * as $ from "jquery";
 
 @Component({
   selector: "page-explore",
   templateUrl: "explore.html"
 })
 export class ExplorePage {
-  searchedVendors: Observable<any>;
+  searchedVendors: Observable<any[]>;
   savedVendors: any;
   vendors: any;
   queryString: string;
@@ -25,6 +28,7 @@ export class ExplorePage {
     public geolocation: Geolocation,
     public storage: Storage
   ) {
+    this.searchedVendors = Observable.empty<any[]>();
     this.savedVendors = {};
     this.vendors = "explore";
     this.vendorFilterOptions = [
@@ -35,7 +39,6 @@ export class ExplorePage {
       "Catering",
       "None"
     ];
-
     // use only for development
     this.storage.clear();
   }
@@ -67,6 +70,10 @@ export class ExplorePage {
     if (this.selectedFilter == "None") this.selectedFilter = null;
   }
 
+  clearSearch() {
+    this.searchedVendors = Observable.empty<any[]>();
+    return false;
+  }
   // TODO: don't want to keep searching if switch tabs
   search() {
     // TODO: Foursquare implementation elsewhere?
@@ -78,7 +85,7 @@ export class ExplorePage {
       client_id: clientId,
       client_secret: clientSecret,
       near: "Pittsburgh, PA", // TODO: search by current geolocation
-      query: this.queryString,
+      query: "bakery",
       venuePhotos: 1,
       v: "20170801",
       limit: 50

@@ -21,9 +21,10 @@
   <div [ngSwitch]="vendors">
     <ion-list *ngSwitchDefault>
       <form action=".">
-        <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"></ion-searchbar>
+        <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
+          (ionClear)="clearSearch()"></ion-searchbar>
       </form>
-      <h1 class='centered' *ngIf="!searchedVendors">Search for a venue!</h1>
+      <h1 class='centered' *ngIf="(searchedVendors | async)?.length==0">No venues</h1>
       <ion-card *ngFor="let vendor of (searchedVendors | async)">
         <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">
         <ion-card-content>
