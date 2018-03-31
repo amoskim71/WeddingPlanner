@@ -1,19 +1,11 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { NavController, NavParams } from "ionic-angular";
 
-/**
- * Generated class for the VendorpagePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
-  selector: "page-vendorpage",
-  templateUrl: "vendorpage.html"
+  selector: "page-vendordetails",
+  templateUrl: "vendordetails.html"
 })
-export class VendorpagePage {
+export class VendorDetailsPage {
   public vendor: any;
   public location: any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {

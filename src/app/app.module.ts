@@ -6,13 +6,13 @@ import { MyApp } from "./app.component";
 import { SQLite } from "@ionic-native/sqlite";
 import { HttpModule } from "@angular/http";
 
-import { ExplorePage } from '../pages/explore/explore';
-import { BudgetPage } from '../pages/budget/budget';
-import { ChecklistPage } from '../pages/checklist/checklist';
-import { ChecklistOverviewPage } from '../pages/checklistOverview/checklistOverview';
-import { NewChecklistItemPage } from '../pages/newChecklistItem/newChecklistItem';
-import { SettingsPage } from '../pages/settings/settings';
-import { VendorpagePage } from "../pages/vendorpage/vendorpage";
+import { ExplorePage } from "../pages/explore/explore";
+import { BudgetPage } from "../pages/budget/budget";
+import { ChecklistPage } from "../pages/checklist/checklist";
+import { ChecklistOverviewPage } from "../pages/checklistOverview/checklistOverview";
+import { NewChecklistItemPage } from "../pages/newChecklistItem/newChecklistItem";
+import { SettingsPage } from "../pages/settings/settings";
+import { VendorDetailsPage } from "../pages/vendordetails/vendordetails";
 
 import { TabsPage } from "../pages/tabs/tabs";
 
@@ -31,7 +31,7 @@ import { Geolocation } from "@ionic-native/geolocation";
     NewChecklistItemPage,
     SettingsPage,
     TabsPage,
-    VendorpagePage
+    VendorDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -49,7 +49,7 @@ import { Geolocation } from "@ionic-native/geolocation";
     NewChecklistItemPage,
     SettingsPage,
     TabsPage,
-    VendorpagePage
+    VendorDetailsPage
   ],
   providers: [
     StatusBar,

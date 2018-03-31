@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
-import { VendorpagePage } from "../vendorpage/vendorpage";
+import { VendorDetailsPage } from "../vendordetails/vendordetails";
 import { Geolocation } from "@ionic-native/geolocation";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
@@ -46,7 +46,7 @@ export class ExplorePage {
   }
 
   vendorDetails(event, vendor) {
-    this.navCtrl.push(VendorpagePage, { vendor: vendor });
+    this.navCtrl.push(VendorDetailsPage, { vendor: vendor });
   }
 
   saveOrRemoveVendor(event, vendor) {
