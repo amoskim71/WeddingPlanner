@@ -15,15 +15,27 @@
   <ion-card>
     <img src="{{ vendor.photoUrl }}">
     <ion-card-content>
-      <ion-card-title>{{vendor.venue.name}}</ion-card-title>
-      <p>{{location.address}}, {{ location.city }}, {{ location.state }} {{ location.postalCode }} {{ vendor.venue.price ? "("
-        + "$".repeat(vendor.venue.price.tier) + ")" : "" }}
-      </p>
-      <p>
-        <span>
-          <ion-icon name="call"></ion-icon>
-        </span>{{ vendor.venue.contact.formattedPhone }}</p>
-      <ion-icon name="heart-outline" style="float: right;" (click)="saveOrRemoveVendor($event,vendor)"></ion-icon>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-10>
+            <ion-card-title>{{vendor.venue.name}}</ion-card-title>
+            <p>{{location.address}}</p>
+            <p>{{ location.city }}, {{ location.state }} {{ location.postalCode }} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier)
+              + ")" : "" }}
+            </p>
+            <p>
+              <span>
+                <ion-icon name="call"></ion-icon>
+              </span>
+              {{ vendor.venue.contact.formattedPhone ? vendor.venue.contact.formattedPhone : 'No contact info available' }}</p>
+          </ion-col>
+          <ion-col col-2>
+            <div class='centered'>
+              <ion-icon name="{{ isSaved ? 'heart' : 'heart-outline'}}" (click)="saveOrRemoveVendor($event,vendor)" style="font-size:32px;"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>

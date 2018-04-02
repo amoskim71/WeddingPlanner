@@ -46,7 +46,10 @@ export class ExplorePage {
   }
 
   vendorDetails(event, vendor) {
-    this.navCtrl.push(VendorDetailsPage, { vendor: vendor });
+    this.navCtrl.push(VendorDetailsPage, {
+      vendor: vendor,
+      isSaved: this.isSaved(vendor)
+    });
   }
 
   saveOrRemoveVendor(event, vendor) {
