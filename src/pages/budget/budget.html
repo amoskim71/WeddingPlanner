@@ -22,7 +22,12 @@
 
   <div [ngSwitch]="budget">
     <ion-list *ngSwitchCase="'overview'">
-      <a ui-sref="tabsController.addTransaction()" id="budgetOverview-button15" class="button button-balanced button-block icon-left ion-android-add">Add Transaction</a>
+      <!-- <a ui-sref="tabsController.addTransaction()" id="budgetOverview-button15" class="button button-balanced button-block icon-left ion-android-add">Add Transaction</a> -->
+
+      <button ion-button block [navPush]="AddTransactionPage">
+        add Transaction
+      </button>
+      
 
       <div class="item item-body" id="budgetOverview-list-item-container2">
         <div id="budgetOverview-markdown2" class="show-list-numbers-and-dots">
@@ -31,18 +36,26 @@
           </p>
         </div>
       </div>
-      <div class="list card" id="budgetOverview-card21">
-        <ion-item class="positive" id="budgetOverview-list-item24">All Transactions</ion-item>
-        <ion-item id="budgetOverview-list-item26">Center pieces | Flowers
-          <span class="item-note">$300</span>
+
+      <ion-list>
+      <ion-item-sliding *ngFor= "let task of budgets; let i=index">
+        <ion-item nopadding>
+          <h2>{{task.key}}</h2>
+          <h3>${{task.value["amount"]}}   {{task.value["category"]}}</h3>
+          
         </ion-item>
-        <ion-item id="budgetOverview-list-item27">Shoes | Wardrobe
-          <span class="item-note">$100</span>
-        </ion-item>
-        <ion-item id="budgetOverview-list-item25">Dress | Wardrobe
-          <span class="item-note">$500</span>
-        </ion-item>
-      </div>
+
+        <ion-item-options side="right">
+          <button ion-button color="secondary" 
+          [navPush]="AddTransactionPage" 
+          [navParams]="{'task': task.key}">
+          <ion-icon name="create"></ion-icon>EDIT</button>
+
+          <button ion-button color="danger" (click)="delete(task.key)"><ion-icon name="trash"></ion-icon>DELETE</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
       <div class="spacer" style="height: 15px;"></div>
       <div>
         <ion-item class="item-icon-left assertive" id="budgetOverview-list-item13">
@@ -61,12 +74,18 @@
       <div class="spacer" style="width: 300px; height: 15px;"></div>
     </ion-list>
 
+    <!-- Budget breakdown -->
+
     <ion-list *ngSwitchCase="'breakdown'">
-      <div id="budgetBreakdown-button-bar4" class="button-bar">
+      <!-- <div id="budgetBreakdown-button-bar4" class="button-bar">
         <a ui-sref="tabsController.budgetOverview()" id="budgetBreakdown-button17" class="button button-positive button-block button-outline">Overview</a>
         <a ui-sref="tabsController.budgetBreakdown()" id="budgetBreakdown-button18" class="button button-positive button-block">Breakdown</a>
-      </div>
-      <a ui-sref="tabsController.addBudgetCategory()" id="budgetBreakdown-button19" class="button button-balanced button-block icon-left ion-android-add">Add Budget Category</a>
+      </div> -->
+
+      <button ion-button block [navPush]="AddBudgetPage">
+        add budget
+      </button>
+      <!-- <a ui-sref="tabsController.addBudgetCategory()" id="budgetBreakdown-button19" class="button button-balanced button-block icon-left ion-android-add">Add Budget Category</a> -->
       <ion-list id="budgetBreakdown-list6">
         <ion-item class="item-icon-right" id="budgetBreakdown-list-item35">Wardrobe
           <span class="item-note">$300 left</span>
