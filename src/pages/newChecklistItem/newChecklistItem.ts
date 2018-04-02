@@ -37,8 +37,9 @@ export class NewChecklistItemPage {
 
   addTaskStorage(){
     var key = this.taskName;
-    var value = {"category":this.category, "dueDate":this.dueDate, "taskNotes":this.taskNotes};
+    var value = {"category":this.category, "dueDate":this.dueDate, "taskNotes":this.taskNotes, "checklist":true};
     this.storage.set(key,value);
+    this.navCtrl.setRoot(ChecklistOverviewPage);
   }
 
 }
