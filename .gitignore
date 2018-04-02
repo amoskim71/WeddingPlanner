@@ -3,3 +3,4 @@ backend/config.js
 node_modules/
 .vscode
 www/build/
+.sourcemaps/
