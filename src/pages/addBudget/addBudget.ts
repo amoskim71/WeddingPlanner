@@ -19,17 +19,13 @@ export class AddBudgetPage {
     this.retrieveStoredInfo();
   }
 
-  retrieveStoredInfo() { //for editting see checklist
-    console.log("retrieving stored info");
+  retrieveStoredInfo() { 
     this.budgetName = this.navParams.get('task');
     if (this.budgetName) {
-      console.log("Task found in storage");
       this.storage.get(this.budgetName).then(val => {
-          console.log(val);
           this.budgetName = val["category"];
           this.amount = val["amount"];
       })
-
     }
   }
 

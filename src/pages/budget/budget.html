@@ -33,47 +33,40 @@
 
 
       <ion-list>
-      <ion-item-sliding *ngFor= "let task of transactions; let i=index">
-        <ion-item nopadding>
-          <h2>{{task.key}}</h2>
-          <h3>${{task.value["amount"]}}   {{task.value["category"]}}</h3>
-          
-        </ion-item>
+        <ion-item-sliding *ngFor= "let task of transactions; let i=index">
+          <ion-item nopadding>
+            <h2>{{task.key}}</h2>
+            <h3>${{task.value["amount"]}}   {{task.value["category"]}}</h3>
+            
+          </ion-item>
 
-        <ion-item-options side="right">
-          <button ion-button color="secondary" 
-          [navPush]="AddTransactionPage" 
-          [navParams]="{'task': task.key}">
-          <ion-icon name="create"></ion-icon>EDIT</button>
+          <ion-item-options side="right">
+            <button ion-button color="secondary" 
+            [navPush]="AddTransactionPage" 
+            [navParams]="{'task': task.key}">
+            <ion-icon name="create"></ion-icon>EDIT</button>
 
-          <button ion-button color="danger" (click)="delete(task.key)"><ion-icon name="trash"></ion-icon>DELETE</button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
-
-      <div class="spacer" style="height: 15px;"></div>
-
-      <!-- <div>
-        <ion-item class="item-icon-left assertive" id="budgetOverview-list-item13">
-          <ion-icon name="alert"></ion-icon>Alert</ion-item>
-        <ion-item id="budgetOverview-list-item14">Reaching budget cap for
-          <b>flowers</b>
-        </ion-item>
-      </div> -->
+            <button ion-button color="danger" (click)="delete(task.key)"><ion-icon name="trash"></ion-icon>DELETE</button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
 
       <div class="spacer" style="height: 15px;"></div>
 
-      <div>
-        <img src="assets/imgs/budget-overview-pie.png"
-          style="display: block; width: auto; height: auto; margin-left: auto; margin-right: auto;">
+      <div style="display: block">
+        <canvas baseChart
+          [data]="doughnutChartData"
+          [labels]="doughnutChartLabels"
+          [chartType]="doughnutChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)">  
+        </canvas>
       </div>
 
+      <div class="spacer" style="width: 300px; height: 15px;"></div>
 
-      <div class="spacer" style="width: 300px; height: 15px;">
-        
-      </div>
       <ion-item id="budgetOverview-list-item20">ad space</ion-item>
-      
+        
       <div class="spacer" style="width: 300px; height: 15px;"></div>
     </ion-list>
 
@@ -89,15 +82,28 @@
           <ion-icon name="create"></ion-icon>
         </ion-item>
         <!-- <ion-item id="budgetBreakdown-list-item38">[bar graph of remaining budget]</ion-item> -->
+        <canvas baseChart
+          [data]="barChartData"
+          [labels]="barChartLabels"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)">  
+        </canvas>
+
         <div style="border: 0px solid #aeaeae; background-color: #eaeaea; width: 100%; height: 30px;">
           <div style="position: relative; bottom: 0; width: 70%; height: 30px; background-color: #86CE50;"></div>
         </div>
       </ion-list>
+
       <div class="spacer" style="width: 300px; height: 15px;"></div>
+
       <ion-list id="budgetBreakdown-list7">
         <ion-item class="item-icon-right" id="budgetBreakdown-list-item39">Food
           <span class="item-note">$600 left</span>
-          <ion-icon name="create"></ion-icon>
+          <ion-icon name="create"
+          [navPush]="addBudgetPage" 
+          [navParams]="{'task': 'Food'}"
+          ></ion-icon>
         </ion-item>
         <!-- <ion-item id="budgetBreakdown-list-item40">[bar graph of remaining budget]</ion-item> -->
         <div style="border: 0px solid #aeaeae; background-color: #eaeaea; width: 100%; height: 30px;">

@@ -22,6 +22,7 @@ import { StatusBar } from "@ionic-native/status-bar";
 import { SplashScreen } from "@ionic-native/splash-screen";
 
 import { Geolocation } from "@ionic-native/geolocation";
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,9 @@ import { Geolocation } from "@ionic-native/geolocation";
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    BrowserModule,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

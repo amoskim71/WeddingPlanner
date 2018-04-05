@@ -16,6 +16,16 @@ export class BudgetPage {
   budgets: any = [];
   leftToSpend: number = 0;
 
+  // Doughnut
+  public doughnutChartLabels:string[] = ['Wardrobe', 'Decorations', 'Invites'];
+  public doughnutChartData:number[] = [350, 450, 100];
+  public doughnutChartType:string = 'doughnut';
+
+  //bar chart
+  public barChartLabels: string[] = ['Food'];
+  public barChartData: number[] = [100];
+  public barChartType: string = 'horizontalBar';
+
   constructor(public navCtrl: NavController, public storage: Storage) {
   	this.AddBudgetPage = AddBudgetPage;
   	this.AddTransactionPage = AddTransactionPage;
@@ -24,6 +34,15 @@ export class BudgetPage {
   	this.budgetStorageToArray();
   	this.getAllTransactions();
   	
+  }
+
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+
+  public chartHovered(e:any):void {
+    console.log(e);
   }
 
   //get all category transactions
