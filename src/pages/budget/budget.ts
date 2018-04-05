@@ -14,6 +14,7 @@ export class BudgetPage {
   AddTransactionPage: any;
   transactions: any = [];
   budgets: any = [];
+  budgetsLen = 0;
   leftToSpend: number = 0;
 
   // Doughnut
@@ -33,6 +34,7 @@ export class BudgetPage {
   	this.loadBudgets();
   	this.budgetStorageToArray();
   	this.getAllTransactions();
+    //this.populateDonutChart();
   	
   }
 
@@ -48,11 +50,14 @@ export class BudgetPage {
   //get all category transactions
   getAllTransactions(){
   	this.transactions = [];
+    this.doughnutChartLabels = [];
+    this.doughnutChartData = [];
   	this.storage.forEach( (value, key, index) => {
   		var name = this.getItemName(key);
   		if(name != "not"){
   			this.transactions.push({key:name, value:value});
-  			this.leftToSpend = this.leftToSpend - (0- value["amount"]);
+  			this.leftToSpend = this.leftToSpend - (0 + + value["amount"]);
+        this.populateDonutChart(value["category"], value["amount"]);
   		}
   	})
   }
@@ -70,8 +75,23 @@ export class BudgetPage {
   	})
   }
 
- 
- delete(taskToDelete){
+  populateDonutChart(categoryName, amount){
+    console.log("populateDonutChart");
+    var idx = this.doughnutChartLabels.indexOf(categoryName);
+    if(idx !== -1) {
+      console.log("exists");
+      //exists
+      this.doughnutChartData[idx] = this.doughnutChartData[idx] + +amount;
+      console.log(this.doughnutChartData[idx]);
+    } else {
+      console.log("new "+categoryName + " "+ amount);
+      this.doughnutChartLabels.push(categoryName);
+      this.doughnutChartData.push(0 + +amount);
+
+    }
+  }
+
+  delete(taskToDelete){
     this.storage.remove(taskToDelete);
     this.getAllTransactions();
   }
