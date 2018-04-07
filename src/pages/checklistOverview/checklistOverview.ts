@@ -38,8 +38,16 @@ export class ChecklistOverviewPage {
       if (value["checklist"] == true) {
         this.tasks.push({key:key, value:value});
       }
+    }).then(() => {
+      if (this.tasks.length > 1){
+        this.tasks.sort(function(a, b) {
+            a = new Date(a.value["dueDate"]);
+            b = new Date(b.value["dueDate"]);
+            return a>b ? 1 : a<b ? -1 : 0;
+        });
+      }
     })
-    console.log(this.tasks);
+
   }
 
   delete(taskToDelete){

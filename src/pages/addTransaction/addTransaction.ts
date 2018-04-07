@@ -11,20 +11,20 @@ export class AddTransactionPage {
 
   itemName: string = '';
   category: string = '';
-  amount: string = '';
+  amount: number = 0;
   budgetPage: any;
-  itemCostAmount: any;
-  itemCountAmount: any;
+  itemCostAmount: number;
+  itemCountAmount: number;
   inputDisabled: boolean;
   inputDisabled2: boolean;
-  toggle: boolean;
+  toggle: boolean = true;
   //
   TAG: string = "transaction-";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
     this.budgetPage = BudgetPage;
-    //this.itemCostAmount = 1;
-    //this.itemCountAmount = 1;
+    this.itemCostAmount = 1;
+    this.itemCountAmount = 1;
     this.togglePerItem();
     this.retrieveStoredInfo();
   }
@@ -36,8 +36,11 @@ export class AddTransactionPage {
           this.category = val["category"];
           this.amount = val["amount"];
       })
-
     }
+  }
+
+  calculateTotal(){
+    this.amount = this.itemCountAmount + this.itemCostAmount;
   }
 
   togglePerItem(){
@@ -56,12 +59,12 @@ export class AddTransactionPage {
     var value;
     if(this.toggle){
       console.log("from count x cost");
-      var amt = this.itemCountAmount*this.itemCostAmount;
+      //var amt = this.itemCountAmount*this.itemCostAmount;
       value = {"category":this.category, 
         "itemCostAmount":this.itemCostAmount, 
         "itemCountAmount":this.itemCountAmount,
         "toggle":this.toggle,
-        "amount":amt};
+        "amount":this.amount};
     } else {
       console.log("from total");
       value = {"category":this.category, 
@@ -73,5 +76,4 @@ export class AddTransactionPage {
     this.storage.set(key,value);
     console.log("set");
   }
-
 }

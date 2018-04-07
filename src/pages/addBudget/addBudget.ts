@@ -10,7 +10,7 @@ import { BudgetPage } from '../budget/budget';
 export class AddBudgetPage {
 
   budgetName: string = '';
-  category: string = '';
+  //category: string = '';
   amount: string = '';
   budget: any;
 
@@ -22,8 +22,7 @@ export class AddBudgetPage {
   retrieveStoredInfo() { 
     this.budgetName = this.navParams.get('task');
     if (this.budgetName) {
-      this.storage.get(this.budgetName).then(val => {
-          this.budgetName = val["category"];
+      this.storage.get("budget-"+this.budgetName).then(val => {
           this.amount = val["amount"];
       })
     }

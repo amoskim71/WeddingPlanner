@@ -14,12 +14,15 @@ export class BudgetPage {
   AddTransactionPage: any;
   transactions: any = [];
   budgets: any = [];
+  budgetsLen = 0;
   leftToSpend: number = 0;
 
   // Doughnut
   public doughnutChartLabels: string[] = ["Wardrobe", "Decorations", "Invites"];
   public doughnutChartData: number[] = [350, 450, 100];
   public doughnutChartType: string = "doughnut";
+  //@ViewChild("baseChart") chart: BaseChartDirective;
+  baseChart: any;
 
   //bar chart
   public barChartLabels: string[] = ["Food"];
@@ -33,6 +36,7 @@ export class BudgetPage {
     this.loadBudgets();
     this.budgetStorageToArray();
     this.getAllTransactions();
+    //this.populateDonutChart();
   }
 
   // events
@@ -47,13 +51,18 @@ export class BudgetPage {
   //get all category transactions
   getAllTransactions() {
     this.transactions = [];
+    this.doughnutChartLabels = [];
+    this.doughnutChartData = [];
     this.storage.forEach((value, key, index) => {
       var name = this.getItemName(key);
       if (name != "not") {
         this.transactions.push({ key: name, value: value });
-        this.leftToSpend = this.leftToSpend - (0 - value["amount"]);
+        this.leftToSpend = this.leftToSpend - (0 + +value["amount"]);
+        this.populateDonutChart(value["category"], +value["amount"]);
       }
     });
+    console.log("test");
+    console.log(this.doughnutChartData);
   }
 
   budgetStorageToArray() {
@@ -62,11 +71,22 @@ export class BudgetPage {
     this.storage.forEach((value, key, index) => {
       var name = this.getBudgetName(key);
       if (name != "not") {
-        console.log(name);
         this.budgets.push({ key: name, value: value });
         this.leftToSpend = this.leftToSpend + +value["amount"];
       }
     });
+  }
+
+  populateDonutChart(categoryName, amount) {
+    console.log("populateDonutChart");
+    var idx = this.doughnutChartLabels.indexOf(categoryName);
+    if (idx !== -1) {
+      //exists
+      this.doughnutChartData[idx] = this.doughnutChartData[idx] + +amount;
+    } else {
+      this.doughnutChartLabels.push(categoryName);
+      this.doughnutChartData.push(+amount);
+    }
   }
 
   delete(taskToDelete) {
@@ -97,9 +117,8 @@ export class BudgetPage {
   loadBudgets() {
     this.storage.get("budget-Catering").then(val => {
       if (val) {
-        console.log("budget not empty");
+        //console.log("budget not empty");
       } else {
-        console.log("load defaultBudgets");
         this.defaultBudgets();
       }
     });
@@ -111,39 +130,5 @@ export class BudgetPage {
     this.storage.set("budget-Invites", { amount: "100" });
     this.storage.set("budget-Venue", { amount: "100" });
     this.storage.set("budget-Wardrobe", { amount: "100" });
-  }
-
-  getTotalBudget() {
-    var i;
-    var total = 0;
-    console.log("budgets length: " + this.budgets.length);
-    for (i = 0; i < this.budgets.length; i++) {
-      //{key:name, value:value}
-      total = total + +this.budgets[i]["amount"];
-    }
-
-    /*
-	console.log("gettotalbudget");
-	this.storage.forEach( (value, key, index) => {
-  		var name = this.getBudgetName(key);
-  		if(name != "not"){
-  			//this.budgets.push({key:name, value:value});
-  			console.log("value amount: "+value["amount"]);
-  			total = total + + value["amount"];
-  		}
-  	})
-  	*/
-    return total;
-  }
-
-  getTotalSpending() {
-    return 0;
-  }
-
-  getSpendingLeft() {
-    var budget = this.getTotalBudget();
-    var spent = this.getTotalSpending();
-    console.log("total budget: " + budget);
-    this.leftToSpend = budget - spent;
   }
 }
