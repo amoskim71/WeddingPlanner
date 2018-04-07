@@ -15,7 +15,7 @@
   <!-- https://ionicframework.com/docs/api/components/datetime/DateTime/ -->
   <ion-item>
     <ion-label>Wedding Date</ion-label>
-    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="weddingDate"></ion-datetime>
+    <ion-datetime displayFormat="MM/DD/YYYY" min="2018" max="2028" [(ngModel)]="weddingDate"></ion-datetime>
   </ion-item>
   
   <button ion-button (click)="submit()">Submit</button>
