@@ -10,7 +10,7 @@
   <ion-list>
     <ion-item>
       <ion-label floating>Item Name</ion-label>
-      <ion-input type="text"  [(ngModel)]="itemName"></ion-input>
+      <ion-input type="text" [(ngModel)]="itemName"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -27,65 +27,42 @@
     <p topmargin="50"></p>
     <ion-item>
       <ion-label>Calculate per item</ion-label>
-      <ion-toggle 
-      [(ngModel)]="toggle" 
-      (click)="togglePerItem()"
-      ></ion-toggle>
+      <ion-toggle [(ngModel)]="toggle" (click)="togglePerItem()"></ion-toggle>
     </ion-item>
 
-    <ion-item [hidden]="inputDisabled"
-    >
+    <ion-item [hidden]="inputDisabled">
       <ion-label fixed>Cost per item</ion-label>
-      <ion-input type="number" 
-      [readonly]="inputDisabled" 
-      [(ngModel)]="itemCost"
-      [value] = "itemCostAmount"
-      ngModel (ngModelChange)="calculateTotal()"
-      placeholder="10.50">$</ion-input>
+      <ion-input type="number" [readonly]="inputDisabled" [(ngModel)]="itemCostAmount" [value]="itemCostAmount" (ionChange)="calculateTotal()"
+        placeholder="10.50">$</ion-input>
     </ion-item>
 
-    <ion-item [hidden]="inputDisabled"
-    >
+    <ion-item [hidden]="inputDisabled">
       <ion-label fixed> Number of items</ion-label>
-      <ion-input type="number" 
-      [readonly]="inputDisabled" 
-      [(ngModel)]="itemCount" 
-      [value] = "itemCountAmount"
-      ngModel (ngModelChange)="calculateTotal()"
-      placeholder="150">$</ion-input>
+      <ion-input type="number" [readonly]="inputDisabled" [(ngModel)]="itemCountAmount" [value]="itemCountAmount" (ionChange)="calculateTotal()"
+        placeholder="150">$</ion-input>
     </ion-item>
 
-    <ion-card [hidden]="inputDisabled"
-    >
+    <ion-card [hidden]="inputDisabled">
       <ion-card-header>
         Total:
       </ion-card-header>
 
-      <ion-card-content> 
+      <ion-card-content>
         <div>{{amount}}</div>
       </ion-card-content>
 
     </ion-card>
 
-    <ion-item [hidden]="inputDisabled2"
-    >
+    <ion-item [hidden]="inputDisabled2">
       <ion-label fixed>Total Spent</ion-label>
-      <ion-input type="number" 
-      [(ngModel)]="amount" 
-      [readonly]="inputDisabled2" 
-      [value] = "totalAmount"
-      placeholder="Amount">$</ion-input>
+      <ion-input type="number" [(ngModel)]="amount" [readonly]="inputDisabled2" [value]="totalAmount" placeholder="Amount">$</ion-input>
     </ion-item>
 
-    <!-- amount paid and amount due TODO--> 
+    <!-- amount paid and amount due TODO-->
 
     <div padding>
-      <button ion-button block
-      color="primary" 
-      (click)="addTransactionStorage()" 
-      [navPush]="budgetPage"
-      >Save
-    </button>
+      <button ion-button block color="primary" (click)="addTransactionStorage()" [navPush]="budgetPage">Save
+      </button>
     </div>
   </ion-list>
 </ion-content>
