@@ -34,9 +34,26 @@
         </ion-list>
       </form>
       <h1 class='centered' *ngIf="(searchedVendors | async)?.length==0">No venues</h1>
-      <ion-card *ngFor="let vendor of (searchedVendors | async)">
-        <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">
+      <ion-list *ngFor="let vendor of (searchedVendors | async)">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">
+          </ion-thumbnail>
+          <h2>{{vendor.venue.name}}</h2>
+          <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")" : ""
+            }}
+          </p>
+          <ion-icon name="{{ isSaved(vendor) ? 'heart' : 'heart-outline'}}" (click)="saveOrRemoveVendor($event,vendor)" style="font-size:32px;"
+            item-end></ion-icon>
+          <!-- <button ion-button clear item-end>View</button> -->
+        </ion-item>
+      </ion-list>
+      <!-- <ion-card *ngFor="let vendor of (searchedVendors | async)">
         <ion-card-content>
+          <ion-thumbnail>
+            <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">
+          </ion-thumbnail>
+
           <ion-grid>
             <ion-row>
               <ion-col col-10>
@@ -53,7 +70,7 @@
             </ion-row>
           </ion-grid>
         </ion-card-content>
-      </ion-card>
+      </ion-card> -->
     </ion-list>
     <ion-list *ngSwitchCase="'saved'">
       <ion-list>
@@ -64,7 +81,21 @@
           </ion-select>
         </ion-item>
       </ion-list>
-      <ion-card *ngFor="let key of keys(savedVendors)">
+      <ion-list *ngFor="let key of keys(savedVendors)">
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="{{ savedVendors[key].photoUrl }}" (click)="vendorDetails($event,savedVendors[key])">
+          </ion-thumbnail>
+          <h2>{{savedVendors[key].venue.name}}</h2>
+          <p>{{savedVendors[key].venue.location.address}} {{ savedVendors[key].venue.price ? "(" + "$".repeat(savedVendors[key].venue.price.tier)
+            + ")" : "" }}
+          </p>
+          <ion-icon name="{{ isSaved(savedVendors[key]) ? 'heart' : 'heart-outline'}}" (click)="saveOrRemoveVendor($event,savedVendors[key])"
+            style="font-size:32px;" item-end></ion-icon>
+          <!-- <button ion-button clear item-end>View</button> -->
+        </ion-item>
+      </ion-list>
+      <!-- <ion-card *ngFor="let key of keys(savedVendors)">
         <img src="{{ savedVendors[key].photoUrl }}" (click)="vendorDetails($event,savedVendors[key])">
         <ion-card-content>
           <ion-grid>
@@ -84,7 +115,7 @@
             </ion-row>
           </ion-grid>
         </ion-card-content>
-      </ion-card>
+      </ion-card> -->
     </ion-list>
   </div>
 </ion-content>
