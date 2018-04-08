@@ -9,7 +9,7 @@ import { Storage } from "@ionic/storage";
   templateUrl: "budget.html"
 })
 export class BudgetPage {
-  //budget: string = "overview";
+  budget: string = "overview";
   AddBudgetPage: any;
   AddTransactionPage: any;
   transactions: any = [];
@@ -36,7 +36,6 @@ export class BudgetPage {
     this.loadBudgets();
     this.budgetStorageToArray();
     this.getAllTransactions();
-    //this.populateDonutChart();
   }
 
   // events
