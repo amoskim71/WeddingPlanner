@@ -14,13 +14,13 @@
     
     <h2>Tasks List</h2>
     <ion-list>
-      <ion-item-sliding *ngFor= "let task of tasks; let i=index">
+      <ion-item-sliding *ngFor="let task of tasks; let i=index">
         <ion-item nopadding>
           <ion-label>
             <span>{{task.key}}</span><br>
             Due: {{task.value["dueDate"] | date: 'MM/dd/yyyy' }}
           </ion-label>
-          <ion-checkbox></ion-checkbox>
+          <ion-checkbox [(ngModel)]="task.value['done']" (ionChange)="updateDone(task)"></ion-checkbox>
         </ion-item>
 
         <ion-item-options side="right">

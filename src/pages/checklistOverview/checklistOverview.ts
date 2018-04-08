@@ -14,8 +14,8 @@ export class ChecklistOverviewPage {
   newChecklistItemPage: any;
 
   constructor(public navCtrl: NavController, public storage: Storage) {
-    // storage.clear();
     this.checkForWeddingDate();
+    // storage.clear();
     this.loadTaskStorage();
     this.newChecklistItemPage = NewChecklistItemPage;
   }
@@ -54,5 +54,9 @@ export class ChecklistOverviewPage {
     console.log(taskToDelete);
     this.storage.remove(taskToDelete);
     this.loadTaskStorage();
+  }
+
+  updateDone(task) {
+    this.storage.set(task.key, task.value);
   }
 }
