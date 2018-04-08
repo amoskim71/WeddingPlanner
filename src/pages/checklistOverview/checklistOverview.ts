@@ -40,14 +40,25 @@ export class ChecklistOverviewPage {
       }
     }).then(() => {
       if (this.tasks.length > 1){
-        this.tasks.sort(function(a, b) {
-            a = new Date(a.value["dueDate"]);
-            b = new Date(b.value["dueDate"]);
-            return a>b ? 1 : a<b ? -1 : 0;
-        });
+        this.sortTasks();
       }
     })
+  }
 
+  sortTasks() {
+    this.tasks.sort(function(a, b) {
+      var aChecked = a.value["done"];
+      var bChecked = b.value["done"];
+      var aDate = new Date(a.value["dueDate"]);
+      var bDate = new Date(b.value["dueDate"]);
+      if (aChecked && !bChecked) {
+        return 1;
+      } else if (bChecked && !aChecked) {
+        return -1;
+      } else {
+        return aDate>bDate ? 1 : aDate<bDate ? -1 : 0;
+      }
+    });
   }
 
   delete(taskToDelete){
@@ -58,5 +69,6 @@ export class ChecklistOverviewPage {
 
   updateDone(task) {
     this.storage.set(task.key, task.value);
+    this.sortTasks();
   }
 }

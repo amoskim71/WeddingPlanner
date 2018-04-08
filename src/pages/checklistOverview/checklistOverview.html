@@ -16,7 +16,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let task of tasks; let i=index">
         <ion-item nopadding>
-          <ion-label>
+          <ion-label [style.text-decoration]="task.value['done'] ? 'line-through' : 'none'">
             <span>{{task.key}}</span><br>
             Due: {{task.value["dueDate"] | date: 'MM/dd/yyyy' }}
           </ion-label>
