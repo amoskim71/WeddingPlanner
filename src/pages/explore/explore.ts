@@ -82,8 +82,8 @@ export class ExplorePage {
   search() {
     console.log("searched", this.queryString, this.queryLocation);
     // TODO: Foursquare implementation elsewhere?
-    const clientId = "URGHUAKWF3TQZ44CZPF5YGL2R4C01D1SNIV4Z5Q3UZN3HOWA";
-    const clientSecret = "OZGRYV2U0EEP0FO1WTGDJ3T0GEFLUU45LDUJU53DFSZ35D0J";
+    const clientId = "INSERT_CLIENT_ID";
+    const clientSecret = "INSERT_CLIENT_SECRET";
 
     let params = {
       client_id: clientId,
