@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ViewChild, Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { AddBudgetPage } from "../addBudget/addBudget";
 import { AddTransactionPage } from "../addTransaction/addTransaction";
@@ -21,7 +21,7 @@ export class BudgetPage {
   public doughnutChartLabels: string[] = ["Wardrobe", "Decorations", "Invites"];
   public doughnutChartData: number[] = [350, 450, 100];
   public doughnutChartType: string = "doughnut";
-  //@ViewChild("baseChart") chart: BaseChartDirective;
+  @ViewChild("baseChart") private chart;
   baseChart: any;
 
   //bar chart
@@ -86,6 +86,11 @@ export class BudgetPage {
     } else {
       this.doughnutChartLabels.push(categoryName);
       this.doughnutChartData.push(+amount);
+    }
+    
+    if(this.chart !== undefined){
+     this.chart.ngOnDestroy();
+     this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
     }
   }
 
