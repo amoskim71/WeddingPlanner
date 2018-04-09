@@ -74,15 +74,14 @@
       <ion-list id="budgetBreakdown-list6" *ngFor="let category of labels()">
 
         <ion-item nopadding>
-          <span class="item-note">{{category}} with {{donutData[category]}}</span>
+          <span class="item-note">{{category}} with {{budgets[category]['spent']}}</span>
           <button ion-button small icon-only [clear]="true" [navPush]="AddBudgetPage" [navParams]="{'task': budget.key }">
             <ion-icon name="create"></ion-icon>
           </button>
         </ion-item>
 
-        <!-- <ion-item id="budgetBreakdown-list-item38">[bar graph of remaining budget]</ion-item> -->
-        <canvas baseChart [datasets]="barchart[category]['data']" [labels]="barchart[category]['labels']" [chartType]="barChartType"
-          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+        <canvas baseChart [datasets]="budgets[category]['barchart']['datasets']" [chartType]="barChartType" [options]="budgets[category]['barchart']['options']"
+          [colors]="budgets[category]['barchart']['colors']" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
         </canvas>
 
         <div class="spacer" style="width: 300px; height: 15px;"></div>

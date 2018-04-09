@@ -15,7 +15,7 @@ export class BudgetPage {
   AddTransactionPage: any;
   transactions: any = [];
   transactions2: any = {};
-  budgets: any = [];
+  budgets: any = {};
   budgetsLen = 0;
   leftToSpend: number = 0;
   bardata: any = {};
@@ -26,18 +26,21 @@ export class BudgetPage {
   @ViewChild("baseChart") private chart;
   public donutData: any = {};
   baseChart: any;
-
-  //bar chart
-  // public barChartLabels: string[] = ["Food"];
-  // public barChartData: number[] = [100];
   public barChartType: string = "horizontalBar";
+  public categoryColors: any = {
+    catering: "rgba(255, 99, 132, 0.2)",
+    decorations: "rgba(54, 162, 235, 0.2)",
+    invites: "rgba(255, 206, 86, 0.2)",
+    venue: "rgba(75, 192, 192, 0.2)",
+    wardrobe: "rgba(153, 102, 255, 0.2)"
+  };
 
   constructor(public navCtrl: NavController, public storage: Storage) {
     this.AddBudgetPage = AddBudgetPage;
     this.AddTransactionPage = AddTransactionPage;
     this.leftToSpend = 0;
-    this.loadBudgets();
-    this.budgetStorageToArray();
+    this.setDefaultBudgets();
+    this.loadBudgetsFromStorage();
     this.getAllTransactions();
   }
   // events
@@ -57,26 +60,28 @@ export class BudgetPage {
     this.storage.forEach((value, key, index) => {
       var name = this.getItemName(key);
       if (name != "not") {
+        let category = value["category"];
         this.transactions.push({ key: name, value: value });
         this.leftToSpend = this.leftToSpend - (0 + +value["amount"]);
-        this.populateDonutChart(value["category"], +value["amount"]);
-
-        // Stephen
-        let category = value["category"];
-        this.updateCharts(category, { name: name, value: value });
+        this.populateDonutChart(category, +value["amount"]);
+        this.updateBudget(category, { name: name, value: value });
       }
     });
     console.log("test");
     console.log(this.doughnutChartData);
   }
 
-  budgetStorageToArray() {
+  loadBudgetsFromStorage() {
     console.log("storing budgets to array");
-    this.budgets = [];
+    this.budgets = {};
     this.storage.forEach((value, key, index) => {
       var name = this.getBudgetName(key);
       if (name != "not") {
-        this.budgets.push({ key: name, value: value });
+        this.budgets[name.toLowerCase()] = {
+          total: value["amount"],
+          spent: 0,
+          barchart: { data: [], labels: [] }
+        };
         this.leftToSpend = this.leftToSpend + +value["amount"];
       }
     });
@@ -99,22 +104,47 @@ export class BudgetPage {
     }
   }
 
-  updateCharts(category, item) {
+  updateBudget(category, item) {
     if (!(category in this.donutData)) {
       this.donutData[category] = 0;
-      this.bardata[category] = { data: [], labels: [] };
     }
     this.donutData[category] += +item.value.amount;
-    this.doughnutChartLabels = Object.keys(this.donutData);
-    this.doughnutChartData = Object.values(this.donutData);
-    this.bardata[category]["data"] = [
-      { data: [this.donutData[category]], label: "Budget remaining" }
-    ];
-    this.bardata[category]["labels"] = [category];
-    setTimeout(
-      () => (this.doughnutChartLabels = Object.keys(this.donutData)),
-      0
-    );
+    this.budgets[category].spent += +item.value.amount;
+    this.budgets[category]["barchart"] = {
+      datasets: [
+        {
+          data: [this.donutData[category]],
+          label: "Amount spent",
+          backgroundColor: [this.categoryColors[category]]
+        }
+      ],
+      options: {
+        scales: {
+          xAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                max: +this.budgets[category].total
+              }
+            }
+          ]
+        }
+      },
+      colors: [this.categoryColors[category]],
+      labels: [category]
+    };
+  }
+
+  setDefaultBudgets() {
+    this.storage.get("budget-Catering").then(val => {
+      if (!val) {
+        this.storage.set("budget-Catering", { amount: "100" });
+        this.storage.set("budget-Decorations", { amount: "100" });
+        this.storage.set("budget-Invites", { amount: "100" });
+        this.storage.set("budget-Venue", { amount: "100" });
+        this.storage.set("budget-Wardrobe", { amount: "100" });
+      }
+    });
   }
 
   labels = () => Object.keys(this.donutData);
@@ -142,23 +172,5 @@ export class BudgetPage {
     }
     //not a transaction
     return "not";
-  }
-
-  loadBudgets() {
-    this.storage.get("budget-Catering").then(val => {
-      if (val) {
-        //console.log("budget not empty");
-      } else {
-        this.defaultBudgets();
-      }
-    });
-  }
-
-  defaultBudgets() {
-    this.storage.set("budget-Catering", { amount: "100" });
-    this.storage.set("budget-Decorations", { amount: "100" });
-    this.storage.set("budget-Invites", { amount: "100" });
-    this.storage.set("budget-Venue", { amount: "100" });
-    this.storage.set("budget-Wardrobe", { amount: "100" });
   }
 }
