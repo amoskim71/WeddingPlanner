@@ -63,8 +63,7 @@ export class BudgetPage {
 
         // Stephen
         let category = value["category"];
-        this.populateDonut(category, { name: name, value: value });
-        console.log(this.donutData);
+        this.updateCharts(category, { name: name, value: value });
       }
     });
     console.log("test");
@@ -100,7 +99,7 @@ export class BudgetPage {
     }
   }
 
-  populateDonut(category, item) {
+  updateCharts(category, item) {
     if (!(category in this.donutData)) {
       this.donutData[category] = 0;
       this.bardata[category] = { data: [], labels: [] };
