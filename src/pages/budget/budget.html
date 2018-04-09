@@ -57,7 +57,6 @@
           (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
         </canvas>
       </div>
-
       <div class="spacer" style="width: 300px; height: 15px;"></div>
 
       <ion-item id="budgetOverview-list-item20">ad space</ion-item>
@@ -72,27 +71,23 @@
         add budget
       </button>
 
-      <ion-list id="budgetBreakdown-list6" *ngFor="let budget of budgets; let i=index">
+      <ion-list id="budgetBreakdown-list6" *ngFor="let category of labels()">
 
         <ion-item nopadding>
-          <span class="item-note">{{budget.key}} with {{budget.value["amount"]}}</span>
+          <span class="item-note">{{category}} with {{donutData[category]}}</span>
           <button ion-button small icon-only [clear]="true" [navPush]="AddBudgetPage" [navParams]="{'task': budget.key }">
             <ion-icon name="create"></ion-icon>
           </button>
         </ion-item>
 
         <!-- <ion-item id="budgetBreakdown-list-item38">[bar graph of remaining budget]</ion-item> -->
-        <canvas baseChart [data]="barChartData" [labels]="barChartLabels" [chartType]="barChartType" (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)">
+        <canvas baseChart [datasets]="barchart[category]['data']" [labels]="barchart[category]['labels']" [chartType]="barChartType"
+          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
         </canvas>
 
         <div class="spacer" style="width: 300px; height: 15px;"></div>
 
       </ion-list>
-
-
-
-
     </ion-list>
   </div>
 

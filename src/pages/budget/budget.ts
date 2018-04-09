@@ -3,6 +3,7 @@ import { NavController } from "ionic-angular";
 import { AddBudgetPage } from "../addBudget/addBudget";
 import { AddTransactionPage } from "../addTransaction/addTransaction";
 import { Storage } from "@ionic/storage";
+import { BaseChartDirective } from "ng2-charts/ng2-charts";
 
 @Component({
   selector: "page-budget",
@@ -13,20 +14,22 @@ export class BudgetPage {
   AddBudgetPage: any;
   AddTransactionPage: any;
   transactions: any = [];
+  transactions2: any = {};
   budgets: any = [];
   budgetsLen = 0;
   leftToSpend: number = 0;
-
+  bardata: any = {};
   // Doughnut
   public doughnutChartLabels: string[] = ["Wardrobe", "Decorations", "Invites"];
   public doughnutChartData: number[] = [350, 450, 100];
   public doughnutChartType: string = "doughnut";
   @ViewChild("baseChart") private chart;
+  public donutData: any = {};
   baseChart: any;
 
   //bar chart
-  public barChartLabels: string[] = ["Food"];
-  public barChartData: number[] = [100];
+  // public barChartLabels: string[] = ["Food"];
+  // public barChartData: number[] = [100];
   public barChartType: string = "horizontalBar";
 
   constructor(public navCtrl: NavController, public storage: Storage) {
@@ -37,7 +40,6 @@ export class BudgetPage {
     this.budgetStorageToArray();
     this.getAllTransactions();
   }
-
   // events
   public chartClicked(e: any): void {
     console.log(e);
@@ -58,6 +60,11 @@ export class BudgetPage {
         this.transactions.push({ key: name, value: value });
         this.leftToSpend = this.leftToSpend - (0 + +value["amount"]);
         this.populateDonutChart(value["category"], +value["amount"]);
+
+        // Stephen
+        let category = value["category"];
+        this.populateDonut(category, { name: name, value: value });
+        console.log(this.donutData);
       }
     });
     console.log("test");
@@ -86,12 +93,32 @@ export class BudgetPage {
       this.doughnutChartLabels.push(categoryName);
       this.doughnutChartData.push(+amount);
     }
-    
-    if(this.chart !== undefined){
-     this.chart.ngOnDestroy();
-     this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
+
+    if (this.chart !== undefined) {
+      this.chart.ngOnDestroy();
+      this.chart.chart = this.chart.getChartBuilder(this.chart.ctx);
     }
   }
+
+  populateDonut(category, item) {
+    if (!(category in this.donutData)) {
+      this.donutData[category] = 0;
+      this.bardata[category] = { data: [], labels: [] };
+    }
+    this.donutData[category] += +item.value.amount;
+    this.doughnutChartLabels = Object.keys(this.donutData);
+    this.doughnutChartData = Object.values(this.donutData);
+    this.bardata[category]["data"] = [
+      { data: [this.donutData[category]], label: "Budget remaining" }
+    ];
+    this.bardata[category]["labels"] = [category];
+    setTimeout(
+      () => (this.doughnutChartLabels = Object.keys(this.donutData)),
+      0
+    );
+  }
+
+  labels = () => Object.keys(this.donutData);
 
   delete(taskToDelete) {
     this.storage.remove(taskToDelete);
