@@ -71,7 +71,7 @@
         add budget
       </button>
 
-      <ion-list id="budgetBreakdown-list6" *ngFor="let category of labels()">
+      <ion-list id="budgetBreakdown-list6" *ngFor="let category of budgetCategories()">
 
         <ion-item nopadding>
           <span class="item-note">{{category}} with {{budgets[category]['spent']}}</span>

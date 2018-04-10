@@ -19,12 +19,12 @@ export class BudgetPage {
   budgetsLen = 0;
   leftToSpend: number = 0;
   bardata: any = {};
+
   // Doughnut
   public doughnutChartLabels: string[] = ["Wardrobe", "Decorations", "Invites"];
   public doughnutChartData: number[] = [350, 450, 100];
   public doughnutChartType: string = "doughnut";
   @ViewChild("baseChart") private chart;
-  public donutData: any = {};
   baseChart: any;
   public barChartType: string = "horizontalBar";
   public categoryColors: any = {
@@ -105,15 +105,11 @@ export class BudgetPage {
   }
 
   updateBudget(category, item) {
-    if (!(category in this.donutData)) {
-      this.donutData[category] = 0;
-    }
-    this.donutData[category] += +item.value.amount;
     this.budgets[category].spent += +item.value.amount;
     this.budgets[category]["barchart"] = {
       datasets: [
         {
-          data: [this.donutData[category]],
+          data: [this.budgets[category]["spent"]],
           label: "Amount spent",
           backgroundColor: [this.categoryColors[category]]
         }
@@ -121,12 +117,7 @@ export class BudgetPage {
       options: {
         scales: {
           xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-                max: +this.budgets[category].total
-              }
-            }
+            { ticks: { beginAtZero: true, max: +this.budgets[category].total } }
           ]
         }
       },
@@ -147,7 +138,7 @@ export class BudgetPage {
     });
   }
 
-  labels = () => Object.keys(this.donutData);
+  budgetCategories = () => Object.keys(this.budgets);
 
   delete(taskToDelete) {
     this.storage.remove(taskToDelete);
