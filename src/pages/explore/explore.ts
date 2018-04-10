@@ -83,12 +83,12 @@ export class ExplorePage {
     console.log("searched", this.queryString, this.queryLocation);
     // TODO: Foursquare implementation elsewhere?
     const clientId = "INSERT_CLIENT_ID";
-    const clientSecret = "INSERT_CLIENT_SECRET";
+    const clientSecret = "INSERT_CLIENT_SECRET_ID";
 
     let params = {
       client_id: clientId,
       client_secret: clientSecret,
-      query: this.queryString,
+      query: this.queryString.trim(),
       venuePhotos: 1,
       v: "20170801",
       limit: 50

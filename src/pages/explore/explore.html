@@ -48,29 +48,6 @@
           <!-- <button ion-button clear item-end>View</button> -->
         </ion-item>
       </ion-list>
-      <!-- <ion-card *ngFor="let vendor of (searchedVendors | async)">
-        <ion-card-content>
-          <ion-thumbnail>
-            <img src="{{ vendor.photoUrl }}" (click)="vendorDetails($event,vendor)">
-          </ion-thumbnail>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col col-10>
-                <ion-card-title>{{vendor.venue.name}}</ion-card-title>
-                <p>{{vendor.venue.location.address}} {{ vendor.venue.price ? "(" + "$".repeat(vendor.venue.price.tier) + ")"
-                  : "" }}
-                </p>
-              </ion-col>
-              <ion-col col-2>
-                <div class="centered">
-                  <ion-icon name="{{ isSaved(vendor) ? 'heart' : 'heart-outline'}}" (click)="saveOrRemoveVendor($event,vendor)" style="font-size:32px;"></ion-icon>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card> -->
     </ion-list>
     <ion-list *ngSwitchCase="'saved'">
       <ion-list>
@@ -95,27 +72,6 @@
           <!-- <button ion-button clear item-end>View</button> -->
         </ion-item>
       </ion-list>
-      <!-- <ion-card *ngFor="let key of keys(savedVendors)">
-        <img src="{{ savedVendors[key].photoUrl }}" (click)="vendorDetails($event,savedVendors[key])">
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col col-10>
-                <ion-card-title>{{savedVendors[key].venue.name}}</ion-card-title>
-                <p>{{savedVendors[key].venue.location.address}} {{ savedVendors[key].venue.price ? "(" + "$".repeat(savedVendors[key].venue.price.tier)
-                  + ")" : "" }}
-                </p>
-              </ion-col>
-              <ion-col col-2>
-                <div class="centered">
-                  <ion-icon name="{{ isSaved(savedVendors[key]) ? 'heart' : 'heart-outline'}}" (click)="saveOrRemoveVendor($event,savedVendors[key])"
-                    style="font-size:32px;"></ion-icon>
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card> -->
     </ion-list>
   </div>
 </ion-content>
