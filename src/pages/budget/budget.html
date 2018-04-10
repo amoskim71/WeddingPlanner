@@ -22,9 +22,20 @@
 
   <div [ngSwitch]="budget">
     <ion-list *ngSwitchDefault>
-      <button ion-button block [navPush]="AddTransactionPage">
-        add Transaction
-      </button>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button block [navPush]="AddTransactionPage">
+              add Transaction
+            </button>
+          </ion-col>
+          <ion-col col-6>
+            <button ion-button block [navPush]="AddBudgetPage">
+              add budget
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
       <ion-item>
         <ion-label color="primary">Left to spend</ion-label>
@@ -67,9 +78,7 @@
     <!-- Budget breakdown -->
 
     <ion-list *ngSwitchCase="'breakdown'">
-      <button ion-button block [navPush]="AddBudgetPage">
-        add budget
-      </button>
+      
 
       <ion-list id="budgetBreakdown-list6" *ngFor="let category of budgetCategories()">
 

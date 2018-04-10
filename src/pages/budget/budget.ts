@@ -1,4 +1,4 @@
-import { ViewChild, Component } from "@angular/core";
+import { ViewChild, Component, OnInit } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { AddBudgetPage } from "../addBudget/addBudget";
 import { AddTransactionPage } from "../addTransaction/addTransaction";
@@ -9,7 +9,7 @@ import { BaseChartDirective } from "ng2-charts/ng2-charts";
   selector: "page-budget",
   templateUrl: "budget.html"
 })
-export class BudgetPage {
+export class BudgetPage implements OnInit{
   budget: string = "overview";
   AddBudgetPage: any;
   AddTransactionPage: any;
@@ -39,6 +39,12 @@ export class BudgetPage {
     this.AddBudgetPage = AddBudgetPage;
     this.AddTransactionPage = AddTransactionPage;
     this.leftToSpend = 0;
+    this.setDefaultBudgets();
+    this.loadBudgetsFromStorage();
+    this.getAllTransactions();
+  }
+  ngOnInit(){
+    //called after the constructor and called  after the first ngOnChanges() 
     this.setDefaultBudgets();
     this.loadBudgetsFromStorage();
     this.getAllTransactions();
