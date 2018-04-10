@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Transaction List
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding="true" class="has-header">
+    <ion-card>
+        <ion-card-header>
+            Transactions for {{category}}
+        </ion-card-header>
+        <ion-card-content>
+            Total: {{total}}
+        </ion-card-content>
+    </ion-card>
+    <ion-list>
+        <ion-item *ngFor="let transaction of transactions; let i=index">
+                <h2>{{transaction.key}}</h2>
+                <h3>${{transaction.value["amount"]}}</h3>
+        </ion-item>
+    </ion-list>
+</ion-content>

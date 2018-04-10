@@ -10,6 +10,7 @@ import { ExplorePage } from "../pages/explore/explore";
 import { BudgetPage } from "../pages/budget/budget";
 import { AddBudgetPage } from "../pages/addBudget/addBudget";
 import { AddTransactionPage } from "../pages/addTransaction/addTransaction";
+import { TransactionListPage } from "../pages/transactionList/transactionList"
 import { ChecklistPage } from "../pages/checklist/checklist";
 import { ChecklistOverviewPage } from "../pages/checklistOverview/checklistOverview";
 import { NewChecklistItemPage } from "../pages/newChecklistItem/newChecklistItem";
@@ -31,6 +32,7 @@ import { ChartsModule } from "ng2-charts";
     BudgetPage,
     AddBudgetPage,
     AddTransactionPage,
+    TransactionListPage,
     ChecklistPage,
     ChecklistOverviewPage,
     NewChecklistItemPage,
@@ -53,6 +55,7 @@ import { ChartsModule } from "ng2-charts";
     BudgetPage,
     AddBudgetPage,
     AddTransactionPage,
+    TransactionListPage,
     ChecklistPage,
     ChecklistOverviewPage,
     NewChecklistItemPage,

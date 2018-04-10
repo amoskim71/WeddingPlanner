@@ -2,6 +2,7 @@ import { ViewChild, Component, OnInit } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { AddBudgetPage } from "../addBudget/addBudget";
 import { AddTransactionPage } from "../addTransaction/addTransaction";
+import { TransactionListPage } from "../transactionList/transactionList";
 import { Storage } from "@ionic/storage";
 import { BaseChartDirective } from "ng2-charts/ng2-charts";
 
@@ -13,6 +14,7 @@ export class BudgetPage implements OnInit{
   budget: string = "overview";
   AddBudgetPage: any;
   AddTransactionPage: any;
+  TransactionListPage: any;
   transactions: any = [];
   transactions2: any = {};
   budgets: any = {};
@@ -38,6 +40,7 @@ export class BudgetPage implements OnInit{
   constructor(public navCtrl: NavController, public storage: Storage) {
     this.AddBudgetPage = AddBudgetPage;
     this.AddTransactionPage = AddTransactionPage;
+    this.TransactionListPage = TransactionListPage;
     this.leftToSpend = 0;
     this.setDefaultBudgets();
     this.loadBudgetsFromStorage();
@@ -50,8 +53,12 @@ export class BudgetPage implements OnInit{
     this.getAllTransactions();
   }
   // events
-  public chartClicked(e: any): void {
+  public chartClicked(e: any, categoryName): void {
     console.log(e);
+    this.navCtrl.push(TransactionListPage, {
+      category: categoryName,
+      total: 0
+    });
   }
 
   public chartHovered(e: any): void {
