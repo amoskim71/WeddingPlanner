@@ -10,7 +10,7 @@ import { ExplorePage } from "../pages/explore/explore";
 import { BudgetPage } from "../pages/budget/budget";
 import { AddBudgetPage } from "../pages/addBudget/addBudget";
 import { AddTransactionPage } from "../pages/addTransaction/addTransaction";
-import { TransactionListPage } from "../pages/transactionList/transactionList"
+import { TransactionListPage } from "../pages/transactionList/transactionList";
 import { ChecklistPage } from "../pages/checklist/checklist";
 import { ChecklistOverviewPage } from "../pages/checklistOverview/checklistOverview";
 import { NewChecklistItemPage } from "../pages/newChecklistItem/newChecklistItem";
@@ -24,6 +24,8 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 
 import { Geolocation } from "@ionic-native/geolocation";
 import { ChartsModule } from "ng2-charts";
+
+import { Network } from "@ionic-native/network";
 
 @NgModule({
   declarations: [
@@ -68,6 +70,7 @@ import { ChartsModule } from "ng2-charts";
     SplashScreen,
     SQLite,
     Geolocation,
+    Network,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

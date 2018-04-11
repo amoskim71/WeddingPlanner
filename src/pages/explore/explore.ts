@@ -5,6 +5,7 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Storage } from "@ionic/storage";
+import { Network } from "@ionic-native/network";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/empty";
 
@@ -23,11 +24,13 @@ export class ExplorePage {
   vendorFilterOptions: any;
   selectedFilter: any;
   apiUrl: any;
+  connected: boolean;
   constructor(
     public navCtrl: NavController,
     public http: Http,
     public geolocation: Geolocation,
-    public storage: Storage
+    public storage: Storage,
+    public network: Network
   ) {
     this.apiUrl = "https://api.foursquare.com/v2/venues/explore?";
     this.searchedVendors = Observable.empty<any[]>();
@@ -41,6 +44,7 @@ export class ExplorePage {
       "Catering",
       "None"
     ];
+    this.connected = true;
     // use only for development
     this.storage.clear();
   }
@@ -97,17 +101,15 @@ export class ExplorePage {
       console.log("no location specified");
       this.geolocation
         .getCurrentPosition({
-          timeout: 10000,
+          timeout: 3000,
           enableHighAccuracy: true,
           maximumAge: 3600
         })
-        .then(
-          resp => {
-            params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
-            this.searchedVendors = this._search(params);
-          },
-          err => console.log(err)
-        );
+        .then(resp => {
+          this.connected = true;
+          params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
+          this.searchedVendors = this._search(params);
+        }, err => (this.connected = false));
     } else {
       params["near"] = this.queryLocation;
       this.searchedVendors = this._search(params);
@@ -115,26 +117,34 @@ export class ExplorePage {
   }
 
   _search(params) {
-    return this.http.get(this.apiUrl + $.param(params)).map(res => {
-      let allItems = [];
-      let results = JSON.parse(res.text()).response;
-      for (let i = 0; i < results.groups.length; i++) {
-        let group = results.groups[i];
-        for (let j = 0; j < group.items.length; j++) {
-          let vendor = group.items[j];
-          let photoUrl =
-            "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
-          if (vendor.venue.featuredPhotos) {
-            const photoInfo = vendor.venue.featuredPhotos.items[0];
-            photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
+    return this.http.get(this.apiUrl + $.param(params)).map(
+      res => {
+        this.connected = true;
+        let allItems = [];
+        let results = JSON.parse(res.text()).response;
+        for (let i = 0; i < results.groups.length; i++) {
+          let group = results.groups[i];
+          for (let j = 0; j < group.items.length; j++) {
+            let vendor = group.items[j];
+            let photoUrl =
+              "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
+            if (vendor.venue.featuredPhotos) {
+              const photoInfo = vendor.venue.featuredPhotos.items[0];
+              photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
+            }
+            vendor["photoUrl"] = photoUrl;
           }
-          vendor["photoUrl"] = photoUrl;
+          allItems = allItems.concat(group.items);
         }
-        allItems = allItems.concat(group.items);
+        return allItems;
+      },
+      err => {
+        this.connected = false;
+        console.log(err, "ERROR");
       }
-      return allItems;
-    });
+    );
   }
+
   _savedVendorKey(vendor) {
     return "saved-vendor-" + vendor.venue.id;
   }

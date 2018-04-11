@@ -33,7 +33,12 @@
           <button type="submit" class="button hide"></button>
         </ion-list>
       </form>
-      <h1 class='centered' *ngIf="(searchedVendors | async)?.length==0">No venues</h1>
+      <ion-card *ngIf="!connected">
+        <ion-item text-wrap>
+          <ion-icon name="alert" item-start></ion-icon>
+          <div>Could not connect to a network. Check your connection settings and try again.</div>
+        </ion-item>
+      </ion-card>
       <ion-list *ngFor="let vendor of (searchedVendors | async)">
         <ion-item>
           <ion-thumbnail item-start>
