@@ -5,7 +5,6 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Storage } from "@ionic/storage";
-import { Network } from "@ionic-native/network";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/empty";
 
@@ -29,8 +28,7 @@ export class ExplorePage {
     public navCtrl: NavController,
     public http: Http,
     public geolocation: Geolocation,
-    public storage: Storage,
-    public network: Network
+    public storage: Storage
   ) {
     this.apiUrl = "https://api.foursquare.com/v2/venues/explore?";
     this.searchedVendors = Observable.empty<any[]>();
