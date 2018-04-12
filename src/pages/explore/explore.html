@@ -65,9 +65,9 @@
         </ion-item>
       </ion-list>
       <ion-list *ngFor="let key of keys(savedVendors)">
-        <ion-item>
+        <ion-item (click)="vendorDetails($event,savedVendors[key])">
           <ion-thumbnail item-start>
-            <img src="{{ savedVendors[key].photoUrl }}" (click)="vendorDetails($event,savedVendors[key])">
+            <img src="{{ savedVendors[key].photoUrl }}">
           </ion-thumbnail>
           <h2>{{savedVendors[key].venue.name}}</h2>
           <p>{{savedVendors[key].venue.location.address}} {{ savedVendors[key].venue.price ? "(" + "$".repeat(savedVendors[key].venue.price.tier)
