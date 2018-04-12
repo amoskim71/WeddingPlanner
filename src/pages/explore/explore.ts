@@ -48,6 +48,7 @@ export class ExplorePage {
   }
 
   vendorDetails(event, vendor) {
+    console.log("vendor clicked");
     this.navCtrl.push(VendorDetailsPage, {
       vendor: vendor,
       isSaved: this.isSaved(vendor)
@@ -55,6 +56,7 @@ export class ExplorePage {
   }
 
   saveOrRemoveVendor(event, vendor) {
+    console.log("saved");
     const vendorKey = this._savedVendorKey(vendor);
     if (vendorKey in this.savedVendors) {
       delete this.savedVendors[vendorKey];
@@ -63,6 +65,7 @@ export class ExplorePage {
     }
     this.storage.set(vendorKey, vendor);
     this.savedVendors[vendorKey] = vendor;
+    return false;
   }
 
   keys(obj) {
@@ -85,7 +88,7 @@ export class ExplorePage {
     console.log("searched", this.queryString, this.queryLocation);
     // TODO: Foursquare implementation elsewhere?
     const clientId = "INSERT_CLIENT_ID";
-    const clientSecret = "INSERT_CLIENT_SECRET_ID";
+    const clientSecret = "INSERT_CLIENT_SECRET";
 
     let params = {
       client_id: clientId,
@@ -100,7 +103,7 @@ export class ExplorePage {
       this.geolocation
         .getCurrentPosition({
           timeout: 3000,
-          enableHighAccuracy: true,
+          enableHighAccuracy: false,
           maximumAge: 3600
         })
         .then(resp => {
