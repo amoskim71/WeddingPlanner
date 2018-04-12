@@ -39,6 +39,7 @@
           <div>Could not connect to a network. Check your connection settings and try again.</div>
         </ion-item>
       </ion-card>
+      <ion-spinner *ngIf="searching" class='centered'></ion-spinner>
       <ion-list *ngFor="let vendor of (searchedVendors | async)">
         <ion-item (click)="vendorDetails($event,vendor)">
           <ion-thumbnail item-start>

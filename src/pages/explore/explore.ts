@@ -24,6 +24,7 @@ export class ExplorePage {
   selectedFilter: any;
   apiUrl: any;
   connected: boolean;
+  searching: boolean;
   constructor(
     public navCtrl: NavController,
     public http: Http,
@@ -31,7 +32,7 @@ export class ExplorePage {
     public storage: Storage
   ) {
     this.apiUrl = "https://api.foursquare.com/v2/venues/explore?";
-    this.searchedVendors = Observable.empty<any[]>();
+    this.searchedVendors;
     this.savedVendors = {};
     this.vendors = "explore";
     this.vendorFilterOptions = [
@@ -42,6 +43,8 @@ export class ExplorePage {
       "Catering",
       "None"
     ];
+    this.searching = false;
+    this.searchedVendors = null;
     this.connected = true;
     // use only for development
     this.storage.clear();
@@ -86,10 +89,11 @@ export class ExplorePage {
   }
 
   clearSearch() {
-    this.searchedVendors = Observable.empty<any[]>();
+    this.searchedVendors = null;
   }
 
   search() {
+    this.searching = true;
     console.log("searched", this.queryString, this.queryLocation);
     // TODO: Foursquare implementation elsewhere?
     const clientId = "INSERT_CLIENT_ID";
@@ -107,15 +111,22 @@ export class ExplorePage {
       console.log("no location specified");
       this.geolocation
         .getCurrentPosition({
-          timeout: 3000,
+          timeout: 5000,
           enableHighAccuracy: false,
           maximumAge: 3600
         })
-        .then(resp => {
-          this.connected = true;
-          params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
-          this.searchedVendors = this._search(params);
-        }, err => (this.connected = false));
+        .then(
+          resp => {
+            this.connected = true;
+            params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
+            this.searchedVendors = this._search(params);
+          },
+          err => {
+            console.log("could not get current location");
+            this.connected = false;
+            this.searching = false;
+          }
+        );
     } else {
       params["near"] = this.queryLocation;
       this.searchedVendors = this._search(params);
@@ -123,9 +134,11 @@ export class ExplorePage {
   }
 
   _search(params) {
+    this.searching = true;
     return this.http.get(this.apiUrl + $.param(params)).map(
       res => {
         this.connected = true;
+        this.searching = false;
         let allItems = [];
         let results = JSON.parse(res.text()).response;
         for (let i = 0; i < results.groups.length; i++) {
@@ -146,6 +159,7 @@ export class ExplorePage {
       },
       err => {
         this.connected = false;
+        this.searching = false;
         console.log(err, "ERROR");
       }
     );
