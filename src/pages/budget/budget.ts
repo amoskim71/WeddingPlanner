@@ -142,11 +142,11 @@ export class BudgetPage implements OnInit{
   setDefaultBudgets() {
     this.storage.get("budget-Catering").then(val => {
       if (!val) {
-        this.storage.set("budget-Catering", { amount: "100" });
-        this.storage.set("budget-Decorations", { amount: "100" });
-        this.storage.set("budget-Invites", { amount: "100" });
-        this.storage.set("budget-Venue", { amount: "100" });
-        this.storage.set("budget-Wardrobe", { amount: "100" });
+        this.storage.set("budget-catering", { amount: "100" });
+        this.storage.set("budget-decorations", { amount: "100" });
+        this.storage.set("budget-invites", { amount: "100" });
+        this.storage.set("budget-venue", { amount: "100" });
+        this.storage.set("budget-wardrobe", { amount: "100" });
       }
     });
   }

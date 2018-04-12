@@ -12,16 +12,17 @@ export class AddBudgetPage {
   budgetName: string = '';
   //category: string = '';
   amount: string = '';
-  budget: any;
+  budgetPage: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
-    this.budget = BudgetPage;
+    this.budgetPage = BudgetPage;
     this.retrieveStoredInfo();
   }
 
   retrieveStoredInfo() { 
     this.budgetName = this.navParams.get('task');
     if (this.budgetName) {
+    console.log("budget-"+this.budgetName);
       this.storage.get("budget-"+this.budgetName).then(val => {
           this.amount = val["amount"];
       })
