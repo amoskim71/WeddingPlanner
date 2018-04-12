@@ -69,6 +69,6 @@ export class ChecklistOverviewPage {
 
   updateDone(task) {
     this.storage.set(task.key, task.value);
-    this.sortTasks();
+    // this.sortTasks();
   }
 }
