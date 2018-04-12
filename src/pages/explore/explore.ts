@@ -46,12 +46,17 @@ export class ExplorePage {
     // use only for development
     this.storage.clear();
   }
+  ionViewDidLoad() {
+    console.log("ionViewDidLoad explore page");
+  }
 
   vendorDetails(event, vendor) {
     console.log("vendor clicked");
     this.navCtrl.push(VendorDetailsPage, {
       vendor: vendor,
-      isSaved: this.isSaved(vendor)
+      vendorKey: this._savedVendorKey(vendor),
+      isSaved: this.isSaved(vendor),
+      savedVendors: this.savedVendors
     });
   }
 
