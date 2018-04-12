@@ -90,6 +90,8 @@ export class ExplorePage {
 
   clearSearch() {
     this.searchedVendors = null;
+    this.searching = false;
+    this.queryLocation = "";
   }
 
   search() {
