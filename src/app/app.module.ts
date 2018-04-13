@@ -5,7 +5,14 @@ import { IonicStorageModule } from "@ionic/storage";
 import { MyApp } from "./app.component";
 import { SQLite } from "@ionic-native/sqlite";
 import { HttpModule } from "@angular/http";
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { Geolocation } from "@ionic-native/geolocation";
+import { ChartsModule } from "ng2-charts";
+import { Network } from "@ionic-native/network";
+import { Keyboard } from "@ionic-native/keyboard";
 
+// Pages
 import { ExplorePage } from "../pages/explore/explore";
 import { BudgetPage } from "../pages/budget/budget";
 import { AddBudgetPage } from "../pages/addBudget/addBudget";
@@ -16,16 +23,7 @@ import { ChecklistOverviewPage } from "../pages/checklistOverview/checklistOverv
 import { NewChecklistItemPage } from "../pages/newChecklistItem/newChecklistItem";
 import { SettingsPage } from "../pages/settings/settings";
 import { VendorDetailsPage } from "../pages/vendordetails/vendordetails";
-
 import { TabsPage } from "../pages/tabs/tabs";
-
-import { StatusBar } from "@ionic-native/status-bar";
-import { SplashScreen } from "@ionic-native/splash-screen";
-
-import { Geolocation } from "@ionic-native/geolocation";
-import { ChartsModule } from "ng2-charts";
-
-import { Network } from "@ionic-native/network";
 
 @NgModule({
   declarations: [
@@ -71,6 +69,7 @@ import { Network } from "@ionic-native/network";
     SQLite,
     Geolocation,
     Network,
+    Keyboard,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })

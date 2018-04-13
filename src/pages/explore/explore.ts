@@ -5,6 +5,7 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Storage } from "@ionic/storage";
+import { Keyboard } from "@ionic-native/keyboard";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/empty";
 
@@ -28,8 +29,9 @@ export class ExplorePage {
   constructor(
     public navCtrl: NavController,
     public http: Http,
-    public geolocation: Geolocation,
-    public storage: Storage
+    public storage: Storage,
+    private geolocation: Geolocation,
+    private keyboard: Keyboard
   ) {
     this.apiUrl = "https://api.foursquare.com/v2/venues/explore?";
     this.searchedVendors;
@@ -92,9 +94,11 @@ export class ExplorePage {
     this.searchedVendors = null;
     this.searching = false;
     this.queryLocation = "";
+    this.keyboard.close();
   }
 
   search() {
+    this.keyboard.close();
     this.searching = true;
     console.log("searched", this.queryString, this.queryLocation);
     // TODO: Foursquare implementation elsewhere?
@@ -117,18 +121,16 @@ export class ExplorePage {
           enableHighAccuracy: false,
           maximumAge: 3600
         })
-        .then(
-          resp => {
-            this.connected = true;
-            params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
-            this.searchedVendors = this._search(params);
-          },
-          err => {
-            console.log("could not get current location");
-            this.connected = false;
-            this.searching = false;
-          }
-        );
+        .then(resp => {
+          this.connected = true;
+          params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
+          this.searchedVendors = this._search(params);
+        })
+        .catch(err => {
+          console.log("could not get current location", JSON.stringify(err));
+          this.connected = false;
+          this.searching = false;
+        });
     } else {
       params["near"] = this.queryLocation;
       this.searchedVendors = this._search(params);
