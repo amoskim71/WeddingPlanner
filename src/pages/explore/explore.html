@@ -28,7 +28,10 @@
             </ion-searchbar>
           </ion-item>
           <ion-item>
-            <ion-input name="queryLocation" [(ngModel)]="queryLocation" type="text" placeholder="Using current location"></ion-input>
+            <ion-label class="search-label">
+              <ion-icon name="pin" item-start></ion-icon>
+            </ion-label>
+            <ion-input name="queryLocation" [(ngModel)]="queryLocation" type="text" placeholder="Pittsburgh, PA"></ion-input>
           </ion-item>
           <button type="submit" class="button hide"></button>
         </ion-list>

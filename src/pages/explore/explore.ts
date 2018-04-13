@@ -113,28 +113,29 @@ export class ExplorePage {
       v: "20170801",
       limit: 50
     };
+    params["near"] = "Pittsburgh, PA"
     if (!this.queryLocation) {
-      console.log("no location specified");
-      this.geolocation
-        .getCurrentPosition({
-          timeout: 5000,
-          enableHighAccuracy: false,
-          maximumAge: 3600
-        })
-        .then(resp => {
-          this.connected = true;
-          params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
-          this.searchedVendors = this._search(params);
-        })
-        .catch(err => {
-          console.log("could not get current location", JSON.stringify(err));
-          this.connected = false;
-          this.searching = false;
-        });
+      // console.log("no location specified");
+      // this.geolocation
+      //   .getCurrentPosition({
+      //     timeout: 5000,
+      //     enableHighAccuracy: false,
+      //     maximumAge: 3600
+      //   })
+      //   .then(resp => {
+      //     this.connected = true;
+      //     params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
+      //     this.searchedVendors = this._search(params);
+      //   })
+      //   .catch(err => {
+      //     console.log("could not get current location", JSON.stringify(err));
+      //     this.connected = false;
+      //     this.searching = false;
+      //   });
     } else {
       params["near"] = this.queryLocation;
-      this.searchedVendors = this._search(params);
     }
+    this.searchedVendors = this._search(params);
   }
 
   _search(params) {
