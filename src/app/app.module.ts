@@ -11,6 +11,7 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { ChartsModule } from "ng2-charts";
 import { Network } from "@ionic-native/network";
 import { Keyboard } from "@ionic-native/keyboard";
+import { LongPressModule } from 'ionic-long-press';
 
 // Pages
 import { ExplorePage } from "../pages/explore/explore";
@@ -46,7 +47,8 @@ import { TabsPage } from "../pages/tabs/tabs";
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     BrowserModule,
-    ChartsModule
+    ChartsModule,
+    LongPressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
