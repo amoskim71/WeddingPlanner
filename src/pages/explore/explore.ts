@@ -6,6 +6,7 @@ import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Storage } from "@ionic/storage";
 import { Keyboard } from "@ionic-native/keyboard";
+import { foursquareConfig } from "../../config";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/empty";
 
@@ -102,8 +103,8 @@ export class ExplorePage {
     this.searching = true;
     console.log("searched", this.queryString, this.queryLocation);
     // TODO: Foursquare implementation elsewhere?
-    const clientId = "INSERT_CLIENT_ID";
-    const clientSecret = "INSERT_CLIENT_SECRET";
+    const clientId = foursquareConfig.clientId;
+    const clientSecret = foursquareConfig.clientSecret;
 
     let params = {
       client_id: clientId,
