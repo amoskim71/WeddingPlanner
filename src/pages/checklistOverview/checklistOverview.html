@@ -14,21 +14,13 @@
     
     <h2>Tasks List</h2>
     <ion-list>
-      <ion-item-sliding *ngFor="let task of tasks; let i=index">
-        <ion-item nopadding>
-          <ion-label [style.text-decoration]="task.value['done'] ? 'line-through' : 'none'">
-            <span>{{task.key}}</span><br>
-            Due: {{task.value["dueDate"] | date: 'MM/dd/yyyy' }}
-          </ion-label>
-          <ion-checkbox [(ngModel)]="task.value['done']" (ionChange)="updateDone(task)"></ion-checkbox>
-        </ion-item>
-
-        <ion-item-options side="right">
-          <button ion-button color="secondary" [navPush]="newChecklistItemPage" [navParams]="{'task': task.key}"><ion-icon name="create"></ion-icon>EDIT</button>
-          <button ion-button color="danger" (click)="delete(task.key)"><ion-icon name="trash"></ion-icon>DELETE</button>
-        </ion-item-options>
-      </ion-item-sliding>
+      <ion-item nopadding ion-long-press (onPressStart)="pressed(task)" *ngFor="let task of tasks; let i=index">
+        <ion-label [style.text-decoration]="task.value['done'] ? 'line-through' : 'none'">
+          <span>{{task.key}}</span><br>
+          Due: {{task.value["dueDate"] | date: 'MM/dd/yyyy' }}
+        </ion-label>
+        <ion-checkbox [(ngModel)]="task.value['done']" (ionChange)="updateDone(task)"></ion-checkbox>
+      </ion-item>
     </ion-list>
-
 
 </ion-content>

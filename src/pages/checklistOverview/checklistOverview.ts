@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ActionSheetController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { NewChecklistItemPage } from '../newChecklistItem/newChecklistItem';
 import { ChecklistPage } from '../checklist/checklist';
@@ -13,7 +14,7 @@ export class ChecklistOverviewPage {
   tasks: any = [];
   newChecklistItemPage: any;
 
-  constructor(public navCtrl: NavController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public storage: Storage, public actionSheetCtrl: ActionSheetController) {
     this.checkForWeddingDate();
     // storage.clear();
     this.loadTaskStorage();
@@ -70,5 +71,37 @@ export class ChecklistOverviewPage {
   updateDone(task) {
     this.storage.set(task.key, task.value);
     // this.sortTasks();
+  }
+
+  pressed(task){
+    let actionSheet = this.actionSheetCtrl.create({
+      title: task.key,
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            console.log('delete clicked');
+            this.delete(task.key);
+          }
+        },{
+          text: 'Edit',
+          icon: 'create',
+          handler: () => {
+            console.log('edit clicked');
+            this.navCtrl.push(this.newChecklistItemPage, {'task': task.key});
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          icon: 'close',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 }
