@@ -1,10 +1,10 @@
 import { ViewChild, Component, OnInit } from "@angular/core";
-import { NavController } from "ionic-angular";
+import { NavController, AlertController } from "ionic-angular";
 import { AddBudgetPage } from "../addBudget/addBudget";
 import { AddTransactionPage } from "../addTransaction/addTransaction";
 import { TransactionListPage } from "../transactionList/transactionList";
 import { Storage } from "@ionic/storage";
-import { BaseChartDirective } from "ng2-charts/ng2-charts";
+//import { BaseChartDirective } from "ng2-charts/ng2-charts";
 
 @Component({
   selector: "page-budget",
@@ -21,6 +21,8 @@ export class BudgetPage implements OnInit{
   budgetsLen = 0;
   leftToSpend: number = 0;
   bardata: any = {};
+  isPicVisible: boolean = true;
+  isPicVisible2: boolean = false;
 
   // Doughnut
   public doughnutChartLabels: string[] = ["Wardrobe", "Decorations", "Invites"];
@@ -37,7 +39,7 @@ export class BudgetPage implements OnInit{
     wardrobe: "rgba(153, 102, 255, 0.2)"
   };
 
-  constructor(public navCtrl: NavController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public storage: Storage, private alertCtrl: AlertController) {
     this.AddBudgetPage = AddBudgetPage;
     this.AddTransactionPage = AddTransactionPage;
     this.TransactionListPage = TransactionListPage;
@@ -45,12 +47,14 @@ export class BudgetPage implements OnInit{
     this.setDefaultBudgets();
     this.loadBudgetsFromStorage();
     this.getAllTransactions();
+    this.addLeftToSpend();
   }
   ngOnInit(){
     //called after the constructor and called  after the first ngOnChanges() 
     this.setDefaultBudgets();
     this.loadBudgetsFromStorage();
     this.getAllTransactions();
+    this.addLeftToSpend();
   }
   // events
   public chartClicked(e: any, categoryName): void {
@@ -59,6 +63,11 @@ export class BudgetPage implements OnInit{
       category: categoryName,
       total: 0
     });
+  }
+
+  // events
+  public chartClicked2(e: any, categoryName): void {
+    console.log(e);
   }
 
   public chartHovered(e: any): void {
@@ -78,6 +87,7 @@ export class BudgetPage implements OnInit{
         this.leftToSpend = this.leftToSpend - (0 + +value["amount"]);
         this.populateDonutChart(category, +value["amount"]);
         this.updateBudget(category, { name: name, value: value });
+        this.toggleChartAndPic();
       }
     });
     console.log("test");
@@ -176,5 +186,27 @@ export class BudgetPage implements OnInit{
     }
     //not a transaction
     return "not";
+  }
+
+  //add the left to spend or remaining budget to the donut data
+  addLeftToSpend(){
+    //this.populateDonutChart("Unused Budget", this.leftToSpend);
+    this.doughnutChartLabels.push("Unused Budget");
+    this.doughnutChartData.push(this.leftToSpend);
+  }
+
+  //hide the image and show the chart
+  toggleChartAndPic(){
+    this.isPicVisible = false;
+    this.isPicVisible2 = true;
+  }
+
+  presentAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Help',
+      subTitle: 'This page gives a visual of how much of the budget has been spent in each category. Tap the bar charts to see a list of transactions for each category',
+      buttons: ['OK']
+    });
+    alert.present();
   }
 }
