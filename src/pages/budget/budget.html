@@ -106,7 +106,7 @@
         <ion-grid>
           <ion-row>
             <ion-col col-6>
-              <span class="item-note">{{category}} <br>Spent: ${{budgets[category]['spent']}}<br>Budget: ${{budgets[category]['total']}}</span>
+              <span class="item-note"><b>{{category}}</b><br>Spent: ${{budgets[category]['spent']}}<br>Budget: ${{budgets[category]['total']}}</span>
             </ion-col>
             <ion-col col-6>
               <button ion-button icon-only [clear]="true" [navPush]="AddBudgetPage" [navParams]="{'task': category }">

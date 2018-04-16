@@ -30,11 +30,15 @@ export class AddBudgetPage {
   }
 
   addBudgetStorage(){
-    var key = "budget-"+this.budgetName;
+    var key = "budget-"+this.jsUcfirst(this.budgetName);
     var value = {"amount":this.amount};
     this.storage.set(key,value);
+    this.navCtrl.setRoot(this.budgetPage,{tab:'breakdown'});
   }
 
+  jsUcfirst(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   
 
 }

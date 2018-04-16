@@ -1,5 +1,5 @@
 import { ViewChild, Component, OnInit } from "@angular/core";
-import { NavController, AlertController } from "ionic-angular";
+import { NavController, AlertController, NavParams } from "ionic-angular";
 import { AddBudgetPage } from "../addBudget/addBudget";
 import { AddTransactionPage } from "../addTransaction/addTransaction";
 import { TransactionListPage } from "../transactionList/transactionList";
@@ -39,7 +39,7 @@ export class BudgetPage implements OnInit{
     wardrobe: "rgba(153, 102, 255, 0.2)"
   };
 
-  constructor(public navCtrl: NavController, public storage: Storage, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, private alertCtrl: AlertController) {
     this.AddBudgetPage = AddBudgetPage;
     this.AddTransactionPage = AddTransactionPage;
     this.TransactionListPage = TransactionListPage;
@@ -55,6 +55,7 @@ export class BudgetPage implements OnInit{
     this.loadBudgetsFromStorage();
     this.getAllTransactions();
     this.addLeftToSpend();
+    this.setTab();
   }
   // events
   public chartClicked(e: any, categoryName): void {
@@ -208,5 +209,14 @@ export class BudgetPage implements OnInit{
       buttons: ['OK']
     });
     alert.present();
+  }
+
+  setTab(){
+    var tabName = this.navParams.get('tab');
+    if(tabName){
+      this.budget = "breakdown"
+    }else{
+      this.budget = "overview";
+    }
   }
 }
