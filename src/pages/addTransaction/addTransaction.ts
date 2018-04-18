@@ -9,7 +9,7 @@ import { BudgetPage } from "../budget/budget";
 })
 export class AddTransactionPage {
   itemName: string = "";
-  category: string = "";
+  category: string = "catering";
   amount: number = 0;
   budgetPage: any;
   itemCostAmount: number;
@@ -86,6 +86,7 @@ export class AddTransactionPage {
       };
     }
     this.storage.set(key, value);
+    this.navCtrl.setRoot(this.budgetPage);
     console.log("set");
   }
 }
