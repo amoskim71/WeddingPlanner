@@ -106,6 +106,7 @@ export class BudgetPage implements OnInit{
           spent: 0,
           barchart: { data: [], labels: [] }
         };
+        this.updateBudget(name, { name: "", value: {"amount":0} });
         this.leftToSpend = this.leftToSpend + +value["amount"];
       }
     });
