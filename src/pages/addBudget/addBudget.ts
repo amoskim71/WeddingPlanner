@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { BudgetPage } from '../budget/budget';
-  
+
 @Component({
   selector: 'page-addBudget',
   templateUrl: 'addBudget.html'
@@ -19,26 +19,27 @@ export class AddBudgetPage {
     this.retrieveStoredInfo();
   }
 
-  retrieveStoredInfo() { 
+  retrieveStoredInfo() {
     this.budgetName = this.navParams.get('task');
     if (this.budgetName) {
-    console.log("budget-"+this.budgetName);
-      this.storage.get("budget-"+this.budgetName).then(val => {
-          this.amount = val["amount"];
+      console.log("budget-" + this.budgetName);
+      this.storage.get("budget-" + this.budgetName).then(val => {
+        this.amount = val["amount"];
       })
     }
   }
 
-  addBudgetStorage(){
-    var key = "budget-"+this.jsUcfirst(this.budgetName);
-    var value = {"amount":this.amount};
-    this.storage.set(key,value);
-    this.navCtrl.setRoot(this.budgetPage,{tab:'breakdown'});
+  addBudgetStorage() {
+    var key = "budget-" + this.budgetName;
+    var value = { "amount": this.amount };
+    console.log("adding budget to storage", key, value)
+    this.storage.set(key, value);
+    this.navCtrl.setRoot(this.budgetPage, { tab: 'breakdown' });
   }
 
   jsUcfirst(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  
+
 
 }

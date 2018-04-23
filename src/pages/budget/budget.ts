@@ -49,15 +49,15 @@ export class BudgetPage implements OnInit {
     this.getAllTransactions();
   }
 
-  // ngOnInit() {
-  //   // this is being called twice. is this needed?
-  //   //called after the constructor and called  after the first ngOnChanges() 
-  //   this.setDefaultBudgets();
-  //   this.loadBudgetsFromStorage();
-  //   this.getAllTransactions();
-  //   // this.addLeftToSpend();
-  //   this.setTab();
-  // }
+  ngOnInit() {
+    // // this is being called twice. is this needed?
+    // //called after the constructor and called  after the first ngOnChanges() 
+    // this.setDefaultBudgets();
+    // this.loadBudgetsFromStorage();
+    // this.getAllTransactions();
+    // // this.addLeftToSpend();
+    // this.setTab();
+  }
 
   // events
   public chartClicked(e: any, categoryName): void {
@@ -88,9 +88,8 @@ export class BudgetPage implements OnInit {
       if (name != "not") {
         let category = value["category"];
         this.transactions.push({ key: name, value: value });
-        this.leftToSpend = this.leftToSpend - (0 + +value["amount"]);
         this.populateDonutChart(category, +value["amount"]);
-        this.updateLeftToSpend();
+        this.updateLeftToSpend(-value["amount"]);
         this.updateBudget(category, { name: name, value: value });
         this.toggleChartAndPic();
       }
@@ -111,8 +110,7 @@ export class BudgetPage implements OnInit {
           barchart: { data: [], labels: [] }
         };
         this.updateBudget(name, { name: "", value: { "amount": 0 } });
-        this.leftToSpend = this.leftToSpend + +value["amount"];
-        this.updateLeftToSpend();
+        this.updateLeftToSpend(+value["amount"]);
       }
     });
   }
@@ -135,6 +133,7 @@ export class BudgetPage implements OnInit {
   }
 
   updateBudget(category, item) {
+    console.log(this.budgets)
     this.budgets[category].spent += +item.value.amount;
     this.budgets[category]["barchart"] = {
       datasets: [
@@ -157,7 +156,7 @@ export class BudgetPage implements OnInit {
   }
 
   setDefaultBudgets() {
-    this.storage.get("budget-Catering").then(val => {
+    this.storage.get("budget-catering").then(val => {
       if (!val) {
         this.storage.set("budget-catering", { amount: "100" });
         this.storage.set("budget-decorations", { amount: "100" });
@@ -202,7 +201,8 @@ export class BudgetPage implements OnInit {
     this.doughnutChartData.push(this.leftToSpend);
   }
 
-  updateLeftToSpend() {
+  updateLeftToSpend(amount) {
+    this.leftToSpend += amount
     //this.populateDonutChart("Unused Budget", this.leftToSpend);
     let i = this.doughnutChartLabels.indexOf("Unused Budget");
     if (i != -1) {

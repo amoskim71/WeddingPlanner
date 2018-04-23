@@ -70,8 +70,7 @@
       <ion-item nopadding> Budget/Spending Overview </ion-item>
 
       <div [style.display]="isPicVisible ? 'block' : 'none'">
-        <img src="assets/imgs/donut.png"
-              style="display: block; width: auto; height: auto; margin-left: auto; margin-right: auto;">
+        <img src="assets/imgs/donut.png" style="display: block; width: auto; height: auto; margin-left: auto; margin-right: auto;">
       </div>
 
       <div [style.display]="isPicVisible2 ? 'block' : 'none'">
@@ -105,10 +104,13 @@
 
         <ion-grid>
           <ion-row>
-            <ion-col col-6>
-              <span class="item-note"><b>{{category}}</b><br>Spent: ${{budgets[category]['spent']}}<br>Budget: ${{budgets[category]['total']}}</span>
+            <ion-col col-10>
+              <span class="item-note">
+                <b>{{category}}</b>
+                <br>Spent: ${{budgets[category]['spent']}}
+                <br>Budget: ${{budgets[category]['total']}}</span>
             </ion-col>
-            <ion-col col-6>
+            <ion-col col-2>
               <button ion-button icon-only [clear]="true" [navPush]="AddBudgetPage" [navParams]="{'task': category }">
                 <ion-icon name="create"></ion-icon>
               </button>
@@ -117,8 +119,7 @@
         </ion-grid>
 
         <canvas baseChart [datasets]="budgets[category]['barchart']['datasets']" [chartType]="barChartType" [options]="budgets[category]['barchart']['options']"
-          [colors]="budgets[category]['barchart']['colors']" (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event, category)">
+          [colors]="budgets[category]['barchart']['colors']" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event, category)">
         </canvas>
 
         <div class="spacer" style="width: 300px; height: 15px;"></div>

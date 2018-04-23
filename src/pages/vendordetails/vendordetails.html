@@ -13,7 +13,11 @@
 </ion-header>
 <ion-content padding>
   <ion-card>
-    <img src="{{ vendor.photoUrl }}">
+    <ion-slides>
+      <ion-slide *ngFor="let photoUrl of photoUrls">
+        <img src="{{ photoUrl }}">
+      </ion-slide>
+    </ion-slides>
     <ion-card-content>
       <ion-grid>
         <ion-row>
@@ -41,4 +45,9 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
+  <!-- <ion-slides>
+    <ion-slide *ngFor="let photoUrl of photoUrls">
+      <img src="{{ vendor.photoUrl }}">
+    </ion-slide>
+  </ion-slides> -->
 </ion-content>
