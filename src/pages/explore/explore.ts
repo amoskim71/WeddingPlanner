@@ -153,6 +153,7 @@ export class ExplorePage {
               photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
             }
             vendor["photoUrl"] = photoUrl;
+            console.log(vendor)
           }
           allItems = allItems.concat(group.items);
         }
@@ -169,4 +170,6 @@ export class ExplorePage {
   _savedVendorKey(vendor) {
     return "saved-vendor-" + vendor.venue.id;
   }
+
+
 }

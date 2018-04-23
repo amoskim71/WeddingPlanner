@@ -6,4 +6,11 @@ page-vendordetails {
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
   }
+
+  .open {
+    color: green;
+  }
+  .closed {
+    color: red;
+  }
 }

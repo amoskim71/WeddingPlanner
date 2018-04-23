@@ -23,7 +23,11 @@ export class VendorDetailsPage {
     this.vendorKey = navParams.data.vendorKey;
     this.savedVendors = navParams.data.savedVendors;
     this.location = this.vendor.venue.location;
-    console.log(this.vendor);
+  }
+
+  isOpen() {
+    let status = this.vendor.venue.hours ? this.vendor.venue.hours.status : '';
+    return status.toLowerCase().indexOf("open") != -1;
   }
 
   saveOrRemoveVendor(event, vendor) {

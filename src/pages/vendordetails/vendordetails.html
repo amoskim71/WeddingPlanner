@@ -28,6 +28,9 @@
                 <ion-icon name="call"></ion-icon>
               </span>
               {{ vendor.venue.contact.formattedPhone ? vendor.venue.contact.formattedPhone : 'No contact info available' }}</p>
+
+            <p class="{{ isOpen() ? 'open' : 'closed' }}" *ngIf='!!vendor.venue.hours'>{{vendor.venue.hours.status}}</p>
+
           </ion-col>
           <ion-col col-2>
             <div class='centered'>
