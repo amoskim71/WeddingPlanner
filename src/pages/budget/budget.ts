@@ -10,7 +10,7 @@ import { Storage } from "@ionic/storage";
   selector: "page-budget",
   templateUrl: "budget.html"
 })
-export class BudgetPage implements OnInit{
+export class BudgetPage implements OnInit {
   budget: string = "overview";
   AddBudgetPage: any;
   AddTransactionPage: any;
@@ -26,7 +26,7 @@ export class BudgetPage implements OnInit{
 
   // Doughnut
   public doughnutChartLabels: string[] = ["Wardrobe", "Decorations", "Invites"];
-  public doughnutChartData: number[] = [350, 450, 100];
+  public doughnutChartData: number[] = [100, 100, 100];
   public doughnutChartType: string = "doughnut";
   @ViewChild("baseChart") private chart;
   baseChart: any;
@@ -47,16 +47,18 @@ export class BudgetPage implements OnInit{
     this.setDefaultBudgets();
     this.loadBudgetsFromStorage();
     this.getAllTransactions();
-    this.addLeftToSpend();
   }
-  ngOnInit(){
-    //called after the constructor and called  after the first ngOnChanges() 
-    this.setDefaultBudgets();
-    this.loadBudgetsFromStorage();
-    this.getAllTransactions();
-    this.addLeftToSpend();
-    this.setTab();
-  }
+
+  // ngOnInit() {
+  //   // this is being called twice. is this needed?
+  //   //called after the constructor and called  after the first ngOnChanges() 
+  //   this.setDefaultBudgets();
+  //   this.loadBudgetsFromStorage();
+  //   this.getAllTransactions();
+  //   // this.addLeftToSpend();
+  //   this.setTab();
+  // }
+
   // events
   public chartClicked(e: any, categoryName): void {
     console.log(e);
@@ -80,6 +82,7 @@ export class BudgetPage implements OnInit{
     this.transactions = [];
     this.doughnutChartLabels = [];
     this.doughnutChartData = [];
+    console.log("left to spend", this.leftToSpend);
     this.storage.forEach((value, key, index) => {
       var name = this.getItemName(key);
       if (name != "not") {
@@ -87,6 +90,7 @@ export class BudgetPage implements OnInit{
         this.transactions.push({ key: name, value: value });
         this.leftToSpend = this.leftToSpend - (0 + +value["amount"]);
         this.populateDonutChart(category, +value["amount"]);
+        this.updateLeftToSpend();
         this.updateBudget(category, { name: name, value: value });
         this.toggleChartAndPic();
       }
@@ -106,14 +110,15 @@ export class BudgetPage implements OnInit{
           spent: 0,
           barchart: { data: [], labels: [] }
         };
-        this.updateBudget(name, { name: "", value: {"amount":0} });
+        this.updateBudget(name, { name: "", value: { "amount": 0 } });
         this.leftToSpend = this.leftToSpend + +value["amount"];
+        this.updateLeftToSpend();
       }
     });
   }
 
   populateDonutChart(categoryName, amount) {
-    console.log("populateDonutChart");
+    console.log("populateDonutChart", categoryName);
     var idx = this.doughnutChartLabels.indexOf(categoryName);
     if (idx !== -1) {
       //exists
@@ -191,14 +196,25 @@ export class BudgetPage implements OnInit{
   }
 
   //add the left to spend or remaining budget to the donut data
-  addLeftToSpend(){
+  addLeftToSpend() {
     //this.populateDonutChart("Unused Budget", this.leftToSpend);
     this.doughnutChartLabels.push("Unused Budget");
     this.doughnutChartData.push(this.leftToSpend);
   }
 
+  updateLeftToSpend() {
+    //this.populateDonutChart("Unused Budget", this.leftToSpend);
+    let i = this.doughnutChartLabels.indexOf("Unused Budget");
+    if (i != -1) {
+      this.doughnutChartData[i] = this.leftToSpend;
+    } else {
+      this.doughnutChartData.push(this.leftToSpend);
+      this.doughnutChartLabels.push("Unused Budget");
+    }
+  }
+
   //hide the image and show the chart
-  toggleChartAndPic(){
+  toggleChartAndPic() {
     this.isPicVisible = false;
     this.isPicVisible2 = true;
   }
@@ -212,11 +228,11 @@ export class BudgetPage implements OnInit{
     alert.present();
   }
 
-  setTab(){
+  setTab() {
     var tabName = this.navParams.get('tab');
-    if(tabName){
+    if (tabName) {
       this.budget = "breakdown"
-    }else{
+    } else {
       this.budget = "overview";
     }
   }
