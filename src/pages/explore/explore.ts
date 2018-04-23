@@ -101,14 +101,9 @@ export class ExplorePage {
   search() {
     this.keyboard.close();
     this.searching = true;
-    console.log("searched", this.queryString, this.queryLocation);
-    // TODO: Foursquare implementation elsewhere?
-    const clientId = foursquareConfig.clientId;
-    const clientSecret = foursquareConfig.clientSecret;
-
     let params = {
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: foursquareConfig.clientId,
+      client_secret: foursquareConfig.clientSecret,
       query: this.queryString.trim(),
       venuePhotos: 1,
       v: "20170801",
