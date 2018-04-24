@@ -14,9 +14,7 @@ export class AddTransactionPage {
   budgetPage: any;
   itemCostAmount: number;
   itemCountAmount: number;
-  inputDisabled: boolean;
-  inputDisabled2: boolean;
-  toggle: boolean = true;
+  //toggle: boolean = true;
   //
   TAG: string = "transaction-";
 
@@ -27,8 +25,7 @@ export class AddTransactionPage {
   ) {
     this.budgetPage = BudgetPage;
     this.itemCostAmount = null;
-    this.itemCountAmount = null;
-    this.togglePerItem();
+    this.itemCountAmount = 1;
     this.retrieveStoredInfo();
   }
 
@@ -51,40 +48,20 @@ export class AddTransactionPage {
     this.amount = +this.itemCountAmount * +this.itemCostAmount;
   }
 
-  togglePerItem() {
-    if (this.toggle) {
-      this.inputDisabled = false;
-      this.inputDisabled2 = true;
-    } else {
-      this.inputDisabled = true;
-      this.inputDisabled2 = false;
-    }
-  }
-
   addTransactionStorage() {
     console.log("add transaction");
     var key = this.TAG + this.itemName;
     var value;
-    if (this.toggle) {
-      console.log("from count x cost");
-      //var amt = this.itemCountAmount*this.itemCostAmount;
-      value = {
-        category: this.category,
-        itemCostAmount: this.itemCostAmount,
-        itemCountAmount: this.itemCountAmount,
-        toggle: this.toggle,
-        amount: this.amount
-      };
-    } else {
-      console.log("from total");
-      value = {
-        category: this.category,
-        itemCostAmount: 0,
-        itemCountAmount: 0,
-        toggle: this.toggle,
-        amount: this.amount
-      };
-    }
+
+    console.log("from count x cost");
+    //var amt = this.itemCountAmount*this.itemCostAmount;
+    value = {
+      category: this.category,
+      itemCostAmount: this.itemCostAmount,
+      itemCountAmount: this.itemCountAmount,
+      amount: this.amount
+    };
+    
     this.storage.set(key, value);
     this.navCtrl.setRoot(this.budgetPage);
     console.log("set");
