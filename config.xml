@@ -88,4 +88,5 @@
     <plugin name="cordova-plugin-geolocation" spec="~2.4.3">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To search nearby vendors" />
     </plugin>
+    <allow-navigation href="http://128.237.117.151:8100" />
 </widget>
