@@ -16,6 +16,7 @@ export class VendorDetailsPage {
   public savedVendors: any[];
   public vendorKey: string;
   public photoUrls: any[];
+  public noPhotosUrl = "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880"
 
   constructor(
     public navCtrl: NavController,
@@ -33,7 +34,7 @@ export class VendorDetailsPage {
   }
 
   isOpen() {
-    let status = this.vendor.venue.hours ? this.vendor.venue.hours.status : '';
+    let status = (this.vendor && this.vendor.venue && this.vendor.venue.hours && this.vendor.venue.hours.status) || '';
     return status.toLowerCase().indexOf("open") != -1;
   }
 
@@ -67,9 +68,12 @@ export class VendorDetailsPage {
       .subscribe(
         data => {
           this.photoUrls = data.photos.items.map(item => item.prefix + "300x300" + item.suffix)
+          if (this.photoUrls.length == 0) {
+            this.photoUrls = [this.noPhotosUrl];
+          }
         },
         err => {
-          this.photoUrls = ["http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880"];
+          this.photoUrls = [this.noPhotosUrl]
           console.log("Could not get photos");
         }
       );

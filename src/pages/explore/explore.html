@@ -17,14 +17,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding="true" class="has-header">
+<ion-content padding="true" class="{{ (!searchedVendors || searchedVendors?.length == 0) ? 'has-header no-scroll' : 'has-header' }}">
   <div [ngSwitch]="vendors">
     <ion-list *ngSwitchDefault>
       <form action="." (ngSubmit)="search()">
         <ion-list>
           <ion-item>
             <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
-              (ionClear)="clearSearch()">
+              (ionClear)="clearSearch($event); $event.stopPropagation();">
             </ion-searchbar>
           </ion-item>
           <ion-item>
@@ -36,6 +36,18 @@
           <button type="submit" class="button hide"></button>
         </ion-list>
       </form>
+      <ion-grid *ngIf="!searchedVendors || searchedVendors?.length == 0">
+        <ion-row>
+          <ion-col *ngFor="let category of exploreCategories" col-4>
+            <button class='center clear-background' (click)="searchCategory($event, category.name);">
+              <ion-icon name="{{ category.iconClass}}" style="zoom:3.0;"></ion-icon>
+              <ion-label class='center'>
+                {{category.name}}
+              </ion-label>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
       <ion-card *ngIf="!connected">
         <ion-item text-wrap>
           <ion-icon name="alert" item-start></ion-icon>
@@ -59,14 +71,14 @@
       </ion-list>
     </ion-list>
     <ion-list *ngSwitchCase="'saved'">
-      <ion-list>
+      <!-- <ion-list>
         <ion-item>
           <ion-label>Filter</ion-label>
           <ion-select placeholder="Select a filter" [(ngModel)]="selectedFilter" (ionChange)="filterChanged()">
             <ion-option *ngFor="let filterOpt of vendorFilterOptions" value="{{filterOpt}}">{{ filterOpt }}</ion-option>
           </ion-select>
         </ion-item>
-      </ion-list>
+      </ion-list> -->
       <ion-list *ngFor="let key of keys(savedVendors)">
         <ion-item (click)="vendorDetails($event,savedVendors[key])">
           <ion-thumbnail item-start>

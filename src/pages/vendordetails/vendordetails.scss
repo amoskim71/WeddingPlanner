@@ -13,4 +13,10 @@ page-vendordetails {
   .closed {
     color: red;
   }
+  .swiper-pagination {
+    .swiper-pagination-fraction {
+      background: black;
+      color: white;
+    }
+  }
 }

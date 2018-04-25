@@ -7,6 +7,23 @@ page-explore {
     transform: translate(-50%, -50%);
   }
 
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  // https://github.com/ionic-team/ionic/issues/7644
+  .no-scroll {
+    .scroll-content {
+      overflow: hidden;
+    }
+  }
+
+  .clear-background {
+    background: transparent;
+  }
+
   .hide {
     display: block;
     position: absolute;

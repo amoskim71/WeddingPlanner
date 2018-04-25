@@ -27,6 +27,8 @@ export class ExplorePage {
   apiUrl: any;
   connected: boolean;
   searching: boolean;
+  exploreCategories: any;
+
   constructor(
     public navCtrl: NavController,
     public http: Http,
@@ -38,17 +40,17 @@ export class ExplorePage {
     this.searchedVendors;
     this.savedVendors = {};
     this.vendors = "explore";
-    this.vendorFilterOptions = [
-      "Wardrobe",
-      "Decorations",
-      "Invites",
-      "Venue",
-      "Catering",
-      "None"
-    ];
     this.searching = false;
     this.searchedVendors = null;
     this.connected = true;
+    this.exploreCategories = [
+      { name: 'wardrobe', iconClass: 'ios-shirt-outline' },
+      { name: 'food & drink', iconClass: 'ios-restaurant-outline' },
+      { name: 'wedding venue', iconClass: 'ios-pin-outline' },
+      { name: 'flowers', iconClass: 'ios-flower-outline' },
+      { name: 'decorations', iconClass: 'ios-color-wand-outline' },
+      { name: 'photographers', iconClass: 'ios-camera-outline' }
+    ]
     // use only for development
     this.storage.clear();
   }
@@ -91,10 +93,11 @@ export class ExplorePage {
     if (this.selectedFilter == "None") this.selectedFilter = null;
   }
 
-  clearSearch() {
+  clearSearch(event) {
     this.searchedVendors = null;
     this.searching = false;
     this.queryLocation = "";
+    this.keyboard.close();
     this.keyboard.close();
   }
 
@@ -109,29 +112,13 @@ export class ExplorePage {
       v: "20170801",
       limit: 50
     };
-    params["near"] = "Pittsburgh, PA"
-    if (!this.queryLocation) {
-      // console.log("no location specified");
-      // this.geolocation
-      //   .getCurrentPosition({
-      //     timeout: 5000,
-      //     enableHighAccuracy: false,
-      //     maximumAge: 3600
-      //   })
-      //   .then(resp => {
-      //     this.connected = true;
-      //     params["ll"] = resp.coords.latitude + "," + resp.coords.longitude;
-      //     this.searchedVendors = this._search(params);
-      //   })
-      //   .catch(err => {
-      //     console.log("could not get current location", JSON.stringify(err));
-      //     this.connected = false;
-      //     this.searching = false;
-      //   });
-    } else {
-      params["near"] = this.queryLocation;
-    }
+    params["near"] = this.queryLocation || "Pittsburgh, PA"
     this.searchedVendors = this._search(params);
+  }
+
+  searchCategory(event, category) {
+    this.queryString = category;
+    this.search();
   }
 
   _search(params) {
