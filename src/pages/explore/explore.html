@@ -17,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding="true" class="{{ (!searchedVendors || searchedVendors?.length == 0) ? 'has-header no-scroll' : 'has-header' }}">
+<ion-content padding="true" class="{{ (!searchedVendors || searchedVendors?.length == 0) ? 'no-scroll' : '' }}">
   <div [ngSwitch]="vendors">
     <ion-list *ngSwitchDefault>
       <form action="." (ngSubmit)="search()">
@@ -36,7 +36,7 @@
           <button type="submit" class="button hide"></button>
         </ion-list>
       </form>
-      <ion-grid *ngIf="!searchedVendors || searchedVendors?.length == 0">
+      <ion-grid *ngIf="!searching && (!searchedVendors || searchedVendors?.length == 0)">
         <ion-row>
           <ion-col *ngFor="let category of exploreCategories" col-4>
             <button class='center clear-background' (click)="searchCategory($event, category.name);">
@@ -55,7 +55,7 @@
         </ion-item>
       </ion-card>
       <ion-spinner *ngIf="searching" class='centered' padding-vertical></ion-spinner>
-      <ion-list *ngFor="let vendor of (searchedVendors | async)">
+      <ion-list *ngFor="let vendor of searchedVendors">
         <ion-item (click)="vendorDetails($event,vendor)">
           <ion-thumbnail item-start>
             <img src="{{ vendor.photoUrl }}">
@@ -71,14 +71,6 @@
       </ion-list>
     </ion-list>
     <ion-list *ngSwitchCase="'saved'">
-      <!-- <ion-list>
-        <ion-item>
-          <ion-label>Filter</ion-label>
-          <ion-select placeholder="Select a filter" [(ngModel)]="selectedFilter" (ionChange)="filterChanged()">
-            <ion-option *ngFor="let filterOpt of vendorFilterOptions" value="{{filterOpt}}">{{ filterOpt }}</ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-list> -->
       <ion-list *ngFor="let key of keys(savedVendors)">
         <ion-item (click)="vendorDetails($event,savedVendors[key])">
           <ion-thumbnail item-start>

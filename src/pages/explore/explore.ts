@@ -17,7 +17,7 @@ import * as $ from "jquery";
   templateUrl: "explore.html"
 })
 export class ExplorePage {
-  searchedVendors: Observable<any[]>;
+  searchedVendors: any[];
   savedVendors: any;
   vendors: any;
   queryString: string;
@@ -37,11 +37,10 @@ export class ExplorePage {
     private keyboard: Keyboard
   ) {
     this.apiUrl = "https://api.foursquare.com/v2/venues/explore?";
-    this.searchedVendors;
     this.savedVendors = {};
     this.vendors = "explore";
     this.searching = false;
-    this.searchedVendors = null;
+    this.searchedVendors = [];
     this.connected = true;
     this.exploreCategories = [
       { name: 'wardrobe', iconClass: 'ios-shirt-outline' },
@@ -98,7 +97,6 @@ export class ExplorePage {
     this.searching = false;
     this.queryLocation = "";
     this.keyboard.close();
-    this.keyboard.close();
   }
 
   search() {
@@ -113,7 +111,8 @@ export class ExplorePage {
       limit: 50
     };
     params["near"] = this.queryLocation || "Pittsburgh, PA"
-    this.searchedVendors = this._search(params);
+    // this.searchedVendors = this._search(params);
+    this._search(params);
   }
 
   searchCategory(event, category) {
@@ -123,12 +122,13 @@ export class ExplorePage {
 
   _search(params) {
     this.searching = true;
-    return this.http.get(this.apiUrl + $.param(params)).map(
-      res => {
+    this.http.get(this.apiUrl + $.param(params))
+      .map(res => res.json().response)
+      .subscribe(data => {
         this.connected = true;
         this.searching = false;
         let allItems = [];
-        let results = JSON.parse(res.text()).response;
+        let results = data;
         for (let i = 0; i < results.groups.length; i++) {
           let group = results.groups[i];
           for (let j = 0; j < group.items.length; j++) {
@@ -144,14 +144,14 @@ export class ExplorePage {
           }
           allItems = allItems.concat(group.items);
         }
-        return allItems;
+        this.searchedVendors = allItems;
       },
-      err => {
-        this.connected = false;
-        this.searching = false;
-        console.log(err, "ERROR");
-      }
-    );
+        err => {
+          this.connected = false;
+          this.searching = false;
+          console.log(err, "ERROR");
+        }
+      );
   }
 
   _savedVendorKey(vendor) {
