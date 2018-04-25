@@ -22,7 +22,7 @@
 
   <div [ngSwitch]="budget">
     <ion-list *ngSwitchDefault>
-      <ion-grid>
+      <!-- <ion-grid>
         <ion-row>
           <ion-col col-6>
             <button ion-button block [navPush]="AddTransactionPage">
@@ -35,15 +35,19 @@
             </button>
           </ion-col>
         </ion-row>
-      </ion-grid>
+      </ion-grid> -->
 
-      <ion-item>
+      <button ion-button block [navPush]="AddTransactionPage">
+        add Transaction
+      </button>
+
+      <!-- <ion-item>
         <ion-label color="primary">Left to spend</ion-label>
         <ion-input [(ngModel)]="leftToSpend" [disabled]=true placeholder="Text Input"></ion-input>
-      </ion-item>
+      </ion-item> -->
 
 
-      <ion-list>
+      <!-- <ion-list>
         <ion-item-sliding *ngFor="let task of transactions; let i=index">
           <ion-item nopadding>
             <h2>{{task.key}}</h2>
@@ -59,39 +63,63 @@
               <ion-icon name="trash"></ion-icon>DELETE</button>
           </ion-item-options>
         </ion-item-sliding>
-      </ion-list>
+      </ion-list> -->
 
       <div class="spacer" style="height: 15px;"></div>
 
-      <div style="display: block">
+      <ion-item nopadding> Budget/Spending Overview </ion-item>
+
+      <div [style.display]="isPicVisible ? 'block' : 'none'">
+        <img src="assets/imgs/donut.png" style="display: block; width: auto; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
+
+      <div [style.display]="isPicVisible2 ? 'block' : 'none'">
         <canvas baseChart #baseChart="base-chart" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"
-          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+          (chartHover)="chartHovered($event)" (chartClick)="chartClicked2($event)">
         </canvas>
       </div>
       <div class="spacer" style="width: 300px; height: 15px;"></div>
 
-      <ion-item id="budgetOverview-list-item20">ad space</ion-item>
+      <ion-item nopadding>ad space</ion-item>
 
-      <div class="spacer" style="width: 300px; height: 15px;"></div>
     </ion-list>
 
     <!-- Budget breakdown -->
 
     <ion-list *ngSwitchCase="'breakdown'">
-      
+      <div align="right">
+        <button ion-button icon-only [clear]="true" (click)='presentAlert();'>
+          <ion-icon name="information-circle"></ion-icon>
+        </button>
+      </div>
 
       <ion-list id="budgetBreakdown-list6" *ngFor="let category of budgetCategories()">
 
-        <ion-item nopadding>
-          <span class="item-note">{{category}} with {{budgets[category]['spent']}}</span>
+        <!-- <ion-item nopadding>
+          <span class="item-note">{{category}} <br>Spent: ${{budgets[category]['spent']}}</span>
           <button ion-button small icon-only [clear]="true" [navPush]="AddBudgetPage" [navParams]="{'task': category }">
             <ion-icon name="create"></ion-icon>
           </button>
-        </ion-item>
+        </ion-item> -->
+
+        <ion-grid>
+          <ion-row>
+            <ion-col col-10>
+              <span class="item-note">
+                <span style="text-transform: capitalize;"><b>{{category}}</b></span>
+                <br>Spent: ${{budgets[category]['spent']}}
+                <br>Budget: ${{budgets[category]['total']}}</span>
+            </ion-col>
+            <ion-col col-2>
+              <button ion-button icon-only [clear]="true" [navPush]="AddBudgetPage" [navParams]="{'task': category }">
+                <ion-icon name="create"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
 
         <canvas baseChart [datasets]="budgets[category]['barchart']['datasets']" [chartType]="barChartType" [options]="budgets[category]['barchart']['options']"
-          [colors]="budgets[category]['barchart']['colors']" (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event, category)">
+          [colors]="budgets[category]['barchart']['colors']" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event, category)">
         </canvas>
 
         <div class="spacer" style="width: 300px; height: 15px;"></div>

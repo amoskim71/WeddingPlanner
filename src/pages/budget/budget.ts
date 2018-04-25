@@ -1,16 +1,16 @@
 import { ViewChild, Component, OnInit } from "@angular/core";
-import { NavController } from "ionic-angular";
+import { NavController, AlertController, NavParams } from "ionic-angular";
 import { AddBudgetPage } from "../addBudget/addBudget";
 import { AddTransactionPage } from "../addTransaction/addTransaction";
 import { TransactionListPage } from "../transactionList/transactionList";
 import { Storage } from "@ionic/storage";
-import { BaseChartDirective } from "ng2-charts/ng2-charts";
+//import { BaseChartDirective } from "ng2-charts/ng2-charts";
 
 @Component({
   selector: "page-budget",
   templateUrl: "budget.html"
 })
-export class BudgetPage implements OnInit{
+export class BudgetPage implements OnInit {
   budget: string = "overview";
   AddBudgetPage: any;
   AddTransactionPage: any;
@@ -21,10 +21,12 @@ export class BudgetPage implements OnInit{
   budgetsLen = 0;
   leftToSpend: number = 0;
   bardata: any = {};
+  isPicVisible: boolean = true;
+  isPicVisible2: boolean = false;
 
   // Doughnut
   public doughnutChartLabels: string[] = ["Wardrobe", "Decorations", "Invites"];
-  public doughnutChartData: number[] = [350, 450, 100];
+  public doughnutChartData: number[] = [100, 100, 100];
   public doughnutChartType: string = "doughnut";
   @ViewChild("baseChart") private chart;
   baseChart: any;
@@ -37,7 +39,7 @@ export class BudgetPage implements OnInit{
     wardrobe: "rgba(153, 102, 255, 0.2)"
   };
 
-  constructor(public navCtrl: NavController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, private alertCtrl: AlertController) {
     this.AddBudgetPage = AddBudgetPage;
     this.AddTransactionPage = AddTransactionPage;
     this.TransactionListPage = TransactionListPage;
@@ -46,12 +48,17 @@ export class BudgetPage implements OnInit{
     this.loadBudgetsFromStorage();
     this.getAllTransactions();
   }
-  ngOnInit(){
-    //called after the constructor and called  after the first ngOnChanges() 
-    this.setDefaultBudgets();
-    this.loadBudgetsFromStorage();
-    this.getAllTransactions();
+
+  ngOnInit() {
+    // // this is being called twice. is this needed?
+    // //called after the constructor and called  after the first ngOnChanges() 
+    // this.setDefaultBudgets();
+    // this.loadBudgetsFromStorage();
+    // this.getAllTransactions();
+    // // this.addLeftToSpend();
+    // this.setTab();
   }
+
   // events
   public chartClicked(e: any, categoryName): void {
     console.log(e);
@@ -59,6 +66,11 @@ export class BudgetPage implements OnInit{
       category: categoryName,
       total: 0
     });
+  }
+
+  // events
+  public chartClicked2(e: any, categoryName): void {
+    console.log(e);
   }
 
   public chartHovered(e: any): void {
@@ -70,14 +82,16 @@ export class BudgetPage implements OnInit{
     this.transactions = [];
     this.doughnutChartLabels = [];
     this.doughnutChartData = [];
+    console.log("left to spend", this.leftToSpend);
     this.storage.forEach((value, key, index) => {
       var name = this.getItemName(key);
       if (name != "not") {
         let category = value["category"];
         this.transactions.push({ key: name, value: value });
-        this.leftToSpend = this.leftToSpend - (0 + +value["amount"]);
         this.populateDonutChart(category, +value["amount"]);
+        this.updateLeftToSpend(-value["amount"]);
         this.updateBudget(category, { name: name, value: value });
+        this.toggleChartAndPic();
       }
     });
     console.log("test");
@@ -95,13 +109,14 @@ export class BudgetPage implements OnInit{
           spent: 0,
           barchart: { data: [], labels: [] }
         };
-        this.leftToSpend = this.leftToSpend + +value["amount"];
+        this.updateBudget(name, { name: "", value: { "amount": 0 } });
+        this.updateLeftToSpend(+value["amount"]);
       }
     });
   }
 
   populateDonutChart(categoryName, amount) {
-    console.log("populateDonutChart");
+    console.log("populateDonutChart", categoryName);
     var idx = this.doughnutChartLabels.indexOf(categoryName);
     if (idx !== -1) {
       //exists
@@ -118,6 +133,7 @@ export class BudgetPage implements OnInit{
   }
 
   updateBudget(category, item) {
+    console.log(this.budgets)
     this.budgets[category].spent += +item.value.amount;
     this.budgets[category]["barchart"] = {
       datasets: [
@@ -140,7 +156,7 @@ export class BudgetPage implements OnInit{
   }
 
   setDefaultBudgets() {
-    this.storage.get("budget-Catering").then(val => {
+    this.storage.get("budget-catering").then(val => {
       if (!val) {
         this.storage.set("budget-catering", { amount: "100" });
         this.storage.set("budget-decorations", { amount: "100" });
@@ -176,5 +192,48 @@ export class BudgetPage implements OnInit{
     }
     //not a transaction
     return "not";
+  }
+
+  //add the left to spend or remaining budget to the donut data
+  addLeftToSpend() {
+    //this.populateDonutChart("Unused Budget", this.leftToSpend);
+    this.doughnutChartLabels.push("Unused Budget");
+    this.doughnutChartData.push(this.leftToSpend);
+  }
+
+  updateLeftToSpend(amount) {
+    this.leftToSpend += amount
+    //this.populateDonutChart("Unused Budget", this.leftToSpend);
+    let i = this.doughnutChartLabels.indexOf("Unused Budget");
+    if (i != -1) {
+      this.doughnutChartData[i] = this.leftToSpend;
+    } else {
+      this.doughnutChartData.push(this.leftToSpend);
+      this.doughnutChartLabels.push("Unused Budget");
+    }
+  }
+
+  //hide the image and show the chart
+  toggleChartAndPic() {
+    this.isPicVisible = false;
+    this.isPicVisible2 = true;
+  }
+
+  presentAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Help',
+      subTitle: 'This page gives a visual of how much of the budget has been spent in each category. Tap the bar charts to see a list of transactions for each category',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  setTab() {
+    var tabName = this.navParams.get('tab');
+    if (tabName) {
+      this.budget = "breakdown"
+    } else {
+      this.budget = "overview";
+    }
   }
 }

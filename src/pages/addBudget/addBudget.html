@@ -10,16 +10,16 @@
   <ion-list>
     <ion-item>
       <ion-label floating>Budget Name</ion-label>
-      <ion-input type="text"  [(ngModel)]="budgetName"></ion-input>
+      <ion-input type="text" [(ngModel)]="budgetName" (keyup.enter)="addBudgetStorage()"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label fixed>$</ion-label>
-      <ion-input type="number" [(ngModel)]="amount" placeholder="Amount">$</ion-input>
+      <ion-input type="number" [(ngModel)]="amount" placeholder="Amount" (keyup.enter)="addBudgetStorage()"></ion-input>
     </ion-item>
 
     <div padding>
-      <button ion-button color="primary" (click)="addBudgetStorage()" [navPush]="budgetPage" block>Save</button>
+      <button ion-button color="primary" (click)="addBudgetStorage()" block>Save</button>
     </div>
   </ion-list>
 </ion-content>

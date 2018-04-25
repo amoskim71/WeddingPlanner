@@ -6,6 +6,7 @@ import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Storage } from "@ionic/storage";
 import { Keyboard } from "@ionic-native/keyboard";
+import { foursquareConfig } from "../../config";
 import "rxjs/add/operator/map";
 import "rxjs/add/observable/empty";
 
@@ -100,14 +101,9 @@ export class ExplorePage {
   search() {
     this.keyboard.close();
     this.searching = true;
-    console.log("searched", this.queryString, this.queryLocation);
-    // TODO: Foursquare implementation elsewhere?
-    const clientId = "INSERT_CLIENT_ID";
-    const clientSecret = "INSERT_CLIENT_SECRET";
-
     let params = {
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: foursquareConfig.clientId,
+      client_secret: foursquareConfig.clientSecret,
       query: this.queryString.trim(),
       venuePhotos: 1,
       v: "20170801",
@@ -157,6 +153,7 @@ export class ExplorePage {
               photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
             }
             vendor["photoUrl"] = photoUrl;
+            console.log(vendor)
           }
           allItems = allItems.concat(group.items);
         }
@@ -173,4 +170,6 @@ export class ExplorePage {
   _savedVendorKey(vendor) {
     return "saved-vendor-" + vendor.venue.id;
   }
+
+
 }
