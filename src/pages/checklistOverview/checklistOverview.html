@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Checklist
+      To-Do List
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -12,7 +12,6 @@
       add task
     </button>
     
-    <h2>Tasks List</h2>
     <ion-list>
       <ion-item nopadding ion-long-press (onPressStart)="pressed(task)" *ngFor="let task of tasks; let i=index">
         <ion-label [style.text-decoration]="task.value['done'] ? 'line-through' : 'none'">
