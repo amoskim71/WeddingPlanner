@@ -1,9 +1,7 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { VendorDetailsPage } from "../vendordetails/vendordetails";
-import { Geolocation } from "@ionic-native/geolocation";
 import { Http } from "@angular/http";
-import { Observable } from "rxjs/Observable";
 import { Storage } from "@ionic/storage";
 import { Keyboard } from "@ionic-native/keyboard";
 import { foursquareConfig } from "../../config";
@@ -33,7 +31,6 @@ export class ExplorePage {
     public navCtrl: NavController,
     public http: Http,
     public storage: Storage,
-    private geolocation: Geolocation,
     private keyboard: Keyboard
   ) {
     this.apiUrl = "https://api.foursquare.com/v2/venues/explore?";
@@ -43,18 +40,15 @@ export class ExplorePage {
     this.searchedVendors = [];
     this.connected = true;
     this.exploreCategories = [
-      { name: 'wardrobe', iconClass: 'ios-shirt-outline' },
-      { name: 'food & drink', iconClass: 'ios-restaurant-outline' },
-      { name: 'wedding venue', iconClass: 'ios-pin-outline' },
-      { name: 'flowers', iconClass: 'ios-flower-outline' },
-      { name: 'decorations', iconClass: 'ios-color-wand-outline' },
-      { name: 'photographers', iconClass: 'ios-camera-outline' }
+      { name: 'wardrobe', iconClass: 'ios-shirt-outline', q: 'wedding clothing' },
+      { name: 'food & drink', iconClass: 'ios-restaurant-outline', q: 'food & drink' },
+      { name: 'venue', iconClass: 'ios-pin-outline', q: 'wedding venue' },
+      { name: 'flowers', iconClass: 'ios-flower-outline', q: 'flowers' },
+      { name: 'decorations', iconClass: 'ios-color-wand-outline', q: 'wedding decorations' },
+      { name: 'photographers', iconClass: 'ios-camera-outline', q: 'photography' }
     ]
     // use only for development
     this.storage.clear();
-  }
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad explore page");
   }
 
   vendorDetails(event, vendor) {
@@ -93,15 +87,16 @@ export class ExplorePage {
   }
 
   clearSearch(event) {
-    this.searchedVendors = null;
+    console.log("cleared");
+    this.searchedVendors = [];
     this.searching = false;
     this.queryLocation = "";
     this.keyboard.close();
+    // bad solution - any other way to fix this?
+    setTimeout(() => this.keyboard.close(), 1000);
   }
 
   search() {
-    this.keyboard.close();
-    this.searching = true;
     let params = {
       client_id: foursquareConfig.clientId,
       client_secret: foursquareConfig.clientSecret,
@@ -111,7 +106,6 @@ export class ExplorePage {
       limit: 50
     };
     params["near"] = this.queryLocation || "Pittsburgh, PA"
-    // this.searchedVendors = this._search(params);
     this._search(params);
   }
 
@@ -120,32 +114,35 @@ export class ExplorePage {
     this.search();
   }
 
+  onSearchbarFocus(event) {
+    console.log("searchbar focused");
+  }
+
   _search(params) {
     this.searching = true;
+    this.keyboard.close();
     this.http.get(this.apiUrl + $.param(params))
       .map(res => res.json().response)
-      .subscribe(data => {
-        this.connected = true;
-        this.searching = false;
-        let allItems = [];
-        let results = data;
-        for (let i = 0; i < results.groups.length; i++) {
-          let group = results.groups[i];
-          for (let j = 0; j < group.items.length; j++) {
-            let vendor = group.items[j];
-            let photoUrl =
-              "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
-            if (vendor.venue.featuredPhotos) {
-              const photoInfo = vendor.venue.featuredPhotos.items[0];
-              photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
+      .subscribe(
+        data => {
+          this.connected = true;
+          this.searching = false;
+          this.searchedVendors = [];
+          for (let i = 0; i < data.groups.length; i++) {
+            let group = data.groups[i];
+            for (let j = 0; j < group.items.length; j++) {
+              let vendor = group.items[j];
+              let photoUrl =
+                "http://www.petwave.com/-/media/Images/Center/Care-and-Nutrition/Cat/Kittensv2/Kitten-2.ashx?w=450&hash=1D0CFABF4758BB624425C9102B8209CCF8233880";
+              if (vendor.venue.featuredPhotos) {
+                const photoInfo = vendor.venue.featuredPhotos.items[0];
+                photoUrl = photoInfo.prefix + "300x300" + photoInfo.suffix;
+              }
+              vendor["photoUrl"] = photoUrl;
             }
-            vendor["photoUrl"] = photoUrl;
-            console.log(vendor)
+            this.searchedVendors = this.searchedVendors.concat(group.items);
           }
-          allItems = allItems.concat(group.items);
-        }
-        this.searchedVendors = allItems;
-      },
+        },
         err => {
           this.connected = false;
           this.searching = false;
@@ -157,6 +154,4 @@ export class ExplorePage {
   _savedVendorKey(vendor) {
     return "saved-vendor-" + vendor.venue.id;
   }
-
-
 }

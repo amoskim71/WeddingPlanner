@@ -24,7 +24,7 @@
         <ion-list>
           <ion-item>
             <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
-              (ionClear)="clearSearch($event); $event.stopPropagation();">
+              (ionClear)="clearSearch($event); $event.stopPropagation();" (ionFocus)="onSearchbarFocus($event)">
             </ion-searchbar>
           </ion-item>
           <ion-item>
@@ -39,7 +39,7 @@
       <ion-grid *ngIf="!searching && (!searchedVendors || searchedVendors?.length == 0)">
         <ion-row>
           <ion-col *ngFor="let category of exploreCategories" col-4>
-            <button class='center clear-background' (click)="searchCategory($event, category.name);">
+            <button class='center clear-background' (click)="searchCategory($event, category.q);">
               <ion-icon name="{{ category.iconClass}}" style="zoom:3.0;"></ion-icon>
               <ion-label class='center'>
                 {{category.name}}
