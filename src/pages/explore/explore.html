@@ -17,26 +17,27 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding="true" class="{{ (!searchedVendors || searchedVendors?.length == 0) ? 'no-scroll' : '' }}">
+<ion-content padding="true" class="{{ (vendors == 'saved') || (typing || searchResultsExist()) ? '' : 'no-scroll' }}">
   <div [ngSwitch]="vendors">
     <ion-list *ngSwitchDefault>
       <form action="." (ngSubmit)="search()">
         <ion-list>
           <ion-item>
             <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
-              (ionClear)="clearSearch($event); $event.stopPropagation();" (ionFocus)="onSearchbarFocus($event)">
+              (ionClear)="clearSearch($event); $event.stopPropagation();" (ionFocus)="onSearchbarFocus($event)" (ionBlur)="onSearchbarFocusOut($event)">
             </ion-searchbar>
           </ion-item>
           <ion-item>
             <ion-label class="search-label">
               <ion-icon name="pin" item-start></ion-icon>
             </ion-label>
-            <ion-input name="queryLocation" [(ngModel)]="queryLocation" type="text" placeholder="Pittsburgh, PA"></ion-input>
+            <ion-input name="queryLocation" [(ngModel)]="queryLocation" type="text" placeholder="{{ locationPlaceholder }}" (ionFocus)="onSearchbarFocus($event)"
+              (ionBlur)="onSearchbarFocusOut($event)"></ion-input>
           </ion-item>
           <button type="submit" class="button hide"></button>
         </ion-list>
       </form>
-      <ion-grid *ngIf="!searching && (!searchedVendors || searchedVendors?.length == 0)">
+      <ion-grid *ngIf="connected && !searching && !searchResultsExist()">
         <ion-row>
           <ion-col *ngFor="let category of exploreCategories" col-4>
             <button class='center clear-background' (click)="searchCategory($event, category.q);">

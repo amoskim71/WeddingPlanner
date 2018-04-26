@@ -20,11 +20,13 @@ export class ExplorePage {
   vendors: any;
   queryString: string;
   queryLocation: string;
+  locationPlaceholder: string;
   vendorFilterOptions: any;
   selectedFilter: any;
   apiUrl: any;
   connected: boolean;
   searching: boolean;
+  typing: boolean;
   exploreCategories: any;
 
   constructor(
@@ -39,7 +41,9 @@ export class ExplorePage {
     this.searching = false;
     this.searchedVendors = [];
     this.connected = true;
-    this.queryLocation = "Pittsburgh, PA"
+    this.queryLocation = ""
+    this.locationPlaceholder = "Pittsburgh, PA"
+    this.typing = false;
     this.exploreCategories = [
       { name: 'venue', iconClass: 'ios-pin-outline', q: 'wedding venue' },
       { name: 'food & drink', iconClass: 'ios-restaurant-outline', q: 'food & drink' },
@@ -92,6 +96,8 @@ export class ExplorePage {
     this.searchedVendors = [];
     this.searching = false;
     this.keyboard.close();
+    if (this.queryLocation) this.locationPlaceholder = this.queryLocation
+    this.queryLocation = ""
     // bad solution - any other way to fix this?
     setTimeout(() => this.keyboard.close(), 1000);
   }
@@ -105,7 +111,7 @@ export class ExplorePage {
       v: "20170801",
       limit: 50
     };
-    params["near"] = this.queryLocation || "Pittsburgh, PA"
+    params["near"] = this.queryLocation || this.locationPlaceholder
     this._search(params);
   }
 
@@ -116,6 +122,16 @@ export class ExplorePage {
 
   onSearchbarFocus(event) {
     console.log("searchbar focused");
+    this.typing = true;
+  }
+
+  onSearchbarFocusOut(event) {
+    console.log("searchbar focused out")
+    this.typing = false;
+  }
+
+  searchResultsExist() {
+    return this.searchedVendors && this.searchedVendors.length > 0
   }
 
   _search(params) {
