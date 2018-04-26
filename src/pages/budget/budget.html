@@ -78,9 +78,13 @@
           (chartHover)="chartHovered($event)" (chartClick)="chartClicked2($event)">
         </canvas>
       </div>
-      <div class="spacer" style="width: 300px; height: 15px;"></div>
+      <div class="spacer" style="width: 300px; height: 30px;"></div>
 
-      <ion-item nopadding>ad space</ion-item>
+      <ion-card class='ad'>
+        <ion-item text-center>
+          <h3>Ad Space</h3>
+        </ion-item>
+      </ion-card>
 
     </ion-list>
 
@@ -106,7 +110,9 @@
           <ion-row>
             <ion-col col-10>
               <span class="item-note">
-                <span style="text-transform: capitalize;"><b>{{category}}</b></span>
+                <span style="text-transform: capitalize;">
+                  <b>{{category}}</b>
+                </span>
                 <br>Spent: ${{budgets[category]['spent']}}
                 <br>Budget: ${{budgets[category]['total']}}</span>
             </ion-col>

@@ -45,7 +45,7 @@ export class ExplorePage {
     this.locationPlaceholder = "Pittsburgh, PA"
     this.typing = false;
     this.exploreCategories = [
-      { name: 'venue', iconClass: 'ios-pin-outline', q: 'wedding venue' },
+      { name: 'venue', iconClass: 'ios-home-outline', q: 'wedding venue' },
       { name: 'food & drink', iconClass: 'ios-restaurant-outline', q: 'food & drink' },
       { name: 'flowers', iconClass: 'ios-flower-outline', q: 'flowers' },
       { name: 'wardrobe', iconClass: 'ios-shirt-outline', q: 'wedding clothing' },
