@@ -16,10 +16,10 @@
     <ion-item>
       <ion-label>Category</ion-label>
       <ion-select [(ngModel)]="category">
+        <ion-option value="venue">Venue</ion-option>
         <ion-option value="catering">Catering</ion-option>
         <ion-option value="decorations">Decorations</ion-option>
         <ion-option value="invites">Invites</ion-option>
-        <ion-option value="venue">Venue</ion-option>
         <ion-option value="wardrobe">Wardrobe</ion-option>
       </ion-select>
     </ion-item>
@@ -32,17 +32,17 @@
 
     <ion-item [hidden]="inputDisabled">
       <ion-label fixed>Cost per item</ion-label>
-      <ion-input type="number" [(ngModel)]="itemCostAmount" [value]="itemCostAmount" (ionChange)="calculateTotal()"
-        placeholder="10.50" (keyup.enter)="addTransactionStorage()" >$</ion-input>
+      <ion-input type="number" [(ngModel)]="itemCostAmount" [value]="itemCostAmount" (ionChange)="calculateTotal()" placeholder="10.50"
+        (keyup.enter)="addTransactionStorage()">$</ion-input>
     </ion-item>
 
     <ion-item [hidden]="inputDisabled">
       <ion-label fixed>Quantity</ion-label>
-      <ion-input type="number" [(ngModel)]="itemCountAmount" [value]="itemCountAmount" (ionChange)="calculateTotal()"
-        placeholder="1" (keyup.enter)="addTransactionStorage()">$</ion-input>
+      <ion-input type="number" [(ngModel)]="itemCountAmount" [value]="itemCountAmount" (ionChange)="calculateTotal()" placeholder="1"
+        (keyup.enter)="addTransactionStorage()">$</ion-input>
     </ion-item>
 
-    <ion-card >
+    <ion-card>
       <ion-card-header>
         Total:
       </ion-card-header>

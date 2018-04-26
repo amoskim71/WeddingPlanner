@@ -39,11 +39,12 @@ export class ExplorePage {
     this.searching = false;
     this.searchedVendors = [];
     this.connected = true;
+    this.queryLocation = "Pittsburgh, PA"
     this.exploreCategories = [
-      { name: 'wardrobe', iconClass: 'ios-shirt-outline', q: 'wedding clothing' },
-      { name: 'food & drink', iconClass: 'ios-restaurant-outline', q: 'food & drink' },
       { name: 'venue', iconClass: 'ios-pin-outline', q: 'wedding venue' },
+      { name: 'food & drink', iconClass: 'ios-restaurant-outline', q: 'food & drink' },
       { name: 'flowers', iconClass: 'ios-flower-outline', q: 'flowers' },
+      { name: 'wardrobe', iconClass: 'ios-shirt-outline', q: 'wedding clothing' },
       { name: 'decorations', iconClass: 'ios-color-wand-outline', q: 'wedding decorations' },
       { name: 'photographers', iconClass: 'ios-camera-outline', q: 'photography' }
     ]
@@ -90,7 +91,6 @@ export class ExplorePage {
     console.log("cleared");
     this.searchedVendors = [];
     this.searching = false;
-    this.queryLocation = "";
     this.keyboard.close();
     // bad solution - any other way to fix this?
     setTimeout(() => this.keyboard.close(), 1000);
