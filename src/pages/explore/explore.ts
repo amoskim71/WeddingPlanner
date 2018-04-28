@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { NavController } from "ionic-angular";
 import { VendorDetailsPage } from "../vendordetails/vendordetails";
+import { PrivacyPage } from '../privacy/privacy';
 import { Http } from "@angular/http";
 import { Storage } from "@ionic/storage";
 import { Keyboard } from "@ionic-native/keyboard";
@@ -53,7 +54,17 @@ export class ExplorePage {
       { name: 'photographers', iconClass: 'ios-camera-outline', q: 'photography' }
     ]
     // use only for development
-    this.storage.clear();
+    // this.storage.clear();
+
+    this.checkForNewUser();
+  }
+
+  checkForNewUser() {
+    this.storage.get("privacyAgree").then(val => {
+      if (val == null) {
+        this.navCtrl.push(PrivacyPage);
+      }
+    })
   }
 
   vendorDetails(event, vendor) {

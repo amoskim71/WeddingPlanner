@@ -25,6 +25,8 @@ import { NewChecklistItemPage } from "../pages/newChecklistItem/newChecklistItem
 import { SettingsPage } from "../pages/settings/settings";
 import { VendorDetailsPage } from "../pages/vendordetails/vendordetails";
 import { TabsPage } from "../pages/tabs/tabs";
+import { PrivacyPage } from "../pages/privacy/privacy";
+
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { TabsPage } from "../pages/tabs/tabs";
     NewChecklistItemPage,
     SettingsPage,
     TabsPage,
-    VendorDetailsPage
+    VendorDetailsPage,
+    PrivacyPage
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { TabsPage } from "../pages/tabs/tabs";
     NewChecklistItemPage,
     SettingsPage,
     TabsPage,
-    VendorDetailsPage
+    VendorDetailsPage,
+    PrivacyPage
   ],
   providers: [
     StatusBar,
