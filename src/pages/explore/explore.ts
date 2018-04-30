@@ -146,6 +146,7 @@ export class ExplorePage {
   }
 
   _search(params) {
+    this.searchedVendors = [];
     this.searching = true;
     this.keyboard.close();
     this.http.get(this.apiUrl + $.param(params))
@@ -154,7 +155,7 @@ export class ExplorePage {
         data => {
           this.connected = true;
           this.searching = false;
-          this.searchedVendors = [];
+          console.log("searching done")
           for (let i = 0; i < data.groups.length; i++) {
             let group = data.groups[i];
             for (let j = 0; j < group.items.length; j++) {

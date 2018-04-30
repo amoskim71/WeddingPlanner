@@ -23,9 +23,11 @@
       <form action="." (ngSubmit)="search()">
         <ion-list>
           <ion-item>
-            <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
+            <!-- <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
               (ionClear)="clearSearch($event); $event.stopPropagation();" (ionFocus)="onSearchbarFocus($event)" (ionBlur)="onSearchbarFocusOut($event)">
-            </ion-searchbar>
+            </ion-searchbar> -->
+            <ion-input name="queryString" [(ngModel)]="queryString" type="text" placeholder="Search for something" (ionFocus)="onSearchbarFocus($event)"
+              (ionBlur)="onSearchbarFocusOut($event)"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label class="search-label">
