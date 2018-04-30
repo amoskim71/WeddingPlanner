@@ -156,13 +156,18 @@ export class BudgetPage implements OnInit {
   }
 
   setDefaultBudgets() {
-    this.storage.get("budget-catering").then(val => {
+    this.storage.get("budget-food and drink").then(val => {
       if (!val) {
-        this.storage.set("budget-catering", { amount: "100" });
+        this.storage.set("budget-food and drink", { amount: "100" });
         this.storage.set("budget-decorations", { amount: "100" });
-        this.storage.set("budget-invites", { amount: "100" });
+        this.storage.set("budget-guests", { amount: "100" });
         this.storage.set("budget-venue", { amount: "100" });
         this.storage.set("budget-wardrobe", { amount: "100" });
+        this.storage.set("budget-flowers", { amount: "100" });
+        this.storage.set("budget-music", { amount: "100" });
+        this.storage.set("budget-photographer", { amount: "100" });
+        this.storage.set("budget-postwedding", { amount: "100" });
+        this.storage.set("budget-other", { amount: "100" });
       }
     });
   }

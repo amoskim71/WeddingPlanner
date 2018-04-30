@@ -86,7 +86,7 @@ export class ChecklistOverviewPage {
             this.delete(task.key);
           }
         },{
-          text: 'Edit',
+          text: 'View and Edit',
           icon: 'create',
           handler: () => {
             console.log('edit clicked');
