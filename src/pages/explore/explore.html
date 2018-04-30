@@ -23,11 +23,15 @@
       <form action="." (ngSubmit)="search()">
         <ion-list>
           <ion-item>
-            <!-- <ion-searchbar [ngModelOptions]="{standalone:true}" placeholder="Search for something" [(ngModel)]="queryString" (search)="search()"
-              (ionClear)="clearSearch($event); $event.stopPropagation();" (ionFocus)="onSearchbarFocus($event)" (ionBlur)="onSearchbarFocusOut($event)">
-            </ion-searchbar> -->
             <ion-input name="queryString" [(ngModel)]="queryString" type="text" placeholder="Search for something" (ionFocus)="onSearchbarFocus($event)"
               (ionBlur)="onSearchbarFocusOut($event)"></ion-input>
+            <button ion-button item-end style="box-shadow: none; background: white;" type="button">
+              <ion-icon name="ios-close" style="zoom: 2.0; z-index: 9999999;  color:black;" (click)="clearSearch($event); $event.stopPropagation();"></ion-icon>
+            </button>
+            <!-- <ion-icon item-end name="ios-close" style="z-index: 9999999;" (click)="clearSearch($event); $event.stopPropagation();"></ion-icon> -->
+            <!-- <button class="icon-button" (click)="clearSearch($event); $event.stopPropagation();" item-right>
+              <ion-icon name="ios-close" style="zoom:2.0;"></ion-icon>
+            </button> -->
           </ion-item>
           <ion-item>
             <ion-label class="search-label">
@@ -35,6 +39,12 @@
             </ion-label>
             <ion-input name="queryLocation" [(ngModel)]="queryLocation" type="text" placeholder="{{ locationPlaceholder }}" (ionFocus)="onSearchbarFocus($event)"
               (ionBlur)="onSearchbarFocusOut($event)"></ion-input>
+            <button ion-button item-end style="box-shadow: none; background: white;" type="button">
+              <ion-icon name="ios-close" style="zoom: 2.0; z-index: 9999999; color:black;" (click)="clearSearch($event); $event.stopPropagation();"></ion-icon>
+            </button>
+            <!-- <button margin-left clear item-right class="icon-button" (click)="clearSearch($event); $event.stopPropagation();">
+              <ion-icon name="ios-close" style="zoom:2.0;"></ion-icon>
+            </button> -->
           </ion-item>
           <button type="submit" class="button hide"></button>
         </ion-list>

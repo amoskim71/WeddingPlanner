@@ -43,6 +43,7 @@ export class ExplorePage {
     this.searchedVendors = [];
     this.connected = true;
     this.queryLocation = ""
+    this.queryString = ""
     this.locationPlaceholder = "Pittsburgh, PA"
     this.typing = false;
     this.exploreCategories = [
@@ -108,9 +109,9 @@ export class ExplorePage {
     this.searching = false;
     this.keyboard.close();
     if (this.queryLocation) this.locationPlaceholder = this.queryLocation
-    this.queryLocation = ""
-    // bad solution - any other way to fix this?
-    setTimeout(() => this.keyboard.close(), 1000);
+    this.queryLocation = "";
+    this.queryString = "";
+    console.log(this.queryString);
   }
 
   search() {
@@ -137,7 +138,8 @@ export class ExplorePage {
   }
 
   onSearchbarFocusOut(event) {
-    console.log("searchbar focused out")
+    console.log("searchbar focused out", event)
+
     this.typing = false;
   }
 
