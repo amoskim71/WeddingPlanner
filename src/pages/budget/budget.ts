@@ -31,13 +31,7 @@ export class BudgetPage implements OnInit {
   @ViewChild("baseChart") private chart;
   baseChart: any;
   public barChartType: string = "horizontalBar";
-  public categoryColors: any = {
-    catering: "rgba(255, 99, 132, 0.2)",
-    decorations: "rgba(54, 162, 235, 0.2)",
-    invites: "rgba(255, 206, 86, 0.2)",
-    venue: "rgba(75, 192, 192, 0.2)",
-    wardrobe: "rgba(153, 102, 255, 0.2)"
-  };
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, private alertCtrl: AlertController) {
     this.AddBudgetPage = AddBudgetPage;
@@ -140,7 +134,7 @@ export class BudgetPage implements OnInit {
         {
           data: [this.budgets[category]["spent"]],
           label: "Amount spent",
-          backgroundColor: [this.categoryColors[category]]
+          backgroundColor: [this.getChartColor(this.budgets[category].spent, this.budgets[category].total)]
         }
       ],
       options: {
@@ -150,7 +144,7 @@ export class BudgetPage implements OnInit {
           ]
         }
       },
-      colors: [this.categoryColors[category]],
+      colors: [this.getChartColor(this.budgets[category].spent, this.budgets[category].total)],
       labels: [category]
     };
   }
@@ -239,6 +233,19 @@ export class BudgetPage implements OnInit {
       this.budget = "breakdown"
     } else {
       this.budget = "overview";
+    }
+  }
+
+  getChartColor(spent, budget){
+    if(spent >= (4 * budget/5)){
+      //red
+      return "rgba(255, 99, 132, 0.2)";
+    } else if (spent >= (2 * budget/3)){
+      //yellow
+      return "rgba(255, 206, 86, 0.2)";
+    } else {
+      //blue
+      return "rgba(54, 162, 235, 0.2)";
     }
   }
 }
