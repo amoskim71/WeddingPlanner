@@ -9,13 +9,11 @@ import { BudgetPage } from "../budget/budget";
 })
 export class AddTransactionPage {
   itemName: string = "";
-  category: string = "catering";
+  category: string = "other";
   amount: number = 0;
   budgetPage: any;
   itemCostAmount: number;
   itemCountAmount: number;
-  //toggle: boolean = true;
-  //
   TAG: string = "transaction-";
 
   constructor(
@@ -61,7 +59,7 @@ export class AddTransactionPage {
       itemCountAmount: this.itemCountAmount,
       amount: this.amount
     };
-    
+
     this.storage.set(key, value);
     this.navCtrl.setRoot(this.budgetPage);
     console.log("set");
